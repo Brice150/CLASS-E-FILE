@@ -42,7 +42,7 @@ Backend/Database : Firebase
 ### Clone the project
 
 ```bash
-  git clone https://github.com/Brice150/MONEYTRACKER.git
+  git clone https://github.com/Brice150/CLASS-E-FILE.git
 ```
 
 ### Install dependencies

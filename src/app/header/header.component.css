@@ -1,0 +1,81 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+nav {
+  margin-top: 35px;
+  max-width: 450px;
+  width: 95%;
+  height: 60px;
+  background-color: var(--primary);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: var(--light-radius);
+  box-shadow: var(--box-shadow);
+}
+
+nav button {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 60px;
+  height: 60px;
+  text-align: center;
+  cursor: pointer;
+  border: none;
+  background-color: var(--background-nav);
+}
+
+nav button i {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 30px;
+  text-align: center;
+  transition: 0.5s ease;
+  color: var(--accent);
+}
+
+nav button.active i {
+  transform: translateY(-30px);
+  background-color: var(--accent);
+  color: var(--primary);
+}
+
+nav button:hover i {
+  transform: translateY(-30px);
+  background-color: var(--accent);
+  color: var(--primary);
+}
+
+nav button .text {
+  position: absolute;
+  color: var(--accent);
+  font-weight: 600;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  transition: 0.5s ease;
+  opacity: 0;
+  transform: translateY(15px);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+nav button.active .text {
+  opacity: 1;
+  transform: translateY(12px);
+}
+
+nav button:hover .text {
+  opacity: 1;
+  transform: translateY(12px);
+}

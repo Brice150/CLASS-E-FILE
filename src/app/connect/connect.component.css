@@ -1,0 +1,129 @@
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section {
+  margin: 20px;
+  width: 100%;
+  max-width: 1300px;
+  border-radius: var(--strong-radius);
+  background-color: var(--primary);
+  box-shadow: var(--box-shadow);
+  position: relative;
+}
+
+section .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+section .title h1 {
+  color: var(--accent);
+  text-transform: uppercase;
+}
+
+section .content {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+section .back-container {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  gap: 10px;
+}
+
+section .button-container {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+  gap: 10px;
+}
+
+section button {
+  color: var(--accent);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--light-radius);
+  transition: 0.5s ease;
+  width: 180px;
+  background-color: var(--primary);
+  border: none;
+}
+
+section .back-container button {
+  width: 120px;
+}
+
+section button i {
+  font-size: 30px;
+}
+
+section button .text {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+section .unactive:hover {
+  background-color: var(--accent);
+  color: var(--primary);
+}
+
+section .unactive {
+  cursor: pointer;
+}
+
+section .active {
+  background-color: var(--accent);
+  color: var(--primary);
+}
+
+@media screen and (max-width: 1000px) {
+  section .button-container {
+    top: 60px;
+  }
+
+  section .content {
+    margin-top: 50px;
+  }
+}
+
+@media screen and (max-width: 450px) {
+  section .button-container {
+    flex-direction: column;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  section .back-container button {
+    width: unset;
+  }
+
+  section .back-container button span {
+    display: none;
+  }
+
+  section .content {
+    margin-top: 110px;
+  }
+}

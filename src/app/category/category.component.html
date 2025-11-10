@@ -1,0 +1,12 @@
+<section>
+  <div class="title">
+    <i [ngClass]="category.logo"></i>
+    <h1>{{ category.title }}</h1>
+  </div>
+  @if (!loading) {
+  <div class="content"></div>
+  }
+</section>
+@if (loading) {
+<mat-spinner></mat-spinner>
+}

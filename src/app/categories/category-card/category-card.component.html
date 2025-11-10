@@ -1,0 +1,25 @@
+<div class="category">
+  <div class="update-container">
+    <button (click)="update()" class="update" title="Modifier">
+      <i class="bx bxs-edit-alt"></i>
+    </button>
+  </div>
+  <div class="delete-container">
+    <button (click)="delete()" class="delete" title="Supprimer">
+      <i class="bx bx-x"></i>
+    </button>
+  </div>
+  <div class="title">
+    <i [ngClass]="category().logo"></i>
+    <span>{{ category().title }}</span>
+  </div>
+  <button
+    type="button"
+    [routerLink]="'/categories/' + category().id"
+    class="view"
+    title="Consulter"
+  >
+    <i class="bx bxs-search-alt-2"></i>
+    <span class="text">Consulter</span>
+  </button>
+</div>

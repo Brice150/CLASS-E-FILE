@@ -1,0 +1,4 @@
+@if (userService.currentUserSig()) {
+<app-header (logoutEvent)="logout()"></app-header>
+}
+<router-outlet />

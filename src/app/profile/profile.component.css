@@ -1,0 +1,98 @@
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+section {
+  position: relative;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 95%;
+  max-width: 1200px;
+  background-color: var(--primary);
+  color: var(--accent);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--light-radius);
+}
+
+section h1 {
+  margin-bottom: 5px;
+}
+
+section .content {
+  padding: 30px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 70%;
+  gap: 20px;
+}
+
+section .button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+section .button-container button {
+  cursor: pointer;
+  color: var(--accent);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--light-radius);
+  box-shadow: var(--box-shadow);
+  transition: 0.5s ease;
+  width: 140px;
+  border: none;
+  background-color: var(--primary);
+}
+
+section .button-container .delete {
+  color: red;
+  transition: 0.5s ease;
+  width: 220px;
+}
+
+section .button-container button:hover {
+  background-color: var(--accent);
+  color: var(--primary);
+}
+
+section .button-container .delete:hover {
+  background-color: red;
+}
+
+section .button-container button i {
+  font-size: 30px;
+}
+
+section .button-container button .text {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+mat-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+::ng-deep .mdc-circular-progress__indeterminate-circle-graphic {
+  stroke: var(--accent) !important;
+}

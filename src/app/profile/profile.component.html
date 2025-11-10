@@ -1,0 +1,25 @@
+<section>
+  <h1>Profil</h1>
+  @if (!loading) {
+  <div class="content">
+    <app-security
+      [user]="userService.currentUserSig()!"
+      (updateEvent)="openUpdateDialog()"
+    ></app-security>
+    <div class="button-container">
+      <button
+        type="button"
+        (click)="openDialog()"
+        title="Supprimer Profil"
+        class="delete"
+      >
+        <i class="bx bxs-trash"></i>
+        <span class="text">Supprimer Profil</span>
+      </button>
+    </div>
+  </div>
+  }
+</section>
+@if (loading) {
+<mat-spinner></mat-spinner>
+}

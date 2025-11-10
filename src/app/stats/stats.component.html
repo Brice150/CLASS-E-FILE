@@ -1,0 +1,11 @@
+<section>
+  <h1>Stats</h1>
+  <div class="column">
+    <div class="graph" [ngClass]="{ visible: categories.length > 0 }">
+      <canvas id="graph"></canvas>
+    </div>
+  </div>
+</section>
+@if(loading) {
+<mat-spinner></mat-spinner>
+}

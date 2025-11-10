@@ -1,0 +1,91 @@
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+section {
+  position: relative;
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 95%;
+  max-width: 1200px;
+  background-color: var(--primary);
+  color: var(--accent);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--light-radius);
+}
+
+section .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 5px;
+  width: 95%;
+}
+
+section .title i {
+  font-size: 40px;
+}
+
+section .title h1 {
+  text-transform: capitalize;
+  text-align: center;
+}
+
+section .content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+section .content .sessions {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 100%;
+  gap: 10px;
+}
+
+section .content .add {
+  cursor: pointer;
+  transition: 0.5s ease;
+  box-shadow: var(--box-shadow);
+  color: var(--accent);
+  border-radius: var(--light-radius);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  border: none;
+  background-color: var(--primary);
+}
+
+section .content .add i {
+  font-size: 50px;
+}
+
+section .content .add:hover {
+  color: var(--primary);
+  background-color: var(--accent);
+}
+
+mat-spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+::ng-deep .mdc-circular-progress__indeterminate-circle-graphic {
+  stroke: var(--accent) !important;
+}

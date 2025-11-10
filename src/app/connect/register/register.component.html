@@ -1,0 +1,95 @@
+@if (!loading) {
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput formControlName="email" />
+    @if (registerForm.get('email')!.invalid) {
+    <mat-error>
+      @if (registerForm.get('email')!.hasError('required')) {
+      <span>Ce champ est requis</span>
+      } @if (registerForm.get('email')!.hasError('email')) {
+      <span>Cet email est invalide</span>
+      }
+    </mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Mot de passe</mat-label>
+    <input
+      matInput
+      [type]="hide ? 'password' : 'text'"
+      formControlName="password"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="hide = !hide"
+      [attr.aria-label]="'Cacher mot de passe'"
+      [attr.aria-pressed]="hide"
+      type="button"
+    >
+      <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
+    @if (registerForm.get('password')!.invalid) {
+    <mat-error>
+      @if (registerForm.get('password')!.hasError('required')) {
+      <span>Ce champ est requis</span>
+      } @if (registerForm.get('password')!.hasError('minlength')) {
+      <span>Ce champ est trop court</span>
+      } @if (registerForm.get('password')!.hasError('maxlength')) {
+      <span>Ce champ est trop long</span>
+      }
+    </mat-error>
+    }
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Confirmer</mat-label>
+    <input
+      matInput
+      [type]="hideDuplicate ? 'password' : 'text'"
+      formControlName="passwordConfirmation"
+    />
+    <button
+      mat-icon-button
+      matSuffix
+      (click)="hideDuplicate = !hideDuplicate"
+      [attr.aria-label]="'Cacher mot de passe'"
+      [attr.aria-pressed]="hideDuplicate"
+      type="button"
+    >
+      <mat-icon>{{ hideDuplicate ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
+    @if (registerForm.get('passwordConfirmation')!.invalid) {
+    <mat-error>
+      @if (registerForm.get('passwordConfirmation')!.hasError('required')) {
+      <span>Ce champ est requis</span>
+      } @if (registerForm.get('passwordConfirmation')!.hasError('minlength')) {
+      <span>Ce champ est trop court</span>
+      } @if (registerForm.get('passwordConfirmation')!.hasError('maxlength')) {
+      <span>Ce champ est trop long</span>
+      } @if
+      (registerForm.get('passwordConfirmation')!.hasError('passwordMismatch')) {
+      <span>Les mots de passe ne correspondent pas</span>
+      }
+    </mat-error>
+    }
+  </mat-form-field>
+  <div class="button-container">
+    <button title="S'inscrire" type="submit">
+      <i class="bx bxs-log-in"></i>
+      <span class="text">S'inscrire</span>
+    </button>
+    <button
+      title="S'inscrire avec Google"
+      (click)="registerWithGoogle()"
+      type="button"
+      class="google"
+    >
+      <i class="bx bxl-google"></i>
+      <span class="text">S'inscrire avec Google</span>
+    </button>
+  </div>
+</form>
+} @else {
+<mat-spinner></mat-spinner>
+}

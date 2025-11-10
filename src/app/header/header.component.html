@@ -1,0 +1,33 @@
+<nav>
+  <button
+    routerLink="/categories"
+    routerLinkActive="active"
+    title="Catégories"
+    type="button"
+  >
+    <span class="text">Catégories</span>
+    <i class="bx bx-dumbbell"></i>
+  </button>
+  <button
+    routerLink="/stats"
+    routerLinkActive="active"
+    title="Stats"
+    type="button"
+  >
+    <span class="text">Stats</span>
+    <i class="bx bxs-bar-chart-alt-2"></i>
+  </button>
+  <button
+    routerLink="/profile"
+    routerLinkActive="active"
+    title="Profil"
+    type="button"
+  >
+    <span class="text">Profil</span>
+    <i class="bx bxs-user"></i>
+  </button>
+  <button (click)="logout()" title="Déconnexion" type="button">
+    <span class="text">Déconnexion</span>
+    <i class="bx bxs-log-out"></i>
+  </button>
+</nav>

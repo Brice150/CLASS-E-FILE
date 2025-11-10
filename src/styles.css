@@ -1,0 +1,49 @@
+:root {
+  --primary: white;
+  --secondary: black;
+  --accent: #38a95a;
+  --background: #cbf0ed;
+  --box-shadow-color: rgba(0, 0, 0, 0.15);
+  --box-shadow: 0 1rem 3rem var(--box-shadow-color);
+
+  --strong-radius: 20px;
+  --light-radius: 10px;
+}
+
+html,
+body {
+  height: 100vh;
+  height: 100dvh;
+  overflow-y: auto;
+  background-color: var(--background);
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: var(--background);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.toast-container .ngx-toastr.custom {
+  box-shadow: none;
+  border-radius: var(--light-radius);
+}
+
+.toast-container .ngx-toastr.custom.info {
+  background-color: var(--accent);
+}
+
+.toast-container .ngx-toastr.custom.error {
+  background-color: red;
+}
+
+.cdk-global-scrollblock {
+  position: fixed !important;
+  top: 0 !important;
+}

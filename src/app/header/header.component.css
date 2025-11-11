@@ -21,6 +21,8 @@ nav {
 }
 
 nav button {
+  position: relative;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -32,7 +34,7 @@ nav button {
   border-radius: var(--light-radius);
   padding: 10px 15px;
   width: 155px;
-  transition: 0.5s ease;
+  transition: color 0.4s ease;
 }
 
 nav button i {
@@ -48,9 +50,29 @@ nav button .text {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-nav button:hover {
+nav button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
   background-color: var(--accent);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+nav button:hover::before {
+  width: 100%;
+}
+
+nav button:hover {
   color: var(--primary);
+}
+
+nav button * {
+  position: relative;
+  z-index: 1;
 }
 
 nav button.active {

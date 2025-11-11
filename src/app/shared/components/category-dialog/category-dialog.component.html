@@ -1,22 +1,6 @@
 <section mat-dialog-content>
   <h1>Modifier Catégorie</h1>
   <form class="content" (ngSubmit)="confirm()">
-    <mat-form-field>
-      <mat-select
-        [(ngModel)]="category.logo"
-        [ngModelOptions]="{ standalone: true }"
-      >
-        <mat-select-trigger>
-          <i [ngClass]="category.logo"></i>
-        </mat-select-trigger>
-
-        @for (logo of logos; track $index) {
-        <mat-option [value]="logo">
-          <i [ngClass]="logo"></i>
-        </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
     <mat-form-field class="title">
       <mat-label>TITRE</mat-label>
       <input

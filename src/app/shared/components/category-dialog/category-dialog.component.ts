@@ -6,7 +6,6 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
-import { logos } from '../../../../assets/data/logos';
 import { Category } from '../../../core/interfaces/category';
 
 @Component({
@@ -23,7 +22,6 @@ import { Category } from '../../../core/interfaces/category';
 })
 export class CategoryDialogComponent implements OnInit {
   category: Category = {} as Category;
-  logos = logos;
   toastr = inject(ToastrService);
 
   constructor(
@@ -42,7 +40,7 @@ export class CategoryDialogComponent implements OnInit {
   }
 
   confirm(): void {
-    if (this.category.title && this.category.logo) {
+    if (this.category.title) {
       this.dialogRef.close(this.category);
     } else {
       this.toastr.info('Catégorie Invalide', 'Catégorie', {

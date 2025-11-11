@@ -8,25 +8,42 @@
 
 section {
   position: relative;
-  margin: 20px 0;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   width: 95%;
   max-width: 1200px;
-  background-color: var(--primary);
-  color: var(--accent);
-  box-shadow: var(--box-shadow);
+  color: var(--primary);
   border-radius: var(--light-radius);
 }
 
-section h1 {
+section .title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--primary);
+  color: var(--accent);
+  padding: 0 10px;
+  border-radius: var(--light-radius);
   margin-bottom: 5px;
+  margin-top: 20px;
+  min-height: 50px;
+}
+
+section .title h1 {
+  margin: 0;
+  font-size: 30px;
+}
+
+section .title i {
+  font-size: 40px;
 }
 
 section .content {
-  padding: 30px 0;
+  margin-top: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -94,5 +111,5 @@ mat-spinner {
 }
 
 ::ng-deep .mdc-circular-progress__indeterminate-circle-graphic {
-  stroke: var(--accent) !important;
+  stroke: var(--primary) !important;
 }

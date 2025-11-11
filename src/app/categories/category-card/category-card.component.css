@@ -17,8 +17,8 @@
   width: 100%;
   box-shadow: var(--box-shadow);
   border-radius: var(--light-radius);
-  color: var(--primary);
-  background-color: var(--accent);
+  color: var(--accent);
+  background-color: var(--primary);
 }
 
 .category .title {

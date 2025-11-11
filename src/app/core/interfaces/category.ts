@@ -2,7 +2,7 @@ import { Article } from './article';
 
 export interface Category {
   id?: string;
-  logo: string;
+  image: string;
   title: string;
   creationDate: Date;
   articles: Article[];

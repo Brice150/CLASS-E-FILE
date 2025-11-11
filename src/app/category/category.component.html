@@ -1,6 +1,8 @@
 <section>
   <div class="title">
-    <i [ngClass]="category.logo"></i>
+    @if (category.image) {
+    <img [src]="category.image" [alt]="category.title" />
+    }
     <h1>{{ category.title }}</h1>
   </div>
   @if (!loading) {

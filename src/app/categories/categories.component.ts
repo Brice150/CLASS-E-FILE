@@ -11,6 +11,7 @@ import { CategoryService } from '../core/services/category.service';
 import { CategoryDialogComponent } from '../shared/components/category-dialog/category-dialog.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { CategoryCardComponent } from './category-card/category-card.component';
+import { firstCategories } from '../../assets/data/first-categories';
 
 @Component({
   selector: 'app-categories',
@@ -33,11 +34,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: (categories: Category[]) => {
-          if (categories?.length >= 0) {
+          if (categories?.length >= 1) {
             this.categories = categories;
+            this.loading = false;
+          } else {
+            this.initFirstCategories();
           }
-
-          this.loading = false;
         },
         error: (error: HttpErrorResponse) => {
           this.loading = false;
@@ -56,10 +58,36 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
+  initFirstCategories(): void {
+    this.loading = true;
+
+    this.categoryService
+      .addCategories(firstCategories)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: () => {
+          this.loading = false;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.loading = false;
+          if (!error.message.includes('Missing or insufficient permissions.')) {
+            this.toastr.error(error.message, 'Catégories', {
+              positionClass: 'toast-bottom-center',
+              toastClass: 'ngx-toastr custom error',
+            });
+          }
+        },
+      });
+  }
+
   addCategory(): void {
     this.loading = true;
 
-    const category: Category = {} as Category;
+    const category: Category = {
+      title: 'Catégorie ' + (this.categories.length + 1),
+      creationDate: new Date(),
+      articles: [],
+    } as Category;
 
     this.categoryService
       .addCategory(category)
@@ -85,41 +113,54 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   deleteCategory(categoryId: string): void {
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'supprimer cette catégorie',
-    });
-
-    dialogRef
-      .afterClosed()
-      .pipe(
-        filter((res: boolean) => res),
-        switchMap(() => {
-          this.loading = true;
-          return this.categoryService.deleteCategory(categoryId);
-        }),
-        takeUntil(this.destroyed$)
-      )
-      .subscribe({
-        next: () => {
-          this.categories = this.categories.filter(
-            (category) => category.id !== categoryId
-          );
-          this.loading = false;
-          this.toastr.info('Catégorie supprimée', 'Catégories', {
-            positionClass: 'toast-bottom-center',
-            toastClass: 'ngx-toastr custom info',
-          });
-        },
-        error: (error: HttpErrorResponse) => {
-          this.loading = false;
-          if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégories', {
-              positionClass: 'toast-bottom-center',
-              toastClass: 'ngx-toastr custom error',
-            });
-          }
-        },
+    if (this.categories.length !== 1) {
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: 'supprimer cette catégorie',
       });
+
+      dialogRef
+        .afterClosed()
+        .pipe(
+          filter((res: boolean) => res),
+          switchMap(() => {
+            this.loading = true;
+            return this.categoryService.deleteCategory(categoryId);
+          }),
+          takeUntil(this.destroyed$)
+        )
+        .subscribe({
+          next: () => {
+            this.categories = this.categories.filter(
+              (category) => category.id !== categoryId
+            );
+            this.loading = false;
+            this.toastr.info('Catégorie supprimée', 'Catégories', {
+              positionClass: 'toast-bottom-center',
+              toastClass: 'ngx-toastr custom info',
+            });
+          },
+          error: (error: HttpErrorResponse) => {
+            this.loading = false;
+            if (
+              !error.message.includes('Missing or insufficient permissions.')
+            ) {
+              this.toastr.error(error.message, 'Catégories', {
+                positionClass: 'toast-bottom-center',
+                toastClass: 'ngx-toastr custom error',
+              });
+            }
+          },
+        });
+    } else {
+      this.toastr.error(
+        'Vous devez avoir au moins une catégorie',
+        'Catégories',
+        {
+          positionClass: 'toast-bottom-center',
+          toastClass: 'ngx-toastr custom error',
+        }
+      );
+    }
   }
 
   updateCategory(category: Category): void {

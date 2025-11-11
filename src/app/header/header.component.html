@@ -1,4 +1,13 @@
-<nav>
+<!-- menu.component.html -->
+<button class="hamburger" (click)="toggleMenu()" aria-label="Menu">
+  @if (!menuOpen) {
+  <i class="bx bx-menu"></i>
+  } @else {
+  <i class="bx bx-x"></i>
+  }
+</button>
+
+<nav [class.open]="menuOpen">
   <button
     routerLink="/categories"
     routerLinkActive="active"

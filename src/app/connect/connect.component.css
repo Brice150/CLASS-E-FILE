@@ -57,6 +57,8 @@ section .button-container {
 }
 
 section button {
+  position: relative;
+  overflow: hidden;
   color: var(--accent);
   padding: 10px;
   display: flex;
@@ -64,10 +66,16 @@ section button {
   justify-content: center;
   gap: 10px;
   border-radius: var(--light-radius);
-  transition: 0.5s ease;
+  transition: color 0.4s ease;
   width: 180px;
   background-color: var(--primary);
+  color: var(--accent);
   border: none;
+}
+
+section button * {
+  position: relative;
+  z-index: 1;
 }
 
 section .back-container button {
@@ -84,8 +92,23 @@ section button .text {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-section .unactive:hover {
+section .unactive::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
   background-color: var(--accent);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+section .unactive:hover::before {
+  width: 100%;
+}
+
+section .unactive:hover {
   color: var(--primary);
 }
 

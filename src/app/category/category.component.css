@@ -25,17 +25,18 @@ section .title {
   justify-content: center;
   gap: 10px;
   background-color: var(--primary);
-  color: var(--accent);
   padding: 0 10px;
   border-radius: var(--light-radius);
   margin-bottom: 5px;
   margin-top: 20px;
   min-height: 50px;
+  box-shadow: var(--box-shadow);
 }
 
 section .title h1 {
   margin: 0;
   font-size: 30px;
+  color: var(--secondary);
 }
 
 section .title img {

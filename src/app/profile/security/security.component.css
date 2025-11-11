@@ -16,6 +16,7 @@
   background-color: var(--primary);
   padding: 10px;
   border-radius: var(--light-radius);
+  box-shadow: var(--box-shadow);
 }
 
 .container .element {
@@ -56,8 +57,10 @@
 }
 
 .container .button-container button {
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
-  color: var(--accent);
+  color: var(--secondary);
   padding: 10px;
   display: flex;
   align-items: center;
@@ -65,15 +68,35 @@
   gap: 10px;
   border-radius: var(--light-radius);
   box-shadow: var(--box-shadow);
-  transition: 0.5s ease;
+  transition: color 0.4s ease;
   width: 140px;
   border: none;
   background-color: var(--primary);
 }
 
+.container .button-container button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--secondary);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.container .button-container button:hover::before {
+  width: 100%;
+}
+
 .container .button-container button:hover {
-  background-color: var(--accent);
   color: var(--primary);
+}
+
+.container .button-container button * {
+  position: relative;
+  z-index: 1;
 }
 
 .container .button-container button i {

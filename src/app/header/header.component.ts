@@ -10,6 +10,11 @@ import { RouterModule } from '@angular/router';
 })
 export class HeaderComponent {
   @Output() logoutEvent = new EventEmitter<void>();
+  menuOpen = false;
+
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
 
   logout(): void {
     this.logoutEvent.emit();

@@ -23,14 +23,19 @@
 
 .category .title {
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
   gap: 10px;
-  margin-bottom: 10px;
 }
 
-.category .title i {
-  font-size: 30px;
+.category .title img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: var(--light-radius);
 }
 
 .category .title span {
@@ -44,47 +49,48 @@
   text-overflow: ellipsis;
 }
 
-.category .session {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  color: var(--secondary);
-}
-
-.category .session span {
-  font-size: 18px;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-  width: 260px;
-  text-align: center;
-  font-weight: 500;
-}
-
 .view {
+  position: relative;
+  overflow: hidden;
   margin-top: 20px;
   cursor: pointer;
   background-color: var(--primary);
-  color: var(--accent);
+  color: var(--secondary);
   padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
   border-radius: var(--light-radius);
-  transition: 0.5s ease;
+  transition: color 0.4s ease;
   width: 150px;
   border: none;
   box-shadow: var(--box-shadow);
 }
 
+.view::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--secondary);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.view:hover::before {
+  width: 100%;
+}
+
 .view:hover {
-  background-color: var(--accent);
   color: var(--primary);
+}
+
+.view * {
+  position: relative;
+  z-index: 1;
 }
 
 .view i {
@@ -107,14 +113,16 @@
 }
 
 .category .update-container .update {
+  position: relative;
+  overflow: hidden;
   box-shadow: var(--box-shadow);
   width: 40px;
   height: 40px;
-  color: var(--accent);
+  color: var(--secondary);
   background-color: var(--primary);
   border-radius: var(--light-radius);
   cursor: pointer;
-  transition: 0.5s ease;
+  transition: width 0.4s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -126,9 +134,29 @@
   font-size: 30px;
 }
 
+.category .update-container .update::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--secondary);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.category .update-container .update:hover::before {
+  width: 100%;
+}
+
 .category .update-container .update:hover {
   color: var(--primary);
-  background-color: var(--accent);
+}
+
+.category .update-container .update * {
+  position: relative;
+  z-index: 1;
 }
 
 .category .delete-container {
@@ -141,14 +169,16 @@
 }
 
 .category .delete-container .delete {
+  position: relative;
+  overflow: hidden;
   box-shadow: var(--box-shadow);
   width: 40px;
   height: 40px;
-  color: red;
+  color: var(--accent);
   background-color: var(--primary);
   border-radius: var(--light-radius);
   cursor: pointer;
-  transition: 0.5s ease;
+  transition: width 0.4s ease;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -160,7 +190,27 @@
   font-size: 50px;
 }
 
+.category .delete-container .delete::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--accent);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.category .delete-container .delete:hover::before {
+  width: 100%;
+}
+
 .category .delete-container .delete:hover {
   color: var(--primary);
-  background-color: red;
+}
+
+.category .delete-container .delete * {
+  position: relative;
+  z-index: 1;
 }

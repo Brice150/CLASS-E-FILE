@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, input, Output } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { environment } from '../../../environments/environment';
 import { Category } from '../../core/interfaces/category';
 
 @Component({
@@ -10,6 +11,7 @@ import { Category } from '../../core/interfaces/category';
   styleUrl: './category-card.component.css',
 })
 export class CategoryCardComponent {
+  imagePath: string = environment.imagePath;
   readonly category = input.required<Category>();
   @Output() updateCategoryEvent = new EventEmitter<void>();
   @Output() deleteCategoryEvent = new EventEmitter<void>();

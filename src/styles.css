@@ -36,11 +36,11 @@ body {
 }
 
 .toast-container .ngx-toastr.custom.info {
-  background-color: var(--accent);
+  background-color: var(--secondary);
 }
 
 .toast-container .ngx-toastr.custom.error {
-  background-color: red;
+  background-color: var(--accent);
 }
 
 .cdk-global-scrollblock {

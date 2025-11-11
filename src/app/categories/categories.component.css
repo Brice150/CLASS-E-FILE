@@ -25,17 +25,18 @@ section .title {
   justify-content: center;
   gap: 10px;
   background-color: var(--primary);
-  color: var(--accent);
   padding: 0 10px;
   border-radius: var(--light-radius);
   margin-bottom: 5px;
   margin-top: 20px;
   min-height: 50px;
+  box-shadow: var(--box-shadow);
 }
 
 section .title h1 {
   margin: 0;
   font-size: 30px;
+  color: var(--secondary);
 }
 
 section .title img {
@@ -62,10 +63,12 @@ section .content .categories {
 }
 
 section .content .add {
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
-  transition: 0.5s ease;
+  transition: color 0.4s ease;
   box-shadow: var(--box-shadow);
-  color: var(--accent);
+  color: var(--secondary);
   border-radius: var(--light-radius);
   display: flex;
   justify-content: center;
@@ -79,9 +82,29 @@ section .content .add i {
   font-size: 50px;
 }
 
+section .content .add::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--secondary);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+section .content .add:hover::before {
+  width: 100%;
+}
+
 section .content .add:hover {
   color: var(--primary);
-  background-color: var(--accent);
+}
+
+section .content .add * {
+  position: relative;
+  z-index: 1;
 }
 
 mat-spinner {

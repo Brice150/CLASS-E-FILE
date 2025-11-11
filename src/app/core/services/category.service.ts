@@ -64,6 +64,17 @@ export class CategoryService {
     );
   }
 
+  addCategories(categories: Category[]): Observable<void> {
+    const writeOperations = categories.map((category) => {
+      const categoryDoc = doc(this.categoriesCollection);
+      category.id = categoryDoc.id;
+      category.userId = this.userService.auth.currentUser?.uid;
+      return setDoc(categoryDoc, { ...category });
+    });
+
+    return combineLatest(writeOperations).pipe(map(() => undefined));
+  }
+
   updateCategory(category: Category): Observable<void> {
     if (!category.id) {
       return from(Promise.reject('ID de catégorie manquant'));

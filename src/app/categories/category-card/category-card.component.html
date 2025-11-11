@@ -10,6 +10,11 @@
     </button>
   </div>
   <div class="title">
+    @if (category().image) {
+    <img [src]="category().image" [alt]="category().title" />
+    } @else {
+    <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
+    }
     <span>{{ category().title }}</span>
   </div>
   <button

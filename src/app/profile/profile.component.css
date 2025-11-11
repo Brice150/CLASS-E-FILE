@@ -31,15 +31,18 @@ section .title {
   margin-bottom: 5px;
   margin-top: 20px;
   min-height: 50px;
+  box-shadow: var(--box-shadow);
 }
 
 section .title h1 {
   margin: 0;
   font-size: 30px;
+  color: var(--secondary);
 }
 
 section .title i {
   font-size: 40px;
+  color: var(--accent);
 }
 
 section .content {
@@ -63,6 +66,8 @@ section .button-container {
 }
 
 section .button-container button {
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
   color: var(--accent);
   padding: 10px;
@@ -72,25 +77,44 @@ section .button-container button {
   gap: 10px;
   border-radius: var(--light-radius);
   box-shadow: var(--box-shadow);
-  transition: 0.5s ease;
+  transition: color 0.4s ease;
   width: 140px;
   border: none;
   background-color: var(--primary);
 }
 
 section .button-container .delete {
-  color: red;
-  transition: 0.5s ease;
+  color: var(--accent);
   width: 220px;
 }
 
-section .button-container button:hover {
+section .button-container button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--secondary);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+section .button-container .delete::before {
   background-color: var(--accent);
+}
+
+section .button-container button:hover::before {
+  width: 100%;
+}
+
+section .button-container button:hover {
   color: var(--primary);
 }
 
-section .button-container .delete:hover {
-  background-color: red;
+section .button-container button * {
+  position: relative;
+  z-index: 1;
 }
 
 section .button-container button i {

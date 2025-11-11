@@ -73,7 +73,7 @@ nav button:hover::before {
 }
 
 nav button:hover i {
-  color: var(--primary);
+  color: var(--secondary);
 }
 
 nav button:hover .text {
@@ -90,7 +90,7 @@ nav button.active {
 }
 
 nav button.active i {
-  color: var(--primary);
+  color: var(--secondary);
 }
 
 nav button.active .text {
@@ -114,9 +114,9 @@ nav button.active .text {
   top: 5px;
   right: 5px;
   z-index: 200;
+  box-shadow: var(--box-shadow);
 }
 
-/* --- Mode mobile --- */
 @media (max-width: 767px) {
   .hamburger {
     display: flex;
@@ -138,11 +138,12 @@ nav button.active .text {
     transition: all 0.4s ease;
     gap: 30px;
     border-radius: 0;
+    max-width: unset;
   }
 
   nav.open {
     opacity: 1;
     visibility: visible;
-    transform: translateY(0);
+    transform: translateY(-12px);
   }
 }

@@ -39,9 +39,9 @@
 }
 
 .category .title span {
-  font-size: 20px;
-  font-weight: 500;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  font-family: "Alice", serif;
   text-transform: capitalize;
   max-width: 160px;
   overflow: hidden;

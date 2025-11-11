@@ -35,7 +35,25 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (categories: Category[]) => {
           if (categories?.length >= 1) {
-            this.categories = categories;
+            this.categories = categories.sort((a, b) => {
+              const dateA =
+                a.creationDate instanceof Date
+                  ? a.creationDate.getTime()
+                  : a.creationDate?.seconds * 1000 +
+                    Math.floor((a.creationDate?.nanoseconds || 0) / 1_000_000);
+
+              const dateB =
+                b.creationDate instanceof Date
+                  ? b.creationDate.getTime()
+                  : b.creationDate?.seconds * 1000 +
+                    Math.floor((b.creationDate?.nanoseconds || 0) / 1_000_000);
+
+              if (dateA !== dateB) {
+                return dateA - dateB;
+              }
+
+              return a.title.localeCompare(b.title);
+            });
             this.loading = false;
           } else {
             this.initFirstCategories();

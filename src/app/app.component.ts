@@ -32,7 +32,7 @@ export class AppComponent implements OnInit, OnDestroy {
       },
       error: (error: HttpErrorResponse) => {
         if (!error.message.includes('Missing or insufficient permissions.')) {
-          this.toastr.error(error.message, 'Connexion', {
+          this.toastr.error(error.message, 'Class E-File', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom error',
           });
@@ -53,14 +53,14 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.router.navigate(['/connect']);
-          this.toastr.info('Logged out', 'Class E-File', {
+          this.toastr.info('Déconnecté', 'Class E-File', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Déconnexion', {
+            this.toastr.error(error.message, 'Class E-File', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });

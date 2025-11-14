@@ -99,17 +99,19 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   addCategory(): void {
-    this.loading = true;
+    const dialogRef = this.dialog.open(CategoryDialogComponent);
 
-    const category: Category = {
-      title: 'Catégorie ' + (this.categories.length + 1),
-      creationDate: new Date(),
-      articles: [],
-    } as Category;
-
-    this.categoryService
-      .addCategory(category)
-      .pipe(takeUntil(this.destroyed$))
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((res) => !!res),
+        switchMap((res: Category) => {
+          this.loading = true;
+          res.creationDate = new Date();
+          return this.categoryService.addCategory(res);
+        }),
+        takeUntil(this.destroyed$)
+      )
       .subscribe({
         next: () => {
           this.loading = false;

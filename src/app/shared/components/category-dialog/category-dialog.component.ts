@@ -23,6 +23,7 @@ import { Category } from '../../../core/interfaces/category';
 export class CategoryDialogComponent implements OnInit {
   category: Category = {} as Category;
   toastr = inject(ToastrService);
+  imagePreview: string | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
@@ -32,6 +33,47 @@ export class CategoryDialogComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.category = this.data;
+      this.imagePreview = this.category?.image;
+    }
+  }
+
+  addPicture(files: File[]): void {
+    for (let file of files) {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event: any) => {
+        const img = new Image();
+        img.src = event.target.result;
+        img.onload = () => {
+          const maxDimension = 1200;
+          const width = img.width;
+          const height = img.height;
+          let newWidth, newHeight;
+
+          if (width > height) {
+            newWidth = Math.min(width, maxDimension);
+            newHeight = (height / width) * newWidth;
+          } else {
+            newHeight = Math.min(height, maxDimension);
+            newWidth = (width / height) * newHeight;
+          }
+
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = newWidth;
+          canvas.height = newHeight;
+          ctx!.drawImage(img, 0, 0, newWidth, newHeight);
+          let quality = 0.7;
+          let dataURL = canvas.toDataURL('image/jpeg', quality);
+
+          this.imagePreview = dataURL;
+
+          this.toastr.info('Image ajoutée', 'Catégorie', {
+            positionClass: 'toast-bottom-center',
+            toastClass: 'ngx-toastr custom info',
+          });
+        };
+      };
     }
   }
 
@@ -41,6 +83,7 @@ export class CategoryDialogComponent implements OnInit {
 
   confirm(): void {
     if (this.category.title) {
+      this.category.image = this.imagePreview;
       this.dialogRef.close(this.category);
     } else {
       this.toastr.info('Catégorie Invalide', 'Catégorie', {

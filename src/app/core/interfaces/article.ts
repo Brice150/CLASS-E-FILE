@@ -4,7 +4,7 @@ export interface Article {
   description: string;
   genre: string;
   creationDate: Date;
-  image?: string;
+  image: string | null;
   isOwned: boolean;
   ownedDate?: Date;
   grade: number;

@@ -32,10 +32,6 @@ section .content {
   overflow-y: auto;
 }
 
-section .content .title {
-  margin-bottom: 20px;
-}
-
 section .content input {
   color: var(--secondary);
 }
@@ -115,6 +111,54 @@ section .button-container button .text {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+form .image-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+form .image-container label {
+  cursor: pointer;
+  background-color: var(--background-nav);
+  color: var(--accent);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--light-radius);
+  transition: 0.5s ease;
+  width: 140px;
+}
+
+form .image-container label:hover {
+  background-color: var(--accent);
+  color: var(--primary);
+}
+
+form .image-container label i {
+  font-size: 30px;
+}
+
+form .image-container label .text {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+form .image-container input {
+  display: none;
+}
+
+form .image-container img {
+  margin-top: 15px;
+  width: 250px;
+  height: 150px;
+  border-radius: var(--light-radius);
+  object-fit: cover;
+}
+
 ::ng-deep section .content .mat-mdc-form-field-icon-suffix {
   color: var(--secondary);
 }
@@ -159,4 +203,24 @@ section .button-container button .text {
 
 ::ng-deep .mdc-text-field {
   border-radius: var(--light-radius) !important;
+}
+
+::ng-deep
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+  .mdc-floating-label {
+  color: var(--secondary) !important;
+}
+
+@media screen and (max-width: 490px) {
+  form .image-container img {
+    width: 200px;
+    height: 140px;
+  }
+}
+
+@media screen and (max-width: 420px) {
+  form .image-container img {
+    width: 150px;
+    height: 100px;
+  }
 }

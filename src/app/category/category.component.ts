@@ -6,6 +6,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, switchMap, takeUntil } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { Category } from '../core/interfaces/category';
 import { CategoryService } from '../core/services/category.service';
 
@@ -16,6 +17,7 @@ import { CategoryService } from '../core/services/category.service';
   styleUrl: './category.component.css',
 })
 export class CategoryComponent implements OnInit, OnDestroy {
+  imagePath: string = environment.imagePath;
   categoryService = inject(CategoryService);
   destroyed$ = new Subject<void>();
   loading: boolean = true;

@@ -2,6 +2,8 @@
   <div class="title">
     @if (category.image) {
     <img [src]="category.image" [alt]="category.title" />
+    }@else {
+    <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
     }
     <h1>{{ category.title }}</h1>
   </div>

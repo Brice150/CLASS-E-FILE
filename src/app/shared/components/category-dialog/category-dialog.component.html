@@ -1,5 +1,9 @@
 <section mat-dialog-content>
+  @if (category && category.title) {
   <h1>Modifier Catégorie</h1>
+  }@else {
+  <h1>Ajouter Catégorie</h1>
+  }
   <form class="content" (ngSubmit)="confirm()">
     <mat-form-field class="title">
       <mat-label>TITRE</mat-label>
@@ -14,6 +18,22 @@
         required
       />
     </mat-form-field>
+    <div class="image-container">
+      <label for="image" class="add" title="Image">
+        <i class="bx bxs-image"></i>
+        <span class="text">Image</span>
+      </label>
+      <input
+        type="file"
+        id="image"
+        (change)="addPicture($any($event.target).files)"
+        name="files"
+        accept=".jpg, .jpeg, .png, .webp"
+      />
+      @if (imagePreview) {
+      <img [src]="imagePreview" alt="Image preview" />
+      }
+    </div>
     <div class="button-container">
       <button type="button" title="Annuler" (click)="cancel()" class="cancel">
         <i class="bx bx-x"></i>

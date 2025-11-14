@@ -23,14 +23,13 @@ section .title {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 15px;
   background-color: var(--primary);
-  color: var(--accent);
-  padding: 0 10px;
+  padding: 0 5px;
   border-radius: var(--light-radius);
   margin-bottom: 5px;
-  margin-top: 20px;
-  min-height: 50px;
+  margin-top: 15px;
+  min-height: 55px;
   box-shadow: var(--box-shadow);
 }
 

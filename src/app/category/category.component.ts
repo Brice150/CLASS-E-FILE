@@ -47,6 +47,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
   dialog = inject(MatDialog);
+  isSortedDesc = false;
+  isTouched = false;
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -57,7 +59,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .get('search')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
       .subscribe((searchValue: string) => {
-        this.filteredArticles = this.filterArticles(searchValue);
+        this.filteredArticles = this.searchArticles(searchValue);
       });
 
     this.activatedRoute.params
@@ -93,7 +95,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  filterArticles(searchValue: string): Article[] {
+  searchArticles(searchValue: string): Article[] {
     if (!searchValue) {
       return [...this.category.articles];
     }
@@ -199,6 +201,23 @@ export class CategoryComponent implements OnInit, OnDestroy {
           }
         },
       });
+  }
+
+  filterArticles(): void {
+    this.isTouched = true;
+    //TODO
+  }
+
+  sortArticles(): void {
+    this.isSortedDesc = !this.isSortedDesc;
+    this.isTouched = true;
+    //TODO
+  }
+
+  resetFilters(): void {
+    this.isSortedDesc = false;
+    this.isTouched = false;
+    //TODO
   }
 
   recommandArticle(article: Article): void {

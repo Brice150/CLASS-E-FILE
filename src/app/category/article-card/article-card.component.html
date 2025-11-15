@@ -28,14 +28,14 @@
     </button>
 
     <mat-menu #menu="matMenu">
-      <button mat-menu-item (click)="update()">
+      <button mat-menu-item (click)="update()" class="update" title="Modifier">
         <i class="bx bxs-edit-alt"></i>
-        <span>Modifier</span>
+        <span class="description">Modifier</span>
       </button>
 
-      <button mat-menu-item (click)="delete()">
+      <button mat-menu-item (click)="delete()" title="Supprimer">
         <i class="bx bxs-trash"></i>
-        <span>Supprimer</span>
+        <span class="description">Supprimer</span>
       </button>
     </mat-menu>
   </div>

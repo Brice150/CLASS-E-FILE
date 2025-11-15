@@ -119,6 +119,47 @@
   font-size: 20px;
 }
 
+::ng-deep .mat-mdc-menu-panel .description {
+  font-size: 20px;
+}
+
+::ng-deep .mat-mdc-menu-panel button i {
+  font-size: 30px;
+}
+
+::ng-deep .mat-mdc-menu-panel button {
+  color: var(--secondary) !important;
+  background-color: var(--primary) !important;
+  border-radius: var(--light-radius);
+  transition: 0.5s ease;
+}
+
+::ng-deep .mat-mdc-menu-panel button:hover {
+  color: var(--primary) !important;
+  background-color: var(--accent) !important;
+}
+
+::ng-deep .mat-mdc-menu-panel .update:hover {
+  background-color: var(--secondary) !important;
+}
+
+::ng-deep .mat-mdc-menu-panel button .mat-mdc-menu-item-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+::ng-deep .mat-mdc-menu-content {
+  padding: 5px !important;
+  background-color: var(--primary);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 5px;
+}
+
 @media screen and (max-width: 720px) {
   .article .title-container span {
     width: 200px;

@@ -67,6 +67,8 @@
         (updateArticleEvent)="updateArticle(article)"
         (deleteArticleEvent)="deleteArticle(article.id!)"
       ></app-article-card>
+      } @empty {
+      <div class="empty">Aucun élément dans cette catégorie</div>
       }
     </div>
     <button

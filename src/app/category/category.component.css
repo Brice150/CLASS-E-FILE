@@ -245,6 +245,25 @@ mat-spinner {
   stroke: var(--primary) !important;
 }
 
+.empty {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  padding: 5px;
+  width: 95%;
+  max-width: 400px;
+  box-shadow: var(--box-shadow);
+  border-radius: var(--light-radius);
+  color: var(--accent);
+  background-color: var(--primary);
+  height: 40px;
+  font-size: 22px;
+  font-weight: 800;
+  font-family: "Alice", serif;
+}
+
 form {
   display: flex;
   justify-content: space-between;
@@ -327,5 +346,11 @@ mat-icon {
   form {
     justify-content: center;
     flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 388px) {
+  .empty {
+    height: unset;
   }
 }

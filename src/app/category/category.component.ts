@@ -75,6 +75,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
           if (category) {
             this.category = category;
             this.filteredArticles = [...this.category.articles];
+            this.resetFilters();
           }
           this.loading = false;
         },
@@ -133,8 +134,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
             isWishlisted: res.isWishlisted ?? false,
             isRecommended: res.isRecommended ?? false,
           };
-
-          console.log(article);
 
           this.category.articles.push(article);
 
@@ -211,13 +210,17 @@ export class CategoryComponent implements OnInit, OnDestroy {
   sortArticles(): void {
     this.isSortedDesc = !this.isSortedDesc;
     this.isTouched = true;
-    //TODO
+    if (this.isSortedDesc) {
+      this.filteredArticles.sort((a, b) => b.grade - a.grade);
+    } else {
+      this.filteredArticles.sort((a, b) => a.grade - b.grade);
+    }
   }
 
   resetFilters(): void {
     this.isSortedDesc = false;
     this.isTouched = false;
-    //TODO
+    this.filteredArticles.sort((a, b) => a.title.localeCompare(b.title));
   }
 
   recommandArticle(article: Article): void {

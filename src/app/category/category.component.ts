@@ -1,11 +1,16 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { filter, max, Subject, switchMap, takeUntil } from 'rxjs';
+import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Article } from '../core/interfaces/article';
 import { Category } from '../core/interfaces/category';
@@ -16,22 +21,45 @@ import { ArticleCardComponent } from './article-card/article-card.component';
 
 @Component({
   selector: 'app-category',
-  imports: [CommonModule, MatProgressSpinnerModule, ArticleCardComponent],
+  imports: [
+    CommonModule,
+    MatProgressSpinnerModule,
+    ArticleCardComponent,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatButtonModule,
+    MatIconModule,
+  ],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css',
 })
 export class CategoryComponent implements OnInit, OnDestroy {
+  searchForm!: FormGroup;
+  fb = inject(FormBuilder);
   imagePath: string = environment.imagePath;
   categoryService = inject(CategoryService);
   destroyed$ = new Subject<void>();
   loading: boolean = true;
   category: Category = {} as Category;
+  filteredArticles: Article[] = [];
   toastr = inject(ToastrService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
   dialog = inject(MatDialog);
 
   ngOnInit(): void {
+    this.searchForm = this.fb.group({
+      search: ['', []],
+    });
+
+    this.searchForm
+      .get('search')
+      ?.valueChanges.pipe(takeUntil(this.destroyed$))
+      .subscribe((searchValue: string) => {
+        this.filteredArticles = this.filterArticles(searchValue);
+      });
+
     this.activatedRoute.params
       .pipe(
         takeUntil(this.destroyed$),
@@ -44,6 +72,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         next: (category: Category | null) => {
           if (category) {
             this.category = category;
+            this.filteredArticles = [...this.category.articles];
           }
           this.loading = false;
         },
@@ -62,6 +91,16 @@ export class CategoryComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  filterArticles(searchValue: string): Article[] {
+    if (!searchValue) {
+      return [...this.category.articles];
+    }
+
+    return this.category.articles.filter((article) =>
+      article.title.toLowerCase().includes(searchValue.toLowerCase())
+    );
   }
 
   addArticle(): void {

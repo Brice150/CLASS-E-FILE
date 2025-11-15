@@ -160,14 +160,13 @@ form .image-container img {
 }
 
 .star-picker {
-  margin-top: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 15px;
   cursor: pointer;
-  width: 180px;
+  width: calc(100% - 32px);
 }
 
 .star-picker label {
@@ -190,7 +189,7 @@ mat-form-field {
   color: var(--secondary);
 }
 
-::ng-deep .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+::ng-deep .dialog .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: transparent !important;
 }
 
@@ -200,12 +199,14 @@ mat-form-field {
 }
 
 ::ng-deep
+  .dialog
   .mdc-text-field--filled:not(.mdc-text-field--disabled)
   .mdc-line-ripple::before {
   border-bottom-color: var(--secondary) !important;
 }
 
 ::ng-deep
+  .dialog
   .mdc-text-field--filled:not(.mdc-text-field--disabled)
   .mdc-line-ripple::after {
   border-bottom-color: var(--secondary) !important;
@@ -216,18 +217,6 @@ mat-form-field {
   --primary: var(--accent);
 }
 
-::ng-deep
-  .mdc-text-field--filled:not(.mdc-text-field--disabled)
-  .mdc-line-ripple::before {
-  border-bottom-color: var(--secondary) !important;
-}
-
-::ng-deep
-  .mdc-text-field--filled:not(.mdc-text-field--disabled)
-  .mdc-line-ripple::after {
-  border-bottom-color: var(--secondary) !important;
-}
-
 ::ng-deep .mdc-text-field {
   border-radius: var(--light-radius) !important;
 }
@@ -236,6 +225,80 @@ mat-form-field {
   .mdc-text-field--filled:not(.mdc-text-field--disabled)
   .mdc-floating-label {
   color: var(--secondary) !important;
+}
+
+.toggle-container {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+}
+
+mat-slide-toggle {
+  width: 100%;
+  max-width: 320px;
+}
+
+::ng-deep .mdc-slider__track--active_fill {
+  border-color: var(--accent) !important;
+}
+
+::ng-deep .mdc-slider__track--inactive {
+  background-color: rgb(221, 221, 221) !important;
+  opacity: 1 !important;
+}
+
+::ng-deep .mdc-slider__thumb-knob {
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
+}
+
+::ng-deep .mdc-slider__value-indicator {
+  background-color: var(--accent) !important;
+}
+
+::ng-deep .toggle-container .mat-mdc-slide-toggle .mat-internal-form-field {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+::ng-deep
+  .toggle-container
+  .mat-mdc-slide-toggle
+  .mdc-switch:enabled
+  + .mdc-label {
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--secondary);
+  text-align: left;
+  margin: 0;
+  margin-left: 10px;
+  width: 140px;
+}
+
+::ng-deep .mdc-switch__track::after {
+  background: var(--accent) !important;
+}
+
+::ng-deep .mdc-switch--selected:enabled .mdc-switch__handle::after {
+  background: var(--primary) !important;
+}
+
+::ng-deep .mdc-switch--selected .mdc-switch__icon {
+  fill: var(--accent) !important;
+}
+
+::ng-deep .mdc-switch__track::before {
+  background: var(--primary) !important;
+}
+
+::ng-deep .mdc-switch--unselected .mdc-switch__icon {
+  fill: var(--primary) !important;
 }
 
 @media screen and (max-width: 490px) {

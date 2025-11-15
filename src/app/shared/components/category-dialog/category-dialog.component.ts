@@ -86,7 +86,7 @@ export class CategoryDialogComponent implements OnInit {
       this.category.image = this.imagePreview;
       this.dialogRef.close(this.category);
     } else {
-      this.toastr.info('Catégorie Invalide', 'Catégorie', {
+      this.toastr.info('Titre Invalide', 'Catégorie', {
         positionClass: 'toast-bottom-center',
         toastClass: 'ngx-toastr custom error',
       });

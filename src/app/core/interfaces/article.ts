@@ -6,7 +6,6 @@ export interface Article {
   creationDate: Date;
   image: string | null;
   isOwned: boolean;
-  ownedDate: Date | null;
   grade: number;
   isPreferred: boolean;
   isWishlisted: boolean;

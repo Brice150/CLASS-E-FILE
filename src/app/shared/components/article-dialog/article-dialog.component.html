@@ -1,4 +1,4 @@
-<section mat-dialog-content>
+<section mat-dialog-content class="dialog">
   @if (article && article.title) {
   <h1>Modifier Élément</h1>
   }@else {
@@ -78,6 +78,29 @@
       @if (imagePreview) {
       <img [src]="imagePreview" alt="Image preview" />
       }
+    </div>
+    <div class="toggle-container">
+      <mat-slide-toggle
+        [(ngModel)]="article.isOwned"
+        [ngModelOptions]="{ standalone: true }"
+        name="isOwned"
+      >
+        Acheté ?
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [(ngModel)]="article.isPreferred"
+        [ngModelOptions]="{ standalone: true }"
+        name="isPreferred"
+      >
+        Préféré ?
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [(ngModel)]="article.isWishlisted"
+        [ngModelOptions]="{ standalone: true }"
+        name="isWishlisted"
+      >
+        Liste de souhait ?
+      </mat-slide-toggle>
     </div>
     <div class="button-container">
       <button type="button" title="Annuler" (click)="cancel()" class="cancel">

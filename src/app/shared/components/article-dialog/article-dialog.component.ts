@@ -13,6 +13,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ToastrService } from 'ngx-toastr';
 import { Article } from '../../../core/interfaces/article';
 
@@ -24,6 +25,7 @@ import { Article } from '../../../core/interfaces/article';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatSlideToggleModule,
   ],
   templateUrl: './article-dialog.component.html',
   styleUrl: './article-dialog.component.css',
@@ -145,7 +147,7 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
       this.article.image = this.imagePreview;
       this.dialogRef.close(this.article);
     } else {
-      this.toastr.info('Élément Invalide', 'Élément', {
+      this.toastr.info('Titre invalide', 'Élément', {
         positionClass: 'toast-bottom-center',
         toastClass: 'ngx-toastr custom error',
       });

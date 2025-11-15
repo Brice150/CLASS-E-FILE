@@ -159,6 +159,10 @@ form .image-container img {
   object-fit: cover;
 }
 
+mat-form-field {
+  width: 100%;
+}
+
 ::ng-deep section .content .mat-mdc-form-field-icon-suffix {
   color: var(--secondary);
 }

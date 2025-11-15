@@ -1,0 +1,48 @@
+<section mat-dialog-content>
+  @if (article && article.title) {
+  <h1>Modifier Élément</h1>
+  }@else {
+  <h1>Ajouter Élément</h1>
+  }
+  <form class="content" (ngSubmit)="confirm()">
+    <mat-form-field class="title">
+      <mat-label>TITRE</mat-label>
+      <input
+        matInput
+        [(ngModel)]="article.title"
+        [ngModelOptions]="{ standalone: true }"
+        name="categoryTitle"
+        type="text"
+        minlength="2"
+        maxlength="50"
+        required
+      />
+    </mat-form-field>
+    <div class="image-container">
+      <label for="image" class="add" title="Image">
+        <i class="bx bxs-image"></i>
+        <span class="text">Image</span>
+      </label>
+      <input
+        type="file"
+        id="image"
+        (change)="addPicture($any($event.target).files)"
+        name="files"
+        accept=".jpg, .jpeg, .png, .webp"
+      />
+      @if (imagePreview) {
+      <img [src]="imagePreview" alt="Image preview" />
+      }
+    </div>
+    <div class="button-container">
+      <button type="button" title="Annuler" (click)="cancel()" class="cancel">
+        <i class="bx bx-x"></i>
+        <span class="text">Annuler</span>
+      </button>
+      <button type="submit" title="Confirmer">
+        <i class="bx bx-check"></i>
+        <span class="text">Confirmer</span>
+      </button>
+    </div>
+  </form>
+</section>

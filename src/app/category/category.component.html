@@ -8,7 +8,25 @@
     <h1>{{ category.title }}</h1>
   </div>
   @if (!loading) {
-  <div class="content"></div>
+  <div class="content">
+    <div class="categories">
+      @for (article of category.articles; track $index) {
+      <app-article-card
+        [article]="article"
+        (updateArticleEvent)="updateArticle(article)"
+        (deleteArticleEvent)="deleteArticle(article.id!)"
+      ></app-article-card>
+      }
+    </div>
+    <button
+      type="button"
+      (click)="addArticle()"
+      class="add"
+      title="Ajouter élément"
+    >
+      <i class="bx bx-plus"></i>
+    </button>
+  </div>
   }
 </section>
 @if (loading) {

@@ -38,16 +38,28 @@
         type="text"
       />
     </mat-form-field>
-    <mat-form-field class="title">
-      <mat-label>NOTE</mat-label>
-      <input
-        matInput
-        [(ngModel)]="article.grade"
-        [ngModelOptions]="{ standalone: true }"
-        name="grade"
-        type="text"
-      />
-    </mat-form-field>
+    <div class="star-picker">
+      <label>NOTE</label>
+      <div class="stars">
+        @for (star of getStarsArray(); track $index) {
+        <span
+          class="star"
+          (mousemove)="setHoverFromMouse($event, $index)"
+          (click)="setGradeFromMouse($event, $index)"
+          (mouseleave)="clearHover()"
+        >
+          <i
+            class="bx"
+            [ngClass]="{
+              'bxs-star': isFull($index + 1),
+              'bxs-star-half': isHalf($index + 1),
+              'bx-star': !isFull($index + 1) && !isHalf($index + 1)
+            }"
+          ></i>
+        </span>
+        }
+      </div>
+    </div>
     <div class="image-container">
       <label for="image" class="add" title="Image">
         <i class="bx bxs-image"></i>

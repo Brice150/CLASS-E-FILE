@@ -25,6 +25,7 @@ export class ArticleDialogComponent implements OnInit {
   article: Article = {} as Article;
   toastr = inject(ToastrService);
   imagePreview: string | null = null;
+  hoverGrade: number | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<ArticleDialogComponent>,
@@ -35,7 +36,52 @@ export class ArticleDialogComponent implements OnInit {
     if (this.data) {
       this.article = this.data;
       this.imagePreview = this.article?.image;
+      this.article.grade = this.article.grade ?? 0;
     }
+  }
+
+  getStarsArray(): number[] {
+    return [1, 2, 3, 4, 5];
+  }
+
+  setGradeFromMouse(event: MouseEvent, starIndex: number) {
+    const target = event.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const width = rect.width;
+
+    if (x < width / 2) {
+      this.article.grade = starIndex + 0.5;
+    } else {
+      this.article.grade = starIndex + 1;
+    }
+  }
+
+  setHoverFromMouse(event: MouseEvent, starIndex: number) {
+    const target = event.target as HTMLElement;
+    const rect = target.getBoundingClientRect();
+    const x = event.clientX - rect.left;
+    const width = rect.width;
+
+    if (x < width / 2) {
+      this.hoverGrade = starIndex + 0.5;
+    } else {
+      this.hoverGrade = starIndex + 1;
+    }
+  }
+
+  clearHover() {
+    this.hoverGrade = null;
+  }
+
+  isFull(star: number): boolean {
+    const current = this.hoverGrade ?? this.article.grade ?? 0;
+    return star <= Math.floor(current);
+  }
+
+  isHalf(star: number): boolean {
+    const current = this.hoverGrade ?? this.article.grade ?? 0;
+    return star === Math.ceil(current) && current % 1 >= 0.5;
   }
 
   addPicture(files: File[]): void {

@@ -1,12 +1,19 @@
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import { CommonModule } from '@angular/common';
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  Inject,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
-import { Category } from '../../../core/interfaces/category';
 import { Article } from '../../../core/interfaces/article';
 
 @Component({
@@ -21,11 +28,12 @@ import { Article } from '../../../core/interfaces/article';
   templateUrl: './article-dialog.component.html',
   styleUrl: './article-dialog.component.css',
 })
-export class ArticleDialogComponent implements OnInit {
+export class ArticleDialogComponent implements OnInit, AfterViewInit {
   article: Article = {} as Article;
   toastr = inject(ToastrService);
   imagePreview: string | null = null;
   hoverGrade: number | null = null;
+  @ViewChild('autosize') autosize!: CdkTextareaAutosize;
 
   constructor(
     public dialogRef: MatDialogRef<ArticleDialogComponent>,
@@ -38,6 +46,10 @@ export class ArticleDialogComponent implements OnInit {
       this.imagePreview = this.article?.image;
       this.article.grade = this.article.grade ?? 0;
     }
+  }
+
+  ngAfterViewInit() {
+    setTimeout(() => this.autosize.resizeToFitContent(true));
   }
 
   getStarsArray(): number[] {

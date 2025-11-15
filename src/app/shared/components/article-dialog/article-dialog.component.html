@@ -35,7 +35,10 @@
         [(ngModel)]="article.description"
         [ngModelOptions]="{ standalone: true }"
         name="description"
-        type="text"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="3"
+        cdkAutosizeMaxRows="10"
       ></textarea>
     </mat-form-field>
     <div class="star-picker">

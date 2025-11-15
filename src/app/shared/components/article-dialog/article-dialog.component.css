@@ -182,6 +182,10 @@ form .image-container img {
   color: var(--accent);
 }
 
+mat-form-field {
+  width: 100%;
+}
+
 ::ng-deep section .content .mat-mdc-form-field-icon-suffix {
   color: var(--secondary);
 }

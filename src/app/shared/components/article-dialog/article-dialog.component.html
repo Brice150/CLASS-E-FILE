@@ -11,11 +11,41 @@
         matInput
         [(ngModel)]="article.title"
         [ngModelOptions]="{ standalone: true }"
-        name="categoryTitle"
+        name="title"
         type="text"
         minlength="2"
         maxlength="50"
         required
+      />
+    </mat-form-field>
+    <mat-form-field class="title">
+      <mat-label>GENRE</mat-label>
+      <input
+        matInput
+        [(ngModel)]="article.genre"
+        [ngModelOptions]="{ standalone: true }"
+        name="genre"
+        type="text"
+      />
+    </mat-form-field>
+    <mat-form-field class="title">
+      <mat-label>DESCRIPTION</mat-label>
+      <input
+        matInput
+        [(ngModel)]="article.description"
+        [ngModelOptions]="{ standalone: true }"
+        name="description"
+        type="text"
+      />
+    </mat-form-field>
+    <mat-form-field class="title">
+      <mat-label>NOTE</mat-label>
+      <input
+        matInput
+        [(ngModel)]="article.grade"
+        [ngModelOptions]="{ standalone: true }"
+        name="grade"
+        type="text"
       />
     </mat-form-field>
     <div class="image-container">

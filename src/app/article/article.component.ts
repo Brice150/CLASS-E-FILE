@@ -5,31 +5,32 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { filter, max, Subject, switchMap, takeUntil } from 'rxjs';
+import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Article } from '../core/interfaces/article';
 import { Category } from '../core/interfaces/category';
 import { CategoryService } from '../core/services/category.service';
 import { ArticleDialogComponent } from '../shared/components/article-dialog/article-dialog.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { ArticleCardComponent } from './article-card/article-card.component';
 
 @Component({
-  selector: 'app-category',
-  imports: [CommonModule, MatProgressSpinnerModule, ArticleCardComponent],
-  templateUrl: './category.component.html',
-  styleUrl: './category.component.css',
+  selector: 'app-article',
+  imports: [CommonModule, MatProgressSpinnerModule],
+  templateUrl: './article.component.html',
+  styleUrl: './article.component.css',
 })
-export class CategoryComponent implements OnInit, OnDestroy {
+export class ArticleComponent implements OnInit, OnDestroy {
   imagePath: string = environment.imagePath;
   categoryService = inject(CategoryService);
   destroyed$ = new Subject<void>();
   loading: boolean = true;
   category: Category = {} as Category;
+  article: Article = {} as Article;
   toastr = inject(ToastrService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
   dialog = inject(MatDialog);
+  articleId?: number;
 
   ngOnInit(): void {
     this.activatedRoute.params
@@ -37,6 +38,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         takeUntil(this.destroyed$),
         switchMap((params) => {
           const categoryId = params['categoryId'];
+          this.articleId = params['articleId'];
           return this.categoryService.getCategory(categoryId);
         })
       )
@@ -44,6 +46,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
         next: (category: Category | null) => {
           if (category) {
             this.category = category;
+            const index = this.category.articles.findIndex(
+              (a) => a.id === this.articleId
+            );
+            if (index !== -1) {
+              this.article = this.category.articles[index];
+            }
           }
           this.loading = false;
         },
@@ -62,64 +70,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
-  }
-
-  addArticle(): void {
-    const dialogRef = this.dialog.open(ArticleDialogComponent);
-
-    dialogRef
-      .afterClosed()
-      .pipe(
-        filter((res) => !!res),
-        switchMap((res: Article) => {
-          this.loading = true;
-
-          const maxId =
-            this.category.articles.length > 0
-              ? Math.max(...this.category.articles.map((a) => a.id)) + 1
-              : 0;
-
-          const article: Article = {
-            id: maxId,
-            title: res.title,
-            description: res.description ?? null,
-            genre: res.genre ?? null,
-            creationDate: new Date(),
-            image: res.image,
-            isOwned: res.isOwned ?? false,
-            ownedDate: res.ownedDate ?? null,
-            grade: res.grade ?? null,
-            isPreferred: res.isPreferred ?? false,
-            isWishlisted: res.isWishlisted ?? false,
-            isRecommended: res.isRecommended ?? false,
-          };
-
-          console.log(article);
-
-          this.category.articles.push(article);
-
-          return this.categoryService.updateCategory(this.category);
-        }),
-        takeUntil(this.destroyed$)
-      )
-      .subscribe({
-        next: () => {
-          this.loading = false;
-          this.toastr.info('Élément ajoutée', 'Catégorie', {
-            positionClass: 'toast-bottom-center',
-            toastClass: 'ngx-toastr custom info',
-          });
-        },
-        error: (error: HttpErrorResponse) => {
-          this.loading = false;
-          if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégorie', {
-              positionClass: 'toast-bottom-center',
-              toastClass: 'ngx-toastr custom error',
-            });
-          }
-        },
-      });
   }
 
   deleteArticle(articleId: number): void {

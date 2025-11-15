@@ -13,6 +13,7 @@
       @for (article of category.articles; track $index) {
       <app-article-card
         [article]="article"
+        [categoryId]="category.id!"
         (updateArticleEvent)="updateArticle(article)"
         (deleteArticleEvent)="deleteArticle(article.id!)"
       ></app-article-card>

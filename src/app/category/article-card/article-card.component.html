@@ -1,29 +1,42 @@
 <div class="article">
-  <div class="update-container">
-    <button (click)="update()" class="update" title="Modifier">
-      <i class="bx bxs-edit-alt"></i>
-    </button>
-  </div>
-  <div class="delete-container">
-    <button (click)="delete()" class="delete" title="Supprimer">
-      <i class="bx bx-x"></i>
-    </button>
-  </div>
   <div class="title">
-    @if (article().image) {
-    <img [src]="article().image" [alt]="article().title" />
-    } @else {
-    <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
-    }
-    <span>{{ article().title }}</span>
+    <span style="margin-left: 5px">{{ article().title }}</span>
+    <span style="color: var(--secondary)">{{ article().genre }}</span>
+    <div class="stars">
+      @for (star of getStars(article().grade); track $index) {
+      <i
+        class="bx"
+        [ngClass]="{
+          'bxs-star': star === 'full',
+          'bxs-star-half': star === 'half',
+          'bx-star': star === 'empty'
+        }"
+      ></i>
+      }
+    </div>
   </div>
-  <button
-    type="button"
-    [routerLink]="'/categories/' + article().id"
-    class="view"
-    title="Consulter"
-  >
-    <i class="bx bxs-search-alt-2"></i>
-    <span class="text">Consulter</span>
-  </button>
+  <div class="button-container">
+    <button
+      type="button"
+      [routerLink]="'/categories/' + categoryId() + '/articles/' + article().id"
+      title="Consulter"
+    >
+      <i class="bx bxs-search-alt-2"></i>
+    </button>
+    <button [matMenuTriggerFor]="menu" class="dots" title="Actions">
+      <i class="bx bx-dots-horizontal-rounded"></i>
+    </button>
+
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item (click)="update()">
+        <i class="bx bxs-edit-alt"></i>
+        <span>Modifier</span>
+      </button>
+
+      <button mat-menu-item (click)="delete()">
+        <i class="bx bxs-trash"></i>
+        <span>Supprimer</span>
+      </button>
+    </mat-menu>
+  </div>
 </div>

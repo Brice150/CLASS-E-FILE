@@ -3,17 +3,15 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-width: 320px;
+  max-width: 700px;
 }
 
 .article {
   position: relative;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  flex-direction: column;
-  margin: 10px;
-  padding: 10px;
+  padding: 5px;
   width: 100%;
   box-shadow: var(--box-shadow);
   border-radius: var(--light-radius);
@@ -24,18 +22,7 @@
 .article .title {
   display: flex;
   align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 20px;
   gap: 10px;
-}
-
-.article .title img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: var(--light-radius);
 }
 
 .article .title span {
@@ -43,76 +30,21 @@
   font-weight: 800;
   font-family: "Alice", serif;
   text-transform: capitalize;
-  max-width: 160px;
+  width: 160px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+  text-align: left;
 }
 
-.view {
-  position: relative;
-  overflow: hidden;
-  margin-top: 20px;
-  cursor: pointer;
-  background-color: var(--primary);
-  color: var(--secondary);
-  padding: 10px;
+.article .button-container {
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   gap: 10px;
-  border-radius: var(--light-radius);
-  transition: color 0.4s ease;
-  width: 150px;
-  border: none;
-  box-shadow: var(--box-shadow);
 }
 
-.view::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  background-color: var(--secondary);
-  transition: width 0.4s ease;
-  z-index: 0;
-}
-
-.view:hover::before {
-  width: 100%;
-}
-
-.view:hover {
-  color: var(--primary);
-}
-
-.view * {
-  position: relative;
-  z-index: 1;
-}
-
-.view i {
-  font-size: 30px;
-}
-
-.view .text {
-  font-size: 20px;
-  font-weight: 500;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.article .update-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-}
-
-.article .update-container .update {
+.article .button-container button {
   position: relative;
   overflow: hidden;
   box-shadow: var(--box-shadow);
@@ -130,11 +62,11 @@
   background-color: var(--primary);
 }
 
-.article .update-container .update i {
+.article .button-container button i {
   font-size: 30px;
 }
 
-.article .update-container .update::before {
+.article .button-container button::before {
   content: "";
   position: absolute;
   top: 0;
@@ -146,51 +78,24 @@
   z-index: 0;
 }
 
-.article .update-container .update:hover::before {
+.article .button-container button:hover::before {
   width: 100%;
 }
 
-.article .update-container .update:hover {
+.article .button-container button:hover {
   color: var(--primary);
 }
 
-.article .update-container .update * {
+.article .button-container button * {
   position: relative;
   z-index: 1;
 }
 
-.article .delete-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-
-.article .delete-container .delete {
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
-  width: 40px;
-  height: 40px;
+.article .button-container .dots {
   color: var(--accent);
-  background-color: var(--primary);
-  border-radius: var(--light-radius);
-  cursor: pointer;
-  transition: width 0.4s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background-color: var(--primary);
 }
 
-.article .delete-container .delete i {
-  font-size: 50px;
-}
-
-.article .delete-container .delete::before {
+.article .button-container .dots::before {
   content: "";
   position: absolute;
   top: 0;
@@ -202,15 +107,6 @@
   z-index: 0;
 }
 
-.article .delete-container .delete:hover::before {
-  width: 100%;
-}
-
-.article .delete-container .delete:hover {
-  color: var(--primary);
-}
-
-.article .delete-container .delete * {
-  position: relative;
-  z-index: 1;
+.stars i {
+  font-size: 20px;
 }

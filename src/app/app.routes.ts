@@ -6,6 +6,7 @@ import { noUserGuard } from './core/guards/no-user.guard';
 import { userGuard } from './core/guards/user.guard';
 import { ProfileComponent } from './profile/profile.component';
 import { StatsComponent } from './stats/stats.component';
+import { ArticleComponent } from './article/article.component';
 
 export const routes: Routes = [
   { path: 'connect', component: ConnectComponent, canActivate: [noUserGuard] },
@@ -15,8 +16,13 @@ export const routes: Routes = [
     canActivate: [userGuard],
   },
   {
-    path: 'categories/:id',
+    path: 'categories/:categoryId/articles',
     component: CategoryComponent,
+    canActivate: [userGuard],
+  },
+  {
+    path: 'categories/:categoryId/articles/:articleId',
+    component: ArticleComponent,
     canActivate: [userGuard],
   },
   { path: 'stats', component: StatsComponent, canActivate: [userGuard] },

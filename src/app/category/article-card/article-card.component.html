@@ -1,7 +1,7 @@
 <div class="article">
-  <div class="title">
-    <span style="margin-left: 5px">{{ article().title }}</span>
-    <span style="color: var(--secondary)">{{ article().genre }}</span>
+  <div class="title-container">
+    <span class="title">{{ article().title }}</span>
+    <span class="genre">{{ article().genre }}</span>
     <div class="stars">
       @for (star of getStars(article().grade); track $index) {
       <i

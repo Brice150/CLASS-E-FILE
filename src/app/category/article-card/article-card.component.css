@@ -19,22 +19,30 @@
   background-color: var(--primary);
 }
 
-.article .title {
+.article .title-container {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
-.article .title span {
+.article .title-container span {
   font-size: 22px;
   font-weight: 800;
   font-family: "Alice", serif;
   text-transform: capitalize;
-  width: 160px;
+  width: 220px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   text-align: left;
+}
+
+.article .title-container .title {
+  margin-left: 5px;
+}
+
+.article .title-container .genre {
+  color: var(--secondary);
 }
 
 .article .button-container {
@@ -109,4 +117,63 @@
 
 .stars i {
   font-size: 20px;
+}
+
+@media screen and (max-width: 720px) {
+  .article .title-container span {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 680px) {
+  .article .title-container span {
+    width: 180px;
+  }
+}
+
+@media screen and (max-width: 630px) {
+  .article .title-container span {
+    width: 160px;
+  }
+}
+
+@media screen and (max-width: 580px) {
+  .article {
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .article .title-container {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .article .title-container span {
+    width: 220px;
+  }
+
+  .article .title-container .genre {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 370px) {
+  .article .title-container span {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 350px) {
+  .article .title-container span {
+    width: 180px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .article .title-container span {
+    width: 160px;
+  }
 }

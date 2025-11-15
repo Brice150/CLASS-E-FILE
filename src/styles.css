@@ -1,6 +1,7 @@
 :root {
   --primary: white;
   --secondary: black;
+  --tertiary: gold;
   --accent: #d12123;
   --background: #6d2a2a;
   --box-shadow-color: rgba(0, 0, 0, 0.15);

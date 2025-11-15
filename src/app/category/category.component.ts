@@ -202,6 +202,15 @@ export class CategoryComponent implements OnInit, OnDestroy {
       });
   }
 
+  recommandArticle(article: Article): void {
+    article.isRecommended = !article.isRecommended;
+
+    this.categoryService
+      .updateCategory(this.category)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe();
+  }
+
   updateArticle(article: Article): void {
     const dialogRef = this.dialog.open(ArticleDialogComponent, {
       data: structuredClone(article),

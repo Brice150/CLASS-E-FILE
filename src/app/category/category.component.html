@@ -23,6 +23,7 @@
       <app-article-card
         [article]="article"
         [categoryId]="category.id!"
+        (recommandArticleEvent)="recommandArticle(article)"
         (updateArticleEvent)="updateArticle(article)"
         (deleteArticleEvent)="deleteArticle(article.id!)"
       ></app-article-card>

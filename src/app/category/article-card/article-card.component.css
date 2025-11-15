@@ -19,6 +19,10 @@
   background-color: var(--primary);
 }
 
+.article.active {
+  background-color: var(--tertiary);
+}
+
 .article .title-container {
   display: flex;
   align-items: center;
@@ -141,6 +145,10 @@
 
 ::ng-deep .mat-mdc-menu-panel .update:hover {
   background-color: var(--secondary) !important;
+}
+
+::ng-deep .mat-mdc-menu-panel .reco:hover {
+  background-color: var(--tertiary) !important;
 }
 
 ::ng-deep .mat-mdc-menu-panel button .mat-mdc-menu-item-text {

@@ -1,4 +1,4 @@
-<div class="article">
+<div class="article" [ngClass]="{ active: article().isRecommended }">
   <div class="title-container">
     <span class="title">{{ article().title }}</span>
     <span class="genre">{{ article().genre }}</span>
@@ -28,11 +28,31 @@
     </button>
 
     <mat-menu #menu="matMenu">
+      @if (article().isRecommended) {
+      <button
+        mat-menu-item
+        (click)="recommand()"
+        class="reco"
+        title="S'abstenir"
+      >
+        <i class="bx bxs-user-x"></i>
+        <span class="description">S'abstenir</span>
+      </button>
+      } @else {
+      <button
+        mat-menu-item
+        (click)="recommand()"
+        class="reco"
+        title="Conseiller"
+      >
+        <i class="bx bxs-user-voice"></i>
+        <span class="description">Conseiller</span>
+      </button>
+      }
       <button mat-menu-item (click)="update()" class="update" title="Modifier">
         <i class="bx bxs-edit-alt"></i>
         <span class="description">Modifier</span>
       </button>
-
       <button mat-menu-item (click)="delete()" title="Supprimer">
         <i class="bx bxs-trash"></i>
         <span class="description">Supprimer</span>

@@ -16,6 +16,7 @@ export class ArticleCardComponent {
   imagePath: string = environment.imagePath;
   readonly article = input.required<Article>();
   readonly categoryId = input.required<string>();
+  @Output() recommandArticleEvent = new EventEmitter<void>();
   @Output() updateArticleEvent = new EventEmitter<void>();
   @Output() deleteArticleEvent = new EventEmitter<void>();
 
@@ -34,7 +35,11 @@ export class ArticleCardComponent {
     return stars;
   }
 
-  update() {
+  recommand(): void {
+    this.recommandArticleEvent.emit();
+  }
+
+  update(): void {
     this.updateArticleEvent.emit();
   }
 

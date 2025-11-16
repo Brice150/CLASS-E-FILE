@@ -111,14 +111,18 @@
       </div>
     </div>
     <div class="button-container">
-      <button
-        type="button"
-        (click)="updateArticle()"
-        class="view"
-        title="Modifier"
-      >
+      <button type="button" (click)="updateArticle()" title="Modifier">
         <i class="bx bxs-edit-alt"></i>
         <span class="text">Modifier</span>
+      </button>
+      <button
+        type="button"
+        (click)="deleteArticle()"
+        class="delete"
+        title="Supprimer"
+      >
+        <i class="bx bxs-trash"></i>
+        <span class="text">Supprimer</span>
       </button>
     </div>
   </div>

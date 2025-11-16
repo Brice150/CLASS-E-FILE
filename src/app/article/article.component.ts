@@ -113,6 +113,11 @@ export class ArticleComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
+          console.log(this.router.url);
+
+          this.router.navigate([
+            '/categories/' + this.category.id + '/articles',
+          ]);
           this.loading = false;
           this.toastr.info('Élément supprimé', 'Catégorie', {
             positionClass: 'toast-bottom-center',

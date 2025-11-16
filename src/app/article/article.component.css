@@ -205,6 +205,11 @@ section .content .article .elements .container .label-container {
   color: var(--primary);
 }
 
+.elements.top .container .i-value.gold .bx-check {
+  background-color: var(--tertiary);
+  color: var(--primary);
+}
+
 .value.ellipsis {
   white-space: nowrap;
   overflow: hidden;
@@ -279,6 +284,10 @@ button .text {
 
 .delete::before {
   background-color: var(--accent);
+}
+
+.reco::before {
+  background-color: var(--tertiary);
 }
 
 mat-spinner {

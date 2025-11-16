@@ -176,4 +176,13 @@ export class ArticleComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  recommendArticle(): void {
+    this.article.isRecommended = !this.article.isRecommended;
+
+    this.categoryService
+      .updateCategory(this.category)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe();
+  }
 }

@@ -100,7 +100,7 @@
             <i class="bx bxs-user-voice"></i>
             <span class="label">Est en recommandation :</span>
           </div>
-          <div class="i-value">
+          <div class="i-value gold">
             @if (article.isRecommended) {
             <i class="bx bx-check"></i>
             } @else {
@@ -111,6 +111,27 @@
       </div>
     </div>
     <div class="button-container">
+      @if (article.isRecommended) {
+      <button
+        type="button"
+        (click)="recommendArticle()"
+        title="S'abstenir"
+        class="reco"
+      >
+        <i class="bx bxs-user-x"></i>
+        <span class="text">S'abstenir</span>
+      </button>
+      }@else {
+      <button
+        type="button"
+        (click)="recommendArticle()"
+        title="Conseiller"
+        class="reco"
+      >
+        <i class="bx bxs-user-voice"></i>
+        <span class="text">Conseiller</span>
+      </button>
+      }
       <button type="button" (click)="updateArticle()" title="Modifier">
         <i class="bx bxs-edit-alt"></i>
         <span class="text">Modifier</span>

@@ -14,7 +14,7 @@ import { Article } from '../../core/interfaces/article';
 export class ArticleCardComponent {
   readonly article = input.required<Article>();
   readonly categoryId = input.required<string>();
-  @Output() recommandArticleEvent = new EventEmitter<void>();
+  @Output() recommendArticleEvent = new EventEmitter<void>();
   @Output() updateArticleEvent = new EventEmitter<void>();
   @Output() deleteArticleEvent = new EventEmitter<void>();
 
@@ -33,8 +33,8 @@ export class ArticleCardComponent {
     return stars;
   }
 
-  recommand(): void {
-    this.recommandArticleEvent.emit();
+  recommend(): void {
+    this.recommendArticleEvent.emit();
   }
 
   update(): void {

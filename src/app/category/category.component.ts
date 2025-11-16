@@ -223,7 +223,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.filteredArticles.sort((a, b) => a.title.localeCompare(b.title));
   }
 
-  recommandArticle(article: Article): void {
+  recommendArticle(article: Article): void {
     article.isRecommended = !article.isRecommended;
 
     this.categoryService

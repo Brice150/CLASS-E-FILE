@@ -3,7 +3,6 @@ import { Component, EventEmitter, input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
-import { environment } from '../../../environments/environment';
 import { Article } from '../../core/interfaces/article';
 
 @Component({
@@ -13,7 +12,6 @@ import { Article } from '../../core/interfaces/article';
   styleUrl: './article-card.component.css',
 })
 export class ArticleCardComponent {
-  imagePath: string = environment.imagePath;
   readonly article = input.required<Article>();
   readonly categoryId = input.required<string>();
   @Output() recommandArticleEvent = new EventEmitter<void>();

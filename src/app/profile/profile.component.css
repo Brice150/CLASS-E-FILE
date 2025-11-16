@@ -38,6 +38,7 @@ section .title h1 {
   font-size: 30px;
   color: var(--secondary);
   font-family: "Alice", serif;
+  text-align: center;
 }
 
 section .title i {

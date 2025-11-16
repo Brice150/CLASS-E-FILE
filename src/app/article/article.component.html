@@ -1,1 +1,129 @@
-<p>article works!</p>
+<section>
+  <div class="title">
+    <h1>{{ article.title }}</h1>
+  </div>
+  @if (!loading) {
+  <div class="content">
+    <div class="article">
+      <div class="flex">
+        <div class="image">
+          @if (article.image) {
+          <img [src]="article.image" [alt]="article.title" />
+          } @else {
+          <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
+          }
+        </div>
+        <div class="elements">
+          <div class="container">
+            <div class="label-container">
+              <i class="bx bxs-folder-open"></i>
+              <span class="label">Catégorie :</span>
+            </div>
+            <span class="value ellipsis">{{ category.title }}</span>
+          </div>
+          <div class="container">
+            <div class="label-container">
+              <i class="bx bxs-category"></i>
+              <span class="label">Genres :</span>
+            </div>
+            <span class="value ellipsis">{{ article.genre }}</span>
+          </div>
+          <div class="container">
+            <div class="label-container">
+              <i class="bx bxs-bookmark-star"></i>
+              <span class="label">Note :</span>
+            </div>
+            <div class="stars">
+              @for (star of getStars(article.grade); track $index) {
+              <i
+                class="bx"
+                [ngClass]="{
+                  'bxs-star': star === 'full',
+                  'bxs-star-half': star === 'half',
+                  'bx-star': star === 'empty'
+                }"
+              ></i>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="description-container">
+        <div class="label-container">
+          <i class="bx bxs-spreadsheet"></i>
+          <span class="label">Description :</span>
+        </div>
+        <span class="value">{{ article.description }}</span>
+      </div>
+      <div class="elements top">
+        <div class="container boolean">
+          <div class="label-container">
+            <i class="bx bxs-briefcase-alt-2"></i>
+            <span class="label">Est possédé :</span>
+          </div>
+          <div class="i-value">
+            @if (article.isOwned) {
+            <i class="bx bx-check"></i>
+            } @else {
+            <i class="bx bx-x"></i>
+            }
+          </div>
+        </div>
+        <div class="container boolean">
+          <div class="label-container">
+            <i class="bx bxs-heart"></i>
+            <span class="label">Est préféré :</span>
+          </div>
+          <div class="i-value">
+            @if (article.isPreferred) {
+            <i class="bx bx-check"></i>
+            } @else {
+            <i class="bx bx-x"></i>
+            }
+          </div>
+        </div>
+        <div class="container boolean">
+          <div class="label-container">
+            <i class="bx bxs-cool"></i>
+            <span class="label">Est en liste de souhait :</span>
+          </div>
+          <div class="i-value">
+            @if (article.isWishlisted) {
+            <i class="bx bx-check"></i>
+            } @else {
+            <i class="bx bx-x"></i>
+            }
+          </div>
+        </div>
+        <div class="container boolean">
+          <div class="label-container">
+            <i class="bx bxs-user-voice"></i>
+            <span class="label">Est en recommandation :</span>
+          </div>
+          <div class="i-value">
+            @if (article.isRecommended) {
+            <i class="bx bx-check"></i>
+            } @else {
+            <i class="bx bx-x"></i>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="button-container">
+      <button
+        type="button"
+        (click)="updateArticle()"
+        class="view"
+        title="Modifier"
+      >
+        <i class="bx bxs-edit-alt"></i>
+        <span class="text">Modifier</span>
+      </button>
+    </div>
+  </div>
+  }
+</section>
+@if (loading) {
+<mat-spinner></mat-spinner>
+}

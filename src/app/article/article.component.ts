@@ -39,6 +39,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
         switchMap((params) => {
           const categoryId = params['categoryId'];
           this.articleId = params['articleId'];
+          console.log(this.articleId);
+
           return this.categoryService.getCategory(categoryId);
         })
       )
@@ -47,8 +49,9 @@ export class ArticleComponent implements OnInit, OnDestroy {
           if (category) {
             this.category = category;
             const index = this.category.articles.findIndex(
-              (a) => a.id === this.articleId
+              (a) => Number(a.id) === Number(this.articleId)
             );
+
             if (index !== -1) {
               this.article = this.category.articles[index];
             }
@@ -72,7 +75,22 @@ export class ArticleComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  deleteArticle(articleId: number): void {
+  getStars(rating: number): ('full' | 'half' | 'empty')[] {
+    const stars: ('full' | 'half' | 'empty')[] = [];
+
+    for (let i = 1; i <= 5; i++) {
+      if (rating >= i) {
+        stars.push('full');
+      } else if (rating >= i - 0.5) {
+        stars.push('half');
+      } else {
+        stars.push('empty');
+      }
+    }
+    return stars;
+  }
+
+  deleteArticle(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: 'supprimer cet élément',
     });
@@ -84,7 +102,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
         switchMap(() => {
           this.loading = true;
           const index = this.category.articles.findIndex(
-            (a) => a.id === articleId
+            (a) => a.id === this.article.id
           );
           if (index !== -1) {
             this.category.articles.splice(index, 1);
@@ -113,9 +131,9 @@ export class ArticleComponent implements OnInit, OnDestroy {
       });
   }
 
-  updateArticle(article: Article): void {
+  updateArticle(): void {
     const dialogRef = this.dialog.open(ArticleDialogComponent, {
-      data: structuredClone(article),
+      data: structuredClone(this.article),
     });
 
     dialogRef

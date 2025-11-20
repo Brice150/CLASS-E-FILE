@@ -282,7 +282,9 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   cleanAll(): void {
     const dialogRef = this.dialog.open(RecoDialogComponent, {
-      data: structuredClone(this.category.articles),
+      data: structuredClone(
+        this.category.articles.filter((article) => article.isRecommended)
+      ),
     });
 
     dialogRef

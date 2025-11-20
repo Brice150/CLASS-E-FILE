@@ -298,12 +298,14 @@ mat-spinner {
 }
 
 .reco-container {
-  position: absolute;
+  position: fixed;
   bottom: 10px;
   right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
+  z-index: 10;
+  width: 190px;
 }
 
 .reco-container .reco {
@@ -359,6 +361,12 @@ mat-spinner {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+@media screen and (max-width: 900px) {
+  section {
+    margin-bottom: 70px;
+  }
+}
+
 @media screen and (max-width: 670px) {
   section .content .article .flex {
     justify-content: center;
@@ -371,6 +379,13 @@ mat-spinner {
 
   section .content .article .elements {
     width: 300px;
+  }
+}
+
+@media screen and (max-width: 550px) {
+  .reco-container {
+    left: 50%;
+    transform: translateX(-50%);
   }
 }
 

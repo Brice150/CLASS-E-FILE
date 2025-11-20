@@ -49,6 +49,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   dialog = inject(MatDialog);
   isSortedDesc = false;
   isTouched = false;
+  showRecommendButton = false;
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -76,6 +77,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
             this.category = category;
             this.filteredArticles = [...this.category.articles];
             this.resetFilters();
+
+            this.showRecommendButton =
+              this.category.articles?.some(
+                (article) => article.isRecommended
+              ) ?? false;
           }
           this.loading = false;
         },
@@ -272,4 +278,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  recommendAll(): void {}
 }

@@ -82,6 +82,18 @@
   </div>
   }
 </section>
-@if (loading) {
+@if (!loading && showRecommendButton) {
+<div class="reco-container">
+  <button
+    type="button"
+    class="reco"
+    title="Recommander"
+    (click)="recommendAll()"
+  >
+    <i class="bx bxs-user-voice"></i>
+    <span class="text">Recommander</span>
+  </button>
+</div>
+} @if (loading) {
 <mat-spinner></mat-spinner>
 }

@@ -27,6 +27,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   toastr = inject(ToastrService);
   dialog = inject(MatDialog);
+  showRecommendButton = false;
 
   ngOnInit(): void {
     this.categoryService
@@ -54,6 +55,12 @@ export class CategoriesComponent implements OnInit, OnDestroy {
 
               return a.title.localeCompare(b.title);
             });
+
+            this.showRecommendButton =
+              this.categories?.some((category) =>
+                category.articles?.some((article) => article.isRecommended)
+              ) ?? false;
+
             this.loading = false;
           } else {
             this.initFirstCategories();
@@ -217,4 +224,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  recommendAll(): void {}
 }

@@ -286,10 +286,6 @@ button .text {
   background-color: var(--accent);
 }
 
-.reco::before {
-  background-color: var(--tertiary);
-}
-
 mat-spinner {
   position: absolute;
   top: 50%;
@@ -299,6 +295,68 @@ mat-spinner {
 
 ::ng-deep .mdc-circular-progress__indeterminate-circle-graphic {
   stroke: var(--primary) !important;
+}
+
+.reco-container {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.reco-container .reco {
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--secondary);
+  color: var(--tertiary);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--light-radius);
+  transition: color 0.4s ease;
+  width: 190px;
+  border: none;
+  box-shadow: var(--box-shadow);
+}
+
+.reco-container .reco::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--tertiary);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.reco-container .reco:hover::before {
+  width: 100%;
+}
+
+.reco-container .reco:hover {
+  color: var(--primary);
+}
+
+.reco-container .reco * {
+  position: relative;
+  z-index: 1;
+}
+
+.reco-container .reco i {
+  font-size: 30px;
+}
+
+.reco-container .reco .text {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
 @media screen and (max-width: 670px) {

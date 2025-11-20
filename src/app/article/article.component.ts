@@ -31,6 +31,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   activatedRoute = inject(ActivatedRoute);
   dialog = inject(MatDialog);
   articleId?: number;
+  showRecommendButton = false;
 
   ngOnInit(): void {
     this.activatedRoute.params
@@ -39,7 +40,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
         switchMap((params) => {
           const categoryId = params['categoryId'];
           this.articleId = params['articleId'];
-          console.log(this.articleId);
 
           return this.categoryService.getCategory(categoryId);
         })
@@ -55,6 +55,11 @@ export class ArticleComponent implements OnInit, OnDestroy {
             if (index !== -1) {
               this.article = this.category.articles[index];
             }
+
+            this.showRecommendButton =
+              this.category.articles?.some(
+                (article) => article.isRecommended
+              ) ?? false;
           }
           this.loading = false;
         },
@@ -185,4 +190,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroyed$))
       .subscribe();
   }
+
+  recommendAll(): void {}
 }

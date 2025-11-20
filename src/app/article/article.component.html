@@ -151,12 +151,7 @@
 </section>
 @if (!loading && showRecommendButton) {
 <div class="reco-container">
-  <button
-    type="button"
-    class="reco"
-    title="Recommander"
-    (click)="recommendAll()"
-  >
+  <button type="button" class="reco" title="Recommander" (click)="cleanAll()">
     <i class="bx bxs-user-voice"></i>
     <span class="text">Recommander</span>
   </button>

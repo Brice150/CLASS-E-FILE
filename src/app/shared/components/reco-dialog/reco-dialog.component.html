@@ -1,0 +1,24 @@
+<section mat-dialog-content class="dialog">
+  <h1>Recommander</h1>
+  <form class="content" (ngSubmit)="send()">
+    @for (article of articles; track $index) {
+    <div class="article">
+      {{ article.title }}
+    </div>
+    }
+    <div class="button-container">
+      <button type="button" title="Annuler" (click)="cancel()" class="cancel">
+        <i class="bx bx-x"></i>
+        <span class="text">Annuler</span>
+      </button>
+      <button type="button" title="Nettoyer" (click)="clean()" class="cancel">
+        <i class="bx bxs-brush"></i>
+        <span class="text">Nettoyer</span>
+      </button>
+      <button type="submit" title="Envoyer">
+        <i class="bx bxs-envelope"></i>
+        <span class="text">Envoyer</span>
+      </button>
+    </div>
+  </form>
+</section>

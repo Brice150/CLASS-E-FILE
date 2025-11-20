@@ -17,6 +17,7 @@ import { Category } from '../core/interfaces/category';
 import { CategoryService } from '../core/services/category.service';
 import { ArticleDialogComponent } from '../shared/components/article-dialog/article-dialog.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
+import { RecoDialogComponent } from '../shared/components/reco-dialog/reco-dialog.component';
 import { ArticleCardComponent } from './article-card/article-card.component';
 
 @Component({
@@ -279,5 +280,41 @@ export class CategoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  recommendAll(): void {}
+  cleanAll(): void {
+    const dialogRef = this.dialog.open(RecoDialogComponent, {
+      data: structuredClone(this.category.articles),
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((res) => !!res),
+        switchMap(() => {
+          this.loading = true;
+          this.category.articles.forEach((article) => {
+            article.isRecommended = false;
+          });
+          return this.categoryService.updateCategory(this.category);
+        }),
+        takeUntil(this.destroyed$)
+      )
+      .subscribe({
+        next: () => {
+          this.loading = false;
+          this.toastr.info('Recommandations nettoyées', 'Catégorie', {
+            positionClass: 'toast-bottom-center',
+            toastClass: 'ngx-toastr custom info',
+          });
+        },
+        error: (error: HttpErrorResponse) => {
+          this.loading = false;
+          if (!error.message.includes('Missing or insufficient permissions.')) {
+            this.toastr.error(error.message, 'Catégorie', {
+              positionClass: 'toast-bottom-center',
+              toastClass: 'ngx-toastr custom error',
+            });
+          }
+        },
+      });
+  }
 }

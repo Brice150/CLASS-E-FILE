@@ -19,10 +19,6 @@
   background-color: var(--primary);
 }
 
-.article.active {
-  background-color: var(--tertiary);
-}
-
 .article .title-container {
   display: flex;
   align-items: center;
@@ -47,6 +43,15 @@
 
 .article .title-container .genre {
   color: var(--secondary);
+}
+
+.article.active {
+  background-color: var(--secondary);
+  color: var(--tertiary);
+}
+
+.article.active .title-container .genre {
+  color: var(--primary);
 }
 
 .article .button-container {

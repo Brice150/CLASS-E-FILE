@@ -41,6 +41,14 @@ section .title h1 {
   text-align: center;
 }
 
+section .title.active {
+  background-color: var(--secondary);
+}
+
+section .title.active h1 {
+  color: var(--tertiary);
+}
+
 section .content {
   display: flex;
   justify-content: center;
@@ -284,6 +292,10 @@ button .text {
 
 .delete::before {
   background-color: var(--accent);
+}
+
+.reco::before {
+  background-color: var(--tertiary);
 }
 
 mat-spinner {

@@ -48,7 +48,7 @@ export class RecoDialogComponent implements OnInit {
   emailControlInvalid(): boolean {
     if (!this.email) return true;
 
-    const EMAIL_REGEXP = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/i;
+    const EMAIL_REGEXP = /^[^\s@]{2,}@[^\s@]{2,}$/;
     return !EMAIL_REGEXP.test(this.email);
   }
 
@@ -57,8 +57,29 @@ export class RecoDialogComponent implements OnInit {
   }
 
   send(): void {
+    if (
+      this.emailControlInvalid() ||
+      !this.articles.some((article) => article.isRecommended)
+    ) {
+      this.toastr.error(
+        'Il faut un email valide et au moins une recommandation',
+        'Recommandations',
+        {
+          positionClass: 'toast-bottom-center',
+          toastClass: 'ngx-toastr custom error',
+        }
+      );
+      return;
+    }
+
     //TODO: envoyer un email à this.email de this.userService.currentUserSig()?.email
     // avec la liste des articles.title dont isRecommended = true;
+
+    this.email = undefined;
+    this.toastr.info('Recommandations envoyées', 'Recommandations', {
+      positionClass: 'toast-bottom-center',
+      toastClass: 'ngx-toastr custom info',
+    });
   }
 
   clean(): void {

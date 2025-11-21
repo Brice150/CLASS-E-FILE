@@ -40,6 +40,11 @@ section .content mat-label {
   color: var(--secondary);
 }
 
+mat-form-field {
+  width: 100%;
+  max-width: 300px;
+}
+
 .button-container {
   display: flex;
   justify-content: space-evenly;
@@ -157,10 +162,6 @@ form .image-container img {
   height: 150px;
   border-radius: var(--light-radius);
   object-fit: cover;
-}
-
-mat-form-field {
-  width: 100%;
 }
 
 ::ng-deep section .content .mat-mdc-form-field-icon-suffix {

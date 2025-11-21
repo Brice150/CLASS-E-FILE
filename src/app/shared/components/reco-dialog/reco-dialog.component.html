@@ -1,11 +1,32 @@
 <section mat-dialog-content class="dialog">
   <h1>Recommander</h1>
-  <form class="content" (ngSubmit)="send()">
-    @for (article of articles; track $index) {
-    <div class="article">
-      {{ article.title }}
+  <form class="content" #f="ngForm" (ngSubmit)="send()">
+    <mat-form-field class="title">
+      <mat-label>EMAIL</mat-label>
+      <input
+        matInput
+        name="email"
+        [(ngModel)]="email"
+        [ngModelOptions]="{ standalone: true }"
+        type="email"
+        required
+        email
+        minlength="5"
+        maxlength="80"
+      />
+    </mat-form-field>
+    <div class="articles">
+      @for (article of articles; track $index) {
+      <div class="article">
+        <mat-checkbox
+          [(ngModel)]="article.isRecommended"
+          [ngModelOptions]="{ standalone: true }"
+        >
+          {{ article.title }}
+        </mat-checkbox>
+      </div>
+      }
     </div>
-    }
     <div class="button-container">
       <button type="button" title="Annuler" (click)="cancel()" class="cancel">
         <i class="bx bx-x"></i>

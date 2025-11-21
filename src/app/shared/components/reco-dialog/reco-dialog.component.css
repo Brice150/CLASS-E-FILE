@@ -40,6 +40,20 @@ section .content mat-label {
   color: var(--secondary);
 }
 
+mat-form-field {
+  width: 100%;
+  max-width: 300px;
+}
+
+.articles {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
 .button-container {
   display: flex;
   justify-content: space-evenly;
@@ -181,8 +195,20 @@ form .image-container img {
   color: var(--accent);
 }
 
-mat-form-field {
-  width: 100%;
+::ng-deep .mdc-label {
+  font-size: 18px;
+  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  width: 420px;
+}
+
+::ng-deep
+  .mdc-checkbox__native-control:enabled:checked
+  ~ .mdc-checkbox__background,
+.mdc-checkbox__native-control:enabled:indeterminate
+  ~ .mdc-checkbox__background {
+  background-color: var(--accent) !important;
+  border-color: var(--accent) !important;
 }
 
 ::ng-deep section .content .mat-mdc-form-field-icon-suffix {
@@ -191,11 +217,6 @@ mat-form-field {
 
 ::ng-deep .dialog .mdc-text-field--filled:not(.mdc-text-field--disabled) {
   background-color: transparent !important;
-}
-
-::ng-deep .mat-mdc-form-field-subscript-wrapper,
-.mat-mdc-form-field-bottom-align::before {
-  display: none;
 }
 
 ::ng-deep
@@ -227,90 +248,26 @@ mat-form-field {
   color: var(--secondary) !important;
 }
 
-.toggle-container {
-  margin-top: 10px;
-  margin-bottom: 10px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 20px;
-}
-
-mat-slide-toggle {
-  width: 100%;
-  max-width: 320px;
-}
-
-::ng-deep .mdc-slider__track--active_fill {
-  border-color: var(--accent) !important;
-}
-
-::ng-deep .mdc-slider__track--inactive {
-  background-color: rgb(221, 221, 221) !important;
-  opacity: 1 !important;
-}
-
-::ng-deep .mdc-slider__thumb-knob {
-  background-color: var(--accent) !important;
-  border-color: var(--accent) !important;
-}
-
-::ng-deep .mdc-slider__value-indicator {
-  background-color: var(--accent) !important;
-}
-
-::ng-deep .toggle-container .mat-mdc-slide-toggle .mat-internal-form-field {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-}
-
-::ng-deep
-  .toggle-container
-  .mat-mdc-slide-toggle
-  .mdc-switch:enabled
-  + .mdc-label {
-  font-size: 16px;
-  font-weight: 500;
-  color: var(--secondary);
-  text-align: left;
-  margin: 0;
-  margin-left: 10px;
-  width: 140px;
-}
-
-::ng-deep .mdc-switch__track::after {
-  background: var(--accent) !important;
-}
-
-::ng-deep .mdc-switch--selected:enabled .mdc-switch__handle::after {
-  background: var(--primary) !important;
-}
-
-::ng-deep .mdc-switch--selected .mdc-switch__icon {
-  fill: var(--accent) !important;
-}
-
-::ng-deep .mdc-switch__track::before {
-  background: var(--primary) !important;
-}
-
-::ng-deep .mdc-switch--unselected .mdc-switch__icon {
-  fill: var(--primary) !important;
-}
-
-@media screen and (max-width: 490px) {
-  form .image-container img {
-    width: 200px;
-    height: 140px;
+@media screen and (max-width: 630px) {
+  ::ng-deep .mdc-label {
+    width: 320px;
   }
 }
 
-@media screen and (max-width: 420px) {
-  form .image-container img {
-    width: 150px;
-    height: 100px;
+@media screen and (max-width: 490px) {
+  ::ng-deep .mdc-label {
+    width: 280px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  ::ng-deep .mdc-label {
+    width: 250px;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  ::ng-deep .mdc-label {
+    width: 220px;
   }
 }

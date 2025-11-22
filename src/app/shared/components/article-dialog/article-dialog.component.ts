@@ -95,7 +95,7 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (value) {
+    if (value && !this.genres().includes(value)) {
       this.genres.update((list) => [...list, value]);
     }
     this.currentGenre.set('');
@@ -106,7 +106,10 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.genres.update((list) => [...list, event.option.viewValue]);
+    const value = event.option.viewValue;
+    if (!this.genres().includes(value)) {
+      this.genres.update((list) => [...list, value]);
+    }
     this.currentGenre.set('');
   }
 

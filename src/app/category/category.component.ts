@@ -86,7 +86,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
               this.category.articles = [];
             }
 
-            this.filterArticles(this.articleFilter);
+            this.filterArticles(this.articleFilter, this.isTouched);
 
             this.showRecommendButton =
               this.category.articles?.some(
@@ -235,12 +235,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(filter((res) => !!res))
       .subscribe((articleFilter: Article) => {
-        this.filterArticles(articleFilter);
+        this.filterArticles(articleFilter, true);
       });
   }
 
-  filterArticles(articleFilter: Article): void {
-    this.isTouched = true;
+  filterArticles(articleFilter: Article, isTouched = false): void {
+    this.isTouched = isTouched;
     this.articleFilter = articleFilter;
 
     let filteredArticles = this.category.articles.filter((article) => {
@@ -298,12 +298,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.isSortedDesc = false;
     this.isTouched = false;
     this.articleFilter = {} as Article;
-    this.filteredArticles = this.category.articles;
 
     const searchValue = this.searchForm.get('search')?.value ?? '';
     let filteredArticles = this.searchArticles(
       searchValue,
-      this.filteredArticles
+      this.category.articles
     );
 
     if (!this.isSortedActivated) {

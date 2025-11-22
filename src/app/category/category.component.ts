@@ -49,6 +49,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
   dialog = inject(MatDialog);
+  isSortedActivated = false;
   isSortedDesc = false;
   isTouched = false;
   showRecommendButton = false;
@@ -63,7 +64,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
       .get('search')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
       .subscribe((searchValue: string) => {
-        this.filteredArticles = this.searchArticles(searchValue);
+        this.filteredArticles = this.searchArticles(
+          searchValue,
+          this.category.articles
+        );
       });
 
     this.activatedRoute.params
@@ -82,10 +86,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
               this.category.articles = [];
             }
 
-            this.filteredArticles = this.category.articles?.length
-              ? [...this.category.articles]
-              : [];
-            this.resetFilters();
+            this.filterArticles(this.articleFilter);
 
             this.showRecommendButton =
               this.category.articles?.some(
@@ -111,12 +112,12 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  searchArticles(searchValue: string): Article[] {
+  searchArticles(searchValue: string, filteredArticles: Article[]): Article[] {
     if (!searchValue) {
-      return this.category.articles?.length ? [...this.category.articles] : [];
+      return filteredArticles?.length ? [...filteredArticles] : [];
     }
 
-    return this.category.articles?.filter((article) =>
+    return filteredArticles?.filter((article) =>
       article.title.toLowerCase().includes(searchValue.toLowerCase())
     );
   }
@@ -241,9 +242,48 @@ export class CategoryComponent implements OnInit, OnDestroy {
   filterArticles(articleFilter: Article): void {
     this.isTouched = true;
     this.articleFilter = articleFilter;
+
+    let filteredArticles = this.category.articles.filter((article) => {
+      let ok = true;
+
+      if (articleFilter.genres && articleFilter.genres.length > 0) {
+        ok =
+          ok &&
+          articleFilter.genres.every((g) => (article.genres ?? []).includes(g));
+      }
+
+      if (articleFilter.isOwned) {
+        ok = ok && article.isOwned;
+      }
+      if (articleFilter.isPreferred) {
+        ok = ok && article.isPreferred;
+      }
+      if (articleFilter.isWishlisted) {
+        ok = ok && article.isWishlisted;
+      }
+      if (articleFilter.isRecommended) {
+        ok = ok && article.isRecommended;
+      }
+
+      return ok;
+    });
+
+    const searchValue = this.searchForm.get('search')?.value ?? '';
+    filteredArticles = this.searchArticles(searchValue, filteredArticles);
+
+    if (!this.isSortedActivated) {
+      filteredArticles.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (this.isSortedDesc) {
+      filteredArticles.sort((a, b) => b.grade - a.grade);
+    } else {
+      filteredArticles.sort((a, b) => a.grade - b.grade);
+    }
+
+    this.filteredArticles = filteredArticles;
   }
 
   sortArticles(): void {
+    this.isSortedActivated = true;
     this.isSortedDesc = !this.isSortedDesc;
     this.isTouched = true;
     if (this.isSortedDesc) {
@@ -254,10 +294,27 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   resetFilters(): void {
+    this.isSortedActivated = false;
     this.isSortedDesc = false;
     this.isTouched = false;
     this.articleFilter = {} as Article;
-    this.filteredArticles.sort((a, b) => a.title.localeCompare(b.title));
+    this.filteredArticles = this.category.articles;
+
+    const searchValue = this.searchForm.get('search')?.value ?? '';
+    let filteredArticles = this.searchArticles(
+      searchValue,
+      this.filteredArticles
+    );
+
+    if (!this.isSortedActivated) {
+      filteredArticles.sort((a, b) => a.title.localeCompare(b.title));
+    } else if (this.isSortedDesc) {
+      filteredArticles.sort((a, b) => b.grade - a.grade);
+    } else {
+      filteredArticles.sort((a, b) => a.grade - b.grade);
+    }
+
+    this.filteredArticles = filteredArticles;
   }
 
   recommendArticle(article: Article): void {

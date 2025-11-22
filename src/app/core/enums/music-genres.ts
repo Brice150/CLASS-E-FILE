@@ -1,0 +1,16 @@
+export enum MusicGenres {
+  Pop = 'Pop',
+  Rock = 'Rock',
+  Rap = 'Rap',
+  HipHop = 'Hip-hop',
+  RnB = 'R&B',
+  Electro = 'Électro',
+  Jazz = 'Jazz',
+  Classique = 'Classique',
+  Reggae = 'Reggae',
+  Metal = 'Metal',
+  Blues = 'Blues',
+  Country = 'Country',
+  Soul = 'Soul',
+  Funk = 'Funk',
+}

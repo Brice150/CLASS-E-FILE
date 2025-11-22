@@ -2,7 +2,7 @@ export interface Article {
   id: number;
   title: string;
   description: string;
-  genre: string;
+  genres: string[];
   creationDate: Date;
   image: string | null;
   isOwned: boolean;

@@ -1,0 +1,17 @@
+export enum VideoGameGenres {
+  Action = 'Action',
+  Aventure = 'Aventure',
+  RPG = 'RPG',
+  FPS = 'FPS',
+  TPS = 'TPS',
+  Simulation = 'Simulation',
+  Sport = 'Sport',
+  Course = 'Course',
+  Strategie = 'Stratégie',
+  Puzzle = 'Puzzle',
+  Plateforme = 'Plateforme',
+  Survival = 'Survival',
+  Horror = 'Horreur',
+  Sandbox = 'Sandbox',
+  MMO = 'MMO',
+}

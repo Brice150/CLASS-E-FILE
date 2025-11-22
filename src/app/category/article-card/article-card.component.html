@@ -1,7 +1,7 @@
 <div class="article" [ngClass]="{ active: article().isRecommended }">
   <div class="title-container">
     <span class="title">{{ article().title }}</span>
-    <span class="genre">{{ article().genre }}</span>
+    <span class="genre">{{ article().genres.join(", ") }}</span>
     <div class="stars">
       @for (star of getStars(article().grade); track $index) {
       <i

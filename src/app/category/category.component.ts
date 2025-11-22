@@ -114,7 +114,11 @@ export class CategoryComponent implements OnInit, OnDestroy {
   }
 
   addArticle(): void {
-    const dialogRef = this.dialog.open(ArticleDialogComponent);
+    const dialogRef = this.dialog.open(ArticleDialogComponent, {
+      data: {
+        categoryTitle: this.category.title,
+      },
+    });
 
     dialogRef
       .afterClosed()
@@ -132,7 +136,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
             id: maxId,
             title: res.title,
             description: res.description ?? null,
-            genre: res.genre ?? null,
+            genres: res.genres ?? [],
             creationDate: new Date(),
             image: res.image,
             isOwned: res.isOwned ?? false,
@@ -241,7 +245,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   updateArticle(article: Article): void {
     const dialogRef = this.dialog.open(ArticleDialogComponent, {
-      data: structuredClone(article),
+      data: {
+        categoryTitle: this.category.title,
+        article: structuredClone(article),
+      },
     });
 
     dialogRef

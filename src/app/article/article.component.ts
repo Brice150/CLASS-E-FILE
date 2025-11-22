@@ -119,8 +119,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          console.log(this.router.url);
-
           this.router.navigate([
             '/categories/' + this.category.id + '/articles',
           ]);
@@ -144,7 +142,10 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   updateArticle(): void {
     const dialogRef = this.dialog.open(ArticleDialogComponent, {
-      data: structuredClone(this.article),
+      data: {
+        categoryTitle: this.category.title,
+        article: structuredClone(this.article),
+      },
     });
 
     dialogRef

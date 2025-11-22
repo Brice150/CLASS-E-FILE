@@ -20,14 +20,37 @@
     </mat-form-field>
     <mat-form-field class="title">
       <mat-label>GENRES</mat-label>
+
+      <mat-chip-grid #chipGrid>
+        @for (genre of genres(); track $index) {
+        <mat-chip-row (removed)="remove(genre)">
+          {{ genre }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        }
+      </mat-chip-grid>
       <input
-        matInput
-        [(ngModel)]="article.genre"
-        [ngModelOptions]="{ standalone: true }"
-        name="genre"
-        type="text"
-        maxlength="50"
+        placeholder="Ajouter un genre..."
+        #genreInput
+        [(ngModel)]="currentGenre"
+        name="currentGenre"
+        [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+        [matAutocomplete]="auto"
       />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event); genreInput.value = ''"
+      >
+        @for (genre of filteredGenres(); track genre) {
+        <mat-option [value]="genre">
+          {{ genre }}
+        </mat-option>
+        }
+      </mat-autocomplete>
     </mat-form-field>
     <mat-form-field>
       <mat-label>DESCRIPTION</mat-label>

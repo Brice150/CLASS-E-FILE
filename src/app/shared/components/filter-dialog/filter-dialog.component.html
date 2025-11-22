@@ -1,0 +1,79 @@
+<section mat-dialog-content class="dialog">
+  <h1>Filtrer les {{ categoryTitle | lowercase }}</h1>
+  <form class="content" (ngSubmit)="confirm()">
+    <mat-form-field class="title">
+      <mat-label>GENRES</mat-label>
+
+      <mat-chip-grid #chipGrid>
+        @for (genre of genres(); track $index) {
+        <mat-chip-row (removed)="remove(genre)">
+          {{ genre }}
+          <button matChipRemove>
+            <mat-icon>cancel</mat-icon>
+          </button>
+        </mat-chip-row>
+        }
+      </mat-chip-grid>
+      <input
+        placeholder="Ajouter un genre..."
+        #genreInput
+        [(ngModel)]="currentGenre"
+        name="currentGenre"
+        [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+        [matAutocomplete]="auto"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        (optionSelected)="selected($event); genreInput.value = ''"
+      >
+        @for (genre of filteredGenres(); track genre) {
+        <mat-option [value]="genre">
+          {{ genre }}
+        </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+    <div class="toggle-container">
+      <mat-slide-toggle
+        [(ngModel)]="article.isOwned"
+        [ngModelOptions]="{ standalone: true }"
+        name="isOwned"
+      >
+        Vous appartient
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [(ngModel)]="article.isPreferred"
+        [ngModelOptions]="{ standalone: true }"
+        name="isPreferred"
+      >
+        Parmi vos préférés
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [(ngModel)]="article.isWishlisted"
+        [ngModelOptions]="{ standalone: true }"
+        name="isWishlisted"
+      >
+        Sur liste d'attente
+      </mat-slide-toggle>
+      <mat-slide-toggle
+        [(ngModel)]="article.isRecommended"
+        [ngModelOptions]="{ standalone: true }"
+        name="isRecommended"
+      >
+        En recommandation
+      </mat-slide-toggle>
+    </div>
+    <div class="button-container">
+      <button type="button" title="Annuler" (click)="cancel()" class="cancel">
+        <i class="bx bx-x"></i>
+        <span class="text">Annuler</span>
+      </button>
+      <button type="submit" title="Confirmer">
+        <i class="bx bx-check"></i>
+        <span class="text">Confirmer</span>
+      </button>
+    </div>
+  </form>
+</section>

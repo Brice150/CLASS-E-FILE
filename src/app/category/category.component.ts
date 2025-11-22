@@ -19,6 +19,7 @@ import { ArticleDialogComponent } from '../shared/components/article-dialog/arti
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { RecoDialogComponent } from '../shared/components/reco-dialog/reco-dialog.component';
 import { ArticleCardComponent } from './article-card/article-card.component';
+import { FilterDialogComponent } from '../shared/components/filter-dialog/filter-dialog.component';
 
 @Component({
   selector: 'app-category',
@@ -51,6 +52,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   isSortedDesc = false;
   isTouched = false;
   showRecommendButton = false;
+  articleFilter: Article = {} as Article;
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -219,9 +221,26 @@ export class CategoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  filterArticles(): void {
+  openFilter(): void {
+    const dialogRef = this.dialog.open(FilterDialogComponent, {
+      data: {
+        categoryTitle: this.category.title,
+        article: this.articleFilter,
+      },
+      autoFocus: false,
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(filter((res) => !!res))
+      .subscribe((articleFilter: Article) => {
+        this.filterArticles(articleFilter);
+      });
+  }
+
+  filterArticles(articleFilter: Article): void {
     this.isTouched = true;
-    //TODO
+    this.articleFilter = articleFilter;
   }
 
   sortArticles(): void {
@@ -237,6 +256,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   resetFilters(): void {
     this.isSortedDesc = false;
     this.isTouched = false;
+    this.articleFilter = {} as Article;
     this.filteredArticles.sort((a, b) => a.title.localeCompare(b.title));
   }
 

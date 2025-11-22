@@ -4,10 +4,8 @@ export enum BoardGameGenres {
   Cooperatif = 'Coopératif',
   Carte = 'Jeu de cartes',
   Plateau = 'Jeu de plateau',
-  Ambiance = 'Ambiance',
   Enigme = 'Énigme',
   Gestion = 'Gestion',
-  DeckBuilding = 'Deck-building',
-  Draft = 'Draft',
   Adresse = 'Adresse',
+  Humour = 'Humour',
 }

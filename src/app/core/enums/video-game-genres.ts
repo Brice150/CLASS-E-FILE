@@ -9,9 +9,10 @@ export enum VideoGameGenres {
   Course = 'Course',
   Strategie = 'Stratégie',
   Puzzle = 'Puzzle',
-  Plateforme = 'Plateforme',
-  Survival = 'Survival',
+  Survie = 'Survie',
   Horror = 'Horreur',
-  Sandbox = 'Sandbox',
+  BacASable = 'Bac à sable',
   MMO = 'MMO',
+  MultijoueursLocal = 'Multijoueurs Local',
+  Cooperation = 'Coopération',
 }

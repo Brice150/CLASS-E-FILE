@@ -14,4 +14,5 @@ export enum MovieGenres {
   Musical = 'Musical',
   Guerre = 'Guerre',
   Western = 'Western',
+  Jeunesse = 'Jeunesse',
 }

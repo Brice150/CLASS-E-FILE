@@ -63,11 +63,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.searchForm
       .get('search')
       ?.valueChanges.pipe(takeUntil(this.destroyed$))
-      .subscribe((searchValue: string) => {
-        this.filteredArticles = this.searchArticles(
-          searchValue,
-          this.category.articles
-        );
+      .subscribe(() => {
+        this.applyAll();
       });
 
     this.activatedRoute.params
@@ -82,11 +79,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
         next: (category: Category | null) => {
           if (category) {
             this.category = category;
-            if (!this.category.articles) {
-              this.category.articles = [];
-            }
-
-            this.filterArticles(this.articleFilter, this.isTouched);
+            this.category.articles ??= [];
+            this.applyAll();
 
             this.showRecommendButton =
               this.category.articles?.some(
@@ -112,14 +106,45 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
-  searchArticles(searchValue: string, filteredArticles: Article[]): Article[] {
-    if (!searchValue) {
-      return filteredArticles?.length ? [...filteredArticles] : [];
+  applyAll(): void {
+    if (!this.category?.articles) {
+      this.filteredArticles = [];
+      return;
     }
 
-    return filteredArticles?.filter((article) =>
-      article.title.toLowerCase().includes(searchValue.toLowerCase())
-    );
+    const searchValue =
+      this.searchForm.get('search')?.value?.toLowerCase() ?? '';
+    const filters = this.articleFilter;
+
+    let articles = this.category.articles.filter((article) => {
+      let ok = true;
+
+      if (filters.genres?.length) {
+        ok = ok && filters.genres.every((g) => article.genres?.includes(g));
+      }
+      if (filters.isOwned) ok = ok && article.isOwned;
+      if (filters.isPreferred) ok = ok && article.isPreferred;
+      if (filters.isWishlisted) ok = ok && article.isWishlisted;
+      if (filters.isRecommended) ok = ok && article.isRecommended;
+
+      return ok;
+    });
+
+    if (searchValue) {
+      articles = articles.filter((a) =>
+        a.title.toLowerCase().includes(searchValue)
+      );
+    }
+
+    if (!this.isSortedActivated) {
+      articles.sort((a, b) => a.title.localeCompare(b.title));
+    } else {
+      articles.sort((a, b) =>
+        this.isSortedDesc ? b.grade - a.grade : a.grade - b.grade
+      );
+    }
+
+    this.filteredArticles = articles;
   }
 
   addArticle(): void {
@@ -239,58 +264,17 @@ export class CategoryComponent implements OnInit, OnDestroy {
       });
   }
 
-  filterArticles(articleFilter: Article, isTouched = false): void {
+  filterArticles(articleFilter: Article, isTouched = true): void {
     this.isTouched = isTouched;
     this.articleFilter = articleFilter;
-
-    let filteredArticles = this.category.articles.filter((article) => {
-      let ok = true;
-
-      if (articleFilter.genres && articleFilter.genres.length > 0) {
-        ok =
-          ok &&
-          articleFilter.genres.every((g) => (article.genres ?? []).includes(g));
-      }
-
-      if (articleFilter.isOwned) {
-        ok = ok && article.isOwned;
-      }
-      if (articleFilter.isPreferred) {
-        ok = ok && article.isPreferred;
-      }
-      if (articleFilter.isWishlisted) {
-        ok = ok && article.isWishlisted;
-      }
-      if (articleFilter.isRecommended) {
-        ok = ok && article.isRecommended;
-      }
-
-      return ok;
-    });
-
-    const searchValue = this.searchForm.get('search')?.value ?? '';
-    filteredArticles = this.searchArticles(searchValue, filteredArticles);
-
-    if (!this.isSortedActivated) {
-      filteredArticles.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (this.isSortedDesc) {
-      filteredArticles.sort((a, b) => b.grade - a.grade);
-    } else {
-      filteredArticles.sort((a, b) => a.grade - b.grade);
-    }
-
-    this.filteredArticles = filteredArticles;
+    this.applyAll();
   }
 
   sortArticles(): void {
     this.isSortedActivated = true;
     this.isSortedDesc = !this.isSortedDesc;
     this.isTouched = true;
-    if (this.isSortedDesc) {
-      this.filteredArticles.sort((a, b) => b.grade - a.grade);
-    } else {
-      this.filteredArticles.sort((a, b) => a.grade - b.grade);
-    }
+    this.applyAll();
   }
 
   resetFilters(): void {
@@ -299,23 +283,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.isTouched = false;
     this.articleFilter = {} as Article;
 
-    const searchValue = this.searchForm.get('search')?.value ?? '';
-    let filteredArticles = this.searchArticles(
-      searchValue,
-      this.category.articles
-    );
+    this.searchForm.get('search')?.setValue('');
 
-    if (!this.isSortedActivated) {
-      filteredArticles.sort((a, b) => a.title.localeCompare(b.title));
-    } else if (this.isSortedDesc) {
-      filteredArticles.sort((a, b) => b.grade - a.grade);
-    } else {
-      filteredArticles.sort((a, b) => a.grade - b.grade);
-    }
-
-    this.filteredArticles = filteredArticles;
+    this.applyAll();
   }
-
   recommendArticle(article: Article): void {
     article.isRecommended = !article.isRecommended;
 

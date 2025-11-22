@@ -13,4 +13,6 @@ export enum MusicGenres {
   Country = 'Country',
   Soul = 'Soul',
   Funk = 'Funk',
+  ChansonsFrancaises = 'Chansons Françaises',
+  Annees80 = 'Années 80',
 }

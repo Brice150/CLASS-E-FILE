@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +17,7 @@ import { RecoDialogComponent } from '../shared/components/reco-dialog/reco-dialo
 
 @Component({
   selector: 'app-article',
-  imports: [CommonModule, MatProgressSpinnerModule],
+  imports: [CommonModule, MatProgressSpinnerModule, MatChipsModule],
   templateUrl: './article.component.html',
   styleUrl: './article.component.css',
 })

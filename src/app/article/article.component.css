@@ -373,6 +373,21 @@ mat-spinner {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+::ng-deep
+  .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
+  .mdc-evolution-chip__text-label {
+  color: var(--secondary) !important;
+  font-size: 16px;
+  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+::ng-deep
+  .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
+  .mdc-evolution-chip__action--primary::before {
+  border-color: var(--secondary) !important;
+}
+
 @media screen and (max-width: 900px) {
   section {
     margin-bottom: 70px;

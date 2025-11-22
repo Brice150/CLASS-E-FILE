@@ -26,7 +26,11 @@
               <i class="bx bxs-category"></i>
               <span class="label">Genres :</span>
             </div>
-            <span class="value ellipsis">{{ article.genres.join(", ") }}</span>
+            <mat-chip-set>
+              @for (genre of article.genres; track $index) {
+              <mat-chip [title]="genre">{{ genre }}</mat-chip>
+              }
+            </mat-chip-set>
           </div>
           <div class="container">
             <div class="label-container">

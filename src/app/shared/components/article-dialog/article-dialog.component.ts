@@ -219,7 +219,7 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
   confirm(): void {
     if (this.article.title) {
       this.article.image = this.imagePreview;
-      this.article.genres = this.genres();
+      this.article.genres = this.genres()?.length ? this.genres() : [];
       this.dialogRef.close(this.article);
     } else {
       this.toastr.info('Titre invalide', 'Élément', {

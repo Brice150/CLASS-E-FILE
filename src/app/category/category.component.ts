@@ -76,7 +76,13 @@ export class CategoryComponent implements OnInit, OnDestroy {
         next: (category: Category | null) => {
           if (category) {
             this.category = category;
-            this.filteredArticles = [...this.category.articles];
+            if (!this.category.articles) {
+              this.category.articles = [];
+            }
+
+            this.filteredArticles = this.category.articles?.length
+              ? [...this.category.articles]
+              : [];
             this.resetFilters();
 
             this.showRecommendButton =
@@ -105,10 +111,10 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
   searchArticles(searchValue: string): Article[] {
     if (!searchValue) {
-      return [...this.category.articles];
+      return this.category.articles?.length ? [...this.category.articles] : [];
     }
 
-    return this.category.articles.filter((article) =>
+    return this.category.articles?.filter((article) =>
       article.title.toLowerCase().includes(searchValue.toLowerCase())
     );
   }

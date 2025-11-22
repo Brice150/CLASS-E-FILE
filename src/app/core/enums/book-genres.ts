@@ -2,6 +2,7 @@ export enum BookGenres {
   Romance = 'Romance',
   NewRomance = 'New Romance',
   DarkRomance = 'Dark Romance',
+  Drame = 'Drame',
   Thriller = 'Thriller',
   Policier = 'Policier',
   Fantastique = 'Fantastique',

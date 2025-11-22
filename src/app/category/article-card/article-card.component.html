@@ -1,7 +1,15 @@
 <div class="article" [ngClass]="{ active: article().isRecommended }">
   <div class="title-container">
     <span class="title">{{ article().title }}</span>
-    <span class="genre">{{ article().genres.join(", ") }}</span>
+    <mat-chip-set>
+      @for (genre of article().genres; track $index) { @if($index < 2) {
+      <mat-chip [title]="genre">{{ genre }}</mat-chip>
+      } } @if (article().genres.length >= 3) {
+      <mat-chip [title]="article().genres.slice(2).join(', ')">...</mat-chip>
+      }
+    </mat-chip-set>
+  </div>
+  <div class="button-container">
     <div class="stars">
       @for (star of getStars(article().grade); track $index) {
       <i
@@ -14,18 +22,20 @@
       ></i>
       }
     </div>
-  </div>
-  <div class="button-container">
-    <button
-      type="button"
-      [routerLink]="'/categories/' + categoryId() + '/articles/' + article().id"
-      title="Consulter"
-    >
-      <i class="bx bxs-search-alt-2"></i>
-    </button>
-    <button [matMenuTriggerFor]="menu" class="dots" title="Actions">
-      <i class="bx bx-dots-horizontal-rounded"></i>
-    </button>
+    <div class="buttons">
+      <button
+        type="button"
+        [routerLink]="
+          '/categories/' + categoryId() + '/articles/' + article().id
+        "
+        title="Consulter"
+      >
+        <i class="bx bxs-search-alt-2"></i>
+      </button>
+      <button [matMenuTriggerFor]="menu" class="dots" title="Actions">
+        <i class="bx bx-dots-horizontal-rounded"></i>
+      </button>
+    </div>
 
     <mat-menu #menu="matMenu">
       @if (article().isRecommended) {

@@ -1,13 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { Article } from '../../core/interfaces/article';
 
 @Component({
   selector: 'app-article-card',
-  imports: [CommonModule, RouterModule, MatMenuModule, MatButtonModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatMenuModule,
+    MatButtonModule,
+    MatChipsModule,
+  ],
   templateUrl: './article-card.component.html',
   styleUrl: './article-card.component.css',
 })

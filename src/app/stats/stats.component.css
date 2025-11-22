@@ -56,10 +56,3 @@ mat-spinner {
 ::ng-deep .mdc-circular-progress__indeterminate-circle-graphic {
   stroke: var(--primary) !important;
 }
-
-.working {
-  margin-top: 50px;
-  text-align: center;
-  font-size: 20px;
-  font-weight: 700;
-}

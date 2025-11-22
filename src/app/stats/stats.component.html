@@ -3,9 +3,9 @@
     <i class="bx bxs-bar-chart-alt-2"></i>
     <h1>Stats</h1>
   </div>
-  <div class="content">
-    <div class="working">EN COURS DE DEVELOPPEMENT ...</div>
-  </div>
+  @if (!loading) {
+  <div class="content"></div>
+  }
 </section>
 @if(loading) {
 <mat-spinner></mat-spinner>

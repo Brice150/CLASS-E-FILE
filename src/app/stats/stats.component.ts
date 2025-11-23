@@ -127,14 +127,20 @@ export class StatsComponent implements OnInit, OnDestroy {
             {
               label: 'Total',
               data: this.stats.totalArticlesByDate,
+              borderColor: '#d12123',
+              backgroundColor: '#d12123',
             },
             {
               label: 'Possédés',
               data: this.stats.totalOwnedArticlesByDate,
+              borderColor: '#ffd700',
+              backgroundColor: '#ffd700',
             },
             {
               label: 'En attente',
               data: this.stats.totalArticlesToWatchByDate,
+              borderColor: '#000000',
+              backgroundColor: '#000000',
             },
           ],
         },
@@ -155,7 +161,7 @@ export class StatsComponent implements OnInit, OnDestroy {
               callbacks: {
                 label: (tooltipItem: any) => {
                   const value = tooltipItem.raw;
-                  return `${value} articles`;
+                  return `${value} article${value > 1 ? 's' : ''}`;
                 },
               },
             },

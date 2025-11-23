@@ -3,9 +3,46 @@
     <i class="bx bxs-bar-chart-alt-2"></i>
     <h1>Stats</h1>
   </div>
-  @if (!loading) {
-  <div class="content"></div>
-  }
+  <div class="content">
+    @if (!loading) {
+    <mat-form-field>
+      <mat-select [(ngModel)]="categoryTitle" (selectionChange)="updateGraph()">
+        <mat-option [value]="'all'">Toutes</mat-option>
+        @for (category of categories; track $index) {
+        <mat-option [value]="category.title">
+          {{ category.title }}
+        </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    <div class="stats">
+      <div class="container">
+        <div class="label-container">
+          <i class="bx bxs-folder-open"></i>
+          <span class="label">Total éléments :</span>
+        </div>
+        <span class="value">{{ stats.totalArticles }}</span>
+      </div>
+      <div class="container">
+        <div class="label-container">
+          <i class="bx bxs-folder-open"></i>
+          <span class="label">Eléments ajoutés ce mois :</span>
+        </div>
+        <span class="value">{{ stats.totalAddedArticlesMonth }}</span>
+      </div>
+      <div class="container">
+        <div class="label-container">
+          <i class="bx bxs-folder-open"></i>
+          <span class="label">Eléments ajoutés cette année :</span>
+        </div>
+        <span class="value">{{ stats.totalAddedArticlesYear }}</span>
+      </div>
+    </div>
+    }
+    <div class="graph" [ngClass]="{ visible: categories.length > 0 }">
+      <canvas id="graph"></canvas>
+    </div>
+  </div>
 </section>
 @if(loading) {
 <mat-spinner></mat-spinner>

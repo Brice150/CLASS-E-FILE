@@ -25,17 +25,27 @@
       </div>
       <div class="container">
         <div class="label-container">
-          <i class="bx bxs-calendar-event"></i>
-          <span class="label">Ajoutés ce mois-ci :</span>
+          <i class="bx bxs-briefcase-alt-2"></i>
+          <span class="label">Total possédés :</span>
         </div>
-        <span class="value">{{ stats.totalAddedArticlesMonth }}</span>
+        <span class="value owned">{{ stats.totalOwnedArticles }}</span>
       </div>
       <div class="container">
         <div class="label-container">
-          <i class="bx bxs-calendar"></i>
-          <span class="label">Ajoutés cette année :</span>
+          <i class="bx bxs-cool"></i>
+          <span class="label">Total en attente :</span>
         </div>
-        <span class="value">{{ stats.totalAddedArticlesYear }}</span>
+        <span class="value wish">{{ stats.totalArticlesToWatch }}</span>
+      </div>
+      <div class="container">
+        <div class="label-container">
+          <i class="bx bxs-calendar-event"></i>
+          <span class="label">Ajoutés récemment :</span>
+        </div>
+        <span class="added"
+          ><span style="margin-right: 5px">+</span
+          >{{ stats.totalAddedArticlesMonth }}
+        </span>
       </div>
     </div>
     }

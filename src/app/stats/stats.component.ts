@@ -170,7 +170,7 @@ export class StatsComponent implements OnInit, OnDestroy {
             x: {
               title: {
                 display: true,
-                text: 'Date de création',
+                text: 'Date',
                 font: { size: 18, weight: 700 },
                 color: '#d12123',
               },
@@ -187,7 +187,7 @@ export class StatsComponent implements OnInit, OnDestroy {
             y: {
               title: {
                 display: true,
-                text: 'Nombre cumulé',
+                text: 'Quantité',
                 font: { size: 18, weight: 700 },
                 color: '#d12123',
               },
@@ -327,11 +327,12 @@ export class StatsComponent implements OnInit, OnDestroy {
     oneYearAgo.setFullYear(now.getFullYear() - 1);
 
     this.stats.totalArticles = allArticles.length ?? 0;
+    this.stats.totalOwnedArticles =
+      allArticles.filter((article) => article.isOwned).length ?? 0;
+    this.stats.totalArticlesToWatch =
+      allArticles.filter((article) => article.isWishlisted).length ?? 0;
     this.stats.totalAddedArticlesMonth =
       allArticles.filter((article) => article.creationDate >= oneMonthAgo)
-        .length ?? 0;
-    this.stats.totalAddedArticlesYear =
-      allArticles.filter((article) => article.creationDate >= oneYearAgo)
         .length ?? 0;
   }
 }

@@ -128,12 +128,20 @@ mat-form-field {
   font-size: 18px;
   font-weight: 500;
   color: var(--secondary);
-  width: 250px;
+  width: 205px;
 }
 
 .container i {
   font-size: 30px;
   color: var(--accent);
+}
+
+.container .added {
+  font-size: 18px;
+  text-align: center;
+  width: 100%;
+  color: var(--accent);
+  font-weight: 800;
 }
 
 .container .value {
@@ -142,6 +150,17 @@ mat-form-field {
   width: 100%;
   color: var(--accent);
   font-weight: 800;
+  background-color: var(--secondary);
+  padding: 4px 10px;
+  border-radius: 50%;
+}
+
+.container .value.owned {
+  color: var(--tertiary);
+}
+
+.container .value.wish {
+  color: var(--primary);
 }
 
 ::ng-deep .mat-mdc-select-panel {
@@ -235,22 +254,6 @@ mat-form-field {
 @media screen and (max-width: 600px) {
   .graph {
     height: 350px;
-    padding: 10px;
-  }
-}
-
-@media screen and (max-width: 375px) {
-  .container {
-    flex-direction: column;
-  }
-
-  .stats {
-    padding: 10px;
-  }
-}
-
-@media screen and (max-width: 340px) {
-  .stats {
     padding: 10px;
   }
 }

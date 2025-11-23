@@ -4,5 +4,6 @@ export interface Stats {
   totalArticlesToWatchByDate: number[];
   totalArticles: number;
   totalAddedArticlesMonth: number;
-  totalAddedArticlesYear: number;
+  totalOwnedArticles: number;
+  totalArticlesToWatch: number;
 }

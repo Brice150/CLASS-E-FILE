@@ -14,7 +14,7 @@
   width: 100%;
   max-width: 440px;
   background-color: var(--primary);
-  padding: 10px;
+  padding: 20px;
   border-radius: var(--light-radius);
   box-shadow: var(--box-shadow);
 }
@@ -109,7 +109,7 @@
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 649px) {
   .container .element {
     justify-content: center;
     flex-direction: column;

@@ -52,8 +52,9 @@ section .content {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 70%;
-  gap: 20px;
+  width: 85%;
+  max-width: 700px;
+  gap: 10px;
 }
 
 section .button-container {

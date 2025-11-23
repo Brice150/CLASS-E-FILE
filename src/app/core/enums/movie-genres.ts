@@ -2,6 +2,7 @@ export enum MovieGenres {
   Drame = 'Drame',
   Comedie = 'Comédie',
   Action = 'Action',
+  SuperHeros = 'Super-héros',
   Romance = 'Romance',
   Thriller = 'Thriller',
   Horreur = 'Horreur',

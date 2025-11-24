@@ -2,6 +2,7 @@ export enum BookGenres {
   Romance = 'Romance',
   NewRomance = 'New Romance',
   DarkRomance = 'Dark Romance',
+  Roman = 'Roman',
   Drame = 'Drame',
   Thriller = 'Thriller',
   Policier = 'Policier',
@@ -23,4 +24,5 @@ export enum BookGenres {
   Comedie = 'Comédie',
   Sport = 'Sport',
   YoungAdult = 'Young Adult',
+  BandeDessinee = 'Bande Dessinée',
 }

@@ -65,6 +65,16 @@
         cdkAutosizeMaxRows="10"
       ></textarea>
     </mat-form-field>
+    <mat-form-field class="title">
+      <mat-label>LIEN</mat-label>
+      <input
+        matInput
+        [(ngModel)]="article.link"
+        [ngModelOptions]="{ standalone: true }"
+        name="link"
+        type="text"
+      />
+    </mat-form-field>
     <div class="star-picker">
       <label>NOTE</label>
       <div class="stars">

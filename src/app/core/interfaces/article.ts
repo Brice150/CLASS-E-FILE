@@ -10,4 +10,5 @@ export interface Article {
   isPreferred: boolean;
   isWishlisted: boolean;
   isRecommended: boolean;
+  link?: string;
 }

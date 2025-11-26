@@ -373,6 +373,60 @@ mat-spinner {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+.button {
+  margin-top: 15px;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--primary);
+  color: var(--secondary);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--light-radius);
+  transition: color 0.4s ease;
+  width: 100px;
+  box-shadow: var(--box-shadow);
+  text-decoration: none;
+}
+
+.button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--secondary);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.button:hover::before {
+  width: 100%;
+}
+
+.button:hover {
+  color: var(--primary);
+}
+
+.button * {
+  position: relative;
+  z-index: 1;
+}
+
+.button i {
+  font-size: 30px;
+}
+
+.button .text {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
 ::ng-deep
   .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
   .mdc-evolution-chip__text-label {

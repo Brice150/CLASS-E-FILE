@@ -59,6 +59,12 @@
         </div>
         <span class="value">{{ article.description }}</span>
       </div>
+      @if (article.link) {
+      <a class="button" title="Voir" [href]="article.link" target="_blank">
+        <i class="bx bx-link"></i>
+        <span class="text">Voir</span>
+      </a>
+      }
       <div class="elements top">
         <div class="container boolean">
           <div class="label-container">

@@ -59,16 +59,17 @@ export class FilterDialogComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   currentGenre = model('');
   genres = signal<string[]>([]);
+  availableGenres: string[] = [];
   filteredGenres = computed(() => {
     const value = this.currentGenre().toLowerCase();
-    const all = this.getAvailableGenres();
+    const all = this.availableGenres;
     return value ? all.filter((g) => g.toLowerCase().includes(value)) : all;
   });
 
   constructor(
     public dialogRef: MatDialogRef<FilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { categoryTitle: string; article: Article }
+    public data: { categoryTitle: string; article: Article; genres: string[] }
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +78,7 @@ export class FilterDialogComponent implements OnInit {
       if (this.data.article) {
         this.article = this.data.article;
         this.genres.set(this.article.genres ? [...this.article.genres] : []);
+        this.availableGenres = this.data.genres;
       }
     }
   }
@@ -99,24 +101,6 @@ export class FilterDialogComponent implements OnInit {
       this.genres.update((list) => [...list, value]);
     }
     this.currentGenre.set('');
-  }
-
-  getAvailableGenres(): string[] {
-    switch (this.categoryTitle) {
-      case this.moviesTitle:
-      case this.seriesTitle:
-        return Object.values(MovieGenres);
-      case this.musicTitle:
-        return Object.values(MusicGenres);
-      case this.boardGamesTitle:
-        return Object.values(BoardGameGenres);
-      case this.videoGamesTitle:
-        return Object.values(VideoGameGenres);
-      case this.booksTitle:
-        return Object.values(BookGenres);
-      default:
-        return [];
-    }
   }
 
   cancel(): void {

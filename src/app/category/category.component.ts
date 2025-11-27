@@ -252,6 +252,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       data: {
         categoryTitle: this.category.title,
         article: this.articleFilter,
+        genres: this.category.articles.flatMap((article) => article.genres),
       },
       autoFocus: false,
     });

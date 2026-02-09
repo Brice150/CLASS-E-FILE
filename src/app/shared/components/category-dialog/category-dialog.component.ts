@@ -43,11 +43,12 @@ export class CategoryDialogComponent implements OnInit {
       this.isUpdateMode = this.category && !!this.category.title;
       this.imagePreview = this.category?.image;
     }
+    this.filteredTitles.set(this.allTitles());
   }
 
-  filterTitles(value: string) {
-    if (!value) {
-      this.filteredTitles.set([]);
+  filterTitles(value: string | null) {
+    if (!value || value.trim() === '') {
+      this.filteredTitles.set(this.allTitles());
       return;
     }
 

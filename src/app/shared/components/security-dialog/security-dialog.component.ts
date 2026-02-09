@@ -54,7 +54,7 @@ export class SecurityDialogComponent implements OnInit {
           ],
         ],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: this.passwordMatchValidator },
     );
   }
 

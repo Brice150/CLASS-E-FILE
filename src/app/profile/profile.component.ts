@@ -48,22 +48,19 @@ export class ProfileComponent implements OnDestroy {
       .pipe(
         filter((res) => !!res),
         switchMap((user: User) => {
-          this.loading = true;
           user.email = this.userService.currentUserSig()?.email!;
           return this.profileService.updateProfile(user);
         }),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe({
         next: () => {
-          this.loading = false;
           this.toastr.info('Profil modifié', 'Profil', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
-          this.loading = false;
           if (error.message.includes('auth/requires-recent-login')) {
             this.toastr.info(
               'Merci de vous déconnecter et de vous reconnecter pour effectuer cette action',
@@ -71,7 +68,7 @@ export class ProfileComponent implements OnDestroy {
               {
                 positionClass: 'toast-bottom-center',
                 toastClass: 'ngx-toastr custom error',
-              }
+              },
             );
           } else {
             this.toastr.info(error.message, 'Profil', {
@@ -100,17 +97,17 @@ export class ProfileComponent implements OnDestroy {
           this.profileService.deleteProfile().pipe(
             catchError(() => {
               return of(undefined);
-            })
-          )
+            }),
+          ),
         ),
         switchMap(() =>
           this.userService.logout().pipe(
             catchError(() => {
               return of(undefined);
-            })
-          )
+            }),
+          ),
         ),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe({
         next: () => {
@@ -130,7 +127,7 @@ export class ProfileComponent implements OnDestroy {
               {
                 positionClass: 'toast-bottom-center',
                 toastClass: 'ngx-toastr custom error',
-              }
+              },
             );
           } else {
             this.toastr.info(error.message, 'Profil', {

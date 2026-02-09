@@ -1,8 +1,8 @@
 <section mat-dialog-content class="dialog">
   @if (article && article.title) {
-  <h1>Modifier Élément</h1>
-  }@else {
-  <h1>Ajouter Élément</h1>
+    <h1>Modifier Élément</h1>
+  } @else {
+    <h1>Ajouter Élément</h1>
   }
   <form class="content" (ngSubmit)="confirm()">
     <mat-form-field class="title">
@@ -23,12 +23,12 @@
 
       <mat-chip-grid #chipGrid>
         @for (genre of genres(); track $index) {
-        <mat-chip-row (removed)="remove(genre)">
-          {{ genre }}
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip-row>
+          <mat-chip-row (removed)="remove(genre)">
+            {{ genre }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
         }
       </mat-chip-grid>
       <input
@@ -46,9 +46,9 @@
         (optionSelected)="selected($event); genreInput.value = ''"
       >
         @for (genre of filteredGenres(); track genre) {
-        <mat-option [value]="genre">
-          {{ genre }}
-        </mat-option>
+          <mat-option [value]="genre">
+            {{ genre }}
+          </mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
@@ -79,21 +79,21 @@
       <label>NOTE</label>
       <div class="stars">
         @for (star of getStarsArray(); track $index) {
-        <span
-          class="star"
-          (mousemove)="setHoverFromMouse($event, $index)"
-          (click)="setGradeFromMouse($event, $index)"
-          (mouseleave)="clearHover()"
-        >
-          <i
-            class="bx"
-            [ngClass]="{
-              'bxs-star': isFull($index + 1),
-              'bxs-star-half': isHalf($index + 1),
-              'bx-star': !isFull($index + 1) && !isHalf($index + 1)
-            }"
-          ></i>
-        </span>
+          <span
+            class="star"
+            (mousemove)="setHoverFromMouse($event, $index)"
+            (click)="setGradeFromMouse($event, $index)"
+            (mouseleave)="clearHover()"
+          >
+            <i
+              class="bx"
+              [ngClass]="{
+                'bxs-star': isFull($index + 1),
+                'bxs-star-half': isHalf($index + 1),
+                'bx-star': !isFull($index + 1) && !isHalf($index + 1),
+              }"
+            ></i>
+          </span>
         }
       </div>
     </div>
@@ -110,7 +110,7 @@
         accept=".jpg, .jpeg, .png, .webp"
       />
       @if (imagePreview) {
-      <img [src]="imagePreview" alt="Image preview" />
+        <img [src]="imagePreview" alt="Image preview" />
       }
     </div>
     <div class="toggle-container">

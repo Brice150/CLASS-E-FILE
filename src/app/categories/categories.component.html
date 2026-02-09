@@ -4,27 +4,27 @@
     <h1>Class E-File</h1>
   </div>
   @if (!loading) {
-  <div class="content">
-    <div class="categories">
-      @for (category of categories; track $index) {
-      <app-category-card
-        [category]="category"
-        (updateCategoryEvent)="updateCategory(category)"
-        (deleteCategoryEvent)="deleteCategory(category.id!)"
-      ></app-category-card>
-      }
+    <div class="content">
+      <div class="categories">
+        @for (category of categories; track $index) {
+          <app-category-card
+            [category]="category"
+            (updateCategoryEvent)="updateCategory(category)"
+            (deleteCategoryEvent)="deleteCategory(category.id!)"
+          ></app-category-card>
+        }
+      </div>
+      <button
+        type="button"
+        (click)="addCategory()"
+        class="add"
+        title="Ajouter catégorie"
+      >
+        <i class="bx bx-plus"></i>
+      </button>
     </div>
-    <button
-      type="button"
-      (click)="addCategory()"
-      class="add"
-      title="Ajouter catégorie"
-    >
-      <i class="bx bx-plus"></i>
-    </button>
-  </div>
   }
 </section>
 @if (loading) {
-<mat-spinner></mat-spinner>
+  <mat-spinner></mat-spinner>
 }

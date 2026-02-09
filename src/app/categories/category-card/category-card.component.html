@@ -11,18 +11,19 @@
   </div>
   <div class="title">
     @if (category().image) {
-    <img [src]="category().image" [alt]="category().title" />
+      <img [src]="category().image" [alt]="category().title" />
     } @else {
-    <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
-    } @if (category().articles.length) {
-    <span
-      >{{ category().title }} (<span style="color: var(--secondary)">{{
-        category().articles.length
-      }}</span
-      >)</span
-    >
-    }@else {
-    <span>{{ category().title }}</span>
+      <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
+    }
+    @if (category().articles.length) {
+      <span
+        >{{ category().title }} (<span style="color: var(--secondary)">{{
+          category().articles.length
+        }}</span
+        >)</span
+      >
+    } @else {
+      <span>{{ category().title }}</span>
     }
   </div>
   <button

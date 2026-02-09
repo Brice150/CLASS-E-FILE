@@ -25,9 +25,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ToastrService } from 'ngx-toastr';
-import { firstCategories } from '../../../../assets/data/first-categories';
 import { BoardGameGenres } from '../../../core/enums/board-game-genres';
 import { BookGenres } from '../../../core/enums/book-genres';
+import { DefaultCategories } from '../../../core/enums/default-categories';
 import { MovieGenres } from '../../../core/enums/movie-genres';
 import { MusicGenres } from '../../../core/enums/music-genres';
 import { VideoGameGenres } from '../../../core/enums/video-game-genres';
@@ -55,12 +55,6 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
   toastr = inject(ToastrService);
   imagePreview: string | null = null;
   hoverGrade: number | null = null;
-  moviesTitle = firstCategories[0].title;
-  seriesTitle = firstCategories[1].title;
-  musicTitle = firstCategories[2].title;
-  boardGamesTitle = firstCategories[3].title;
-  videoGamesTitle = firstCategories[4].title;
-  booksTitle = firstCategories[5].title;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   currentGenre = model('');
   genres = signal<string[]>([]);
@@ -74,7 +68,7 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
   constructor(
     public dialogRef: MatDialogRef<ArticleDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { categoryTitle: string; article: Article }
+    public data: { categoryTitle: string; article: Article },
   ) {}
 
   ngOnInit(): void {
@@ -115,16 +109,15 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
 
   getAvailableGenres(): string[] {
     switch (this.categoryTitle) {
-      case this.moviesTitle:
-      case this.seriesTitle:
+      case DefaultCategories.FilmsSeries:
         return Object.values(MovieGenres);
-      case this.musicTitle:
+      case DefaultCategories.Musiques:
         return Object.values(MusicGenres);
-      case this.boardGamesTitle:
+      case DefaultCategories.JeuxSociete:
         return Object.values(BoardGameGenres);
-      case this.videoGamesTitle:
+      case DefaultCategories.JeuxVideos:
         return Object.values(VideoGameGenres);
-      case this.booksTitle:
+      case DefaultCategories.Livres:
         return Object.values(BookGenres);
       default:
         return [];

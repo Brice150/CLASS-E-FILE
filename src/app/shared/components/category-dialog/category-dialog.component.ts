@@ -27,7 +27,7 @@ export class CategoryDialogComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: Category
+    @Inject(MAT_DIALOG_DATA) public data: Category,
   ) {}
 
   ngOnInit(): void {

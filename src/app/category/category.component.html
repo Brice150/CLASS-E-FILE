@@ -1,94 +1,87 @@
 <section>
   @if (!loading) {
-  <div class="title">
-    @if (category.image) {
-    <img [src]="category.image" [alt]="category.title" />
-    }@else {
-    <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
-    }
-    <h1>{{ category.title }}</h1>
-  </div>
-  <div class="content">
-    <form [formGroup]="searchForm">
-      <mat-form-field>
-        <mat-label>RECHERCHER</mat-label>
-        <input matInput formControlName="search" />
-        <button mat-icon-button matSuffix type="button">
-          <mat-icon>search</mat-icon>
-        </button>
-      </mat-form-field>
-      <div class="button-container">
-        @if (isTouched) {
-        <button
-          type="button"
-          class="dots cancel"
-          title="Annuler"
-          (click)="resetFilters()"
-        >
-          <i class="bx bx-x"></i>
-        </button>
-        } @if (isSortedDesc) {
-        <button
-          type="button"
-          class="dots"
-          title="Trier par note"
-          (click)="sortArticles()"
-        >
-          <i class="bx bx-sort-down"></i>
-        </button>
-        } @else {
-        <button
-          type="button"
-          class="dots"
-          title="Trier par note"
-          (click)="sortArticles()"
-        >
-          <i class="bx bx-sort-up"></i>
-        </button>
-        }
-
-        <button
-          type="button"
-          class="view"
-          title="Filtrer"
-          (click)="openFilter()"
-        >
-          <i class="bx bxs-filter-alt"></i>
-          <span class="text">Filtrer</span>
-        </button>
-      </div>
-    </form>
-    <div class="categories">
-      @for (article of filteredArticles; track $index) {
-      <app-article-card
-        [article]="article"
-        [categoryId]="category.id!"
-        (recommendArticleEvent)="recommendArticle(article)"
-        (updateArticleEvent)="updateArticle(article)"
-        (deleteArticleEvent)="deleteArticle(article.id!)"
-      ></app-article-card>
-      } @empty {
-      <div class="empty">Aucun élément dans cette catégorie</div>
+    <div class="title">
+      @if (category.image) {
+        <img [src]="category.image" [alt]="category.title" />
+      } @else {
+        <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
       }
+      <h1>{{ category.title }}</h1>
     </div>
-    <button
-      type="button"
-      (click)="addArticle()"
-      class="add"
-      title="Ajouter élément"
-    >
-      <i class="bx bx-plus"></i>
-    </button>
-  </div>
+    <div class="content">
+      <form [formGroup]="searchForm">
+        <mat-form-field>
+          <mat-label>RECHERCHER</mat-label>
+          <input matInput formControlName="search" />
+          <button mat-icon-button matSuffix type="button">
+            <mat-icon>search</mat-icon>
+          </button>
+        </mat-form-field>
+        <div class="button-container">
+          @if (isTouched) {
+            <button
+              type="button"
+              class="dots cancel"
+              title="Annuler"
+              (click)="resetFilters()"
+            >
+              <i class="bx bx-x"></i>
+            </button>
+          }
+          @if (isSortedDesc) {
+            <button
+              type="button"
+              class="dots"
+              title="Trier par note"
+              (click)="sortArticles()"
+            >
+              <i class="bx bx-sort-down"></i>
+            </button>
+          } @else {
+            <button
+              type="button"
+              class="dots"
+              title="Trier par note"
+              (click)="sortArticles()"
+            >
+              <i class="bx bx-sort-up"></i>
+            </button>
+          }
+
+          <button
+            type="button"
+            class="view"
+            title="Filtrer"
+            (click)="openFilter()"
+          >
+            <i class="bx bxs-filter-alt"></i>
+            <span class="text">Filtrer</span>
+          </button>
+        </div>
+      </form>
+      <div class="categories">
+        @for (article of filteredArticles; track $index) {
+          <app-article-card
+            [article]="article"
+            [categoryId]="category.id!"
+            (updateArticleEvent)="updateArticle(article)"
+            (deleteArticleEvent)="deleteArticle(article.id!)"
+          ></app-article-card>
+        } @empty {
+          <div class="empty">Aucun élément dans cette catégorie</div>
+        }
+      </div>
+      <button
+        type="button"
+        (click)="addArticle()"
+        class="add"
+        title="Ajouter élément"
+      >
+        <i class="bx bx-plus"></i>
+      </button>
+    </div>
   }
 </section>
-@if (!loading && showRecommendButton) {
-<div class="reco-container">
-  <button type="button" class="reco" title="Recommander" (click)="cleanAll()">
-    <i class="bx bxs-user-voice"></i>
-    <span class="text">Recommander</span>
-  </button>
-</div>
-} @if (loading) {
-<mat-spinner></mat-spinner>
+@if (loading) {
+  <mat-spinner></mat-spinner>
 }

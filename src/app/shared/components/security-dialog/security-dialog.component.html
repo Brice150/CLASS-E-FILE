@@ -18,16 +18,18 @@
       >
         <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
       </button>
-      @if (securityForm.get('password')!.invalid) {
-      <mat-error>
-        @if (securityForm.get('password')!.hasError('required')) {
-        <span>Ce champ est requis</span>
-        } @if (securityForm.get('password')!.hasError('minlength')) {
-        <span>Ce champ est trop court</span>
-        } @if (securityForm.get('password')!.hasError('maxlength')) {
-        <span>Ce champ est trop long</span>
-        }
-      </mat-error>
+      @if (securityForm.get("password")!.invalid) {
+        <mat-error>
+          @if (securityForm.get("password")!.hasError("required")) {
+            <span>Ce champ est requis</span>
+          }
+          @if (securityForm.get("password")!.hasError("minlength")) {
+            <span>Ce champ est trop court</span>
+          }
+          @if (securityForm.get("password")!.hasError("maxlength")) {
+            <span>Ce champ est trop long</span>
+          }
+        </mat-error>
       }
     </mat-form-field>
     <mat-form-field>
@@ -49,22 +51,29 @@
           hideDuplicate ? "visibility_off" : "visibility"
         }}</mat-icon>
       </button>
-      @if (securityForm.get('passwordConfirmation')!.invalid) {
-      <mat-error>
-        @if (securityForm.get('passwordConfirmation')!.hasError('required')) {
-        <span>Ce champ est requis</span>
-        } @if (securityForm.get('passwordConfirmation')!.hasError('minlength'))
-        {
-        <span>Ce champ est trop court</span>
-        } @if (securityForm.get('passwordConfirmation')!.hasError('maxlength'))
-        {
-        <span>Ce champ est trop long</span>
-        } @if
-        (securityForm.get('passwordConfirmation')!.hasError('passwordMismatch'))
-        {
-        <span>Les mots de passe ne correspondent pas</span>
-        }
-      </mat-error>
+      @if (securityForm.get("passwordConfirmation")!.invalid) {
+        <mat-error>
+          @if (securityForm.get("passwordConfirmation")!.hasError("required")) {
+            <span>Ce champ est requis</span>
+          }
+          @if (
+            securityForm.get("passwordConfirmation")!.hasError("minlength")
+          ) {
+            <span>Ce champ est trop court</span>
+          }
+          @if (
+            securityForm.get("passwordConfirmation")!.hasError("maxlength")
+          ) {
+            <span>Ce champ est trop long</span>
+          }
+          @if (
+            securityForm
+              .get("passwordConfirmation")!
+              .hasError("passwordMismatch")
+          ) {
+            <span>Les mots de passe ne correspondent pas</span>
+          }
+        </mat-error>
       }
     </mat-form-field>
     <div class="button-container">

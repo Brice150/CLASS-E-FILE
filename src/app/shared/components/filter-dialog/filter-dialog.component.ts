@@ -22,12 +22,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { ToastrService } from 'ngx-toastr';
-import { firstCategories } from '../../../../assets/data/first-categories';
-import { BoardGameGenres } from '../../../core/enums/board-game-genres';
-import { BookGenres } from '../../../core/enums/book-genres';
-import { MovieGenres } from '../../../core/enums/movie-genres';
-import { MusicGenres } from '../../../core/enums/music-genres';
-import { VideoGameGenres } from '../../../core/enums/video-game-genres';
 import { Article } from '../../../core/interfaces/article';
 
 @Component({
@@ -50,12 +44,6 @@ export class FilterDialogComponent implements OnInit {
   article: Article = {} as Article;
   categoryTitle?: string;
   toastr = inject(ToastrService);
-  moviesTitle = firstCategories[0].title;
-  seriesTitle = firstCategories[1].title;
-  musicTitle = firstCategories[2].title;
-  boardGamesTitle = firstCategories[3].title;
-  videoGamesTitle = firstCategories[4].title;
-  booksTitle = firstCategories[5].title;
   separatorKeysCodes: number[] = [ENTER, COMMA];
   currentGenre = model('');
   genres = signal<string[]>([]);
@@ -69,7 +57,7 @@ export class FilterDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<FilterDialogComponent>,
     @Inject(MAT_DIALOG_DATA)
-    public data: { categoryTitle: string; article: Article; genres: string[] }
+    public data: { categoryTitle: string; article: Article; genres: string[] },
   ) {}
 
   ngOnInit(): void {

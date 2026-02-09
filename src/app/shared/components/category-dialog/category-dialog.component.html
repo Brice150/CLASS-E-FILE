@@ -1,8 +1,8 @@
 <section mat-dialog-content>
   @if (category && category.title) {
-  <h1>Modifier Catégorie</h1>
-  }@else {
-  <h1>Ajouter Catégorie</h1>
+    <h1>Modifier Catégorie</h1>
+  } @else {
+    <h1>Ajouter Catégorie</h1>
   }
   <form class="content" (ngSubmit)="confirm()">
     <mat-form-field class="title">
@@ -31,7 +31,7 @@
         accept=".jpg, .jpeg, .png, .webp"
       />
       @if (imagePreview) {
-      <img [src]="imagePreview" alt="Image preview" />
+        <img [src]="imagePreview" alt="Image preview" />
       }
     </div>
     <div class="button-container">

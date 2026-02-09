@@ -7,20 +7,27 @@
 }
 
 nav {
-  margin-top: 10px;
-  padding: 5px 0;
-  max-width: 700px;
-  width: 90%;
-  background-color: var(--primary);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
-  border-radius: var(--light-radius);
+  flex-direction: column;
+  gap: 30px;
+  width: 100%;
+  height: 100dvh;
+  padding: 5px 0;
+  background-color: var(--primary);
   box-shadow: var(--box-shadow);
-  transition: all 0.4s ease;
-  z-index: 100;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-100%);
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s ease,
+    visibility 0.4s;
 }
 
 nav button {
@@ -99,7 +106,7 @@ nav button.active .text {
 
 .hamburger {
   overflow: hidden;
-  display: none;
+  display: flex;
   justify-content: center;
   align-items: center;
   cursor: pointer;
@@ -117,33 +124,8 @@ nav button.active .text {
   box-shadow: var(--box-shadow);
 }
 
-@media (max-width: 767px) {
-  .hamburger {
-    display: flex;
-  }
-
-  nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100dvh;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background-color: var(--primary);
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-100%);
-    transition: all 0.4s ease;
-    gap: 30px;
-    border-radius: 0;
-    max-width: unset;
-  }
-
-  nav.open {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(-12px);
-  }
+nav.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(-12px);
 }

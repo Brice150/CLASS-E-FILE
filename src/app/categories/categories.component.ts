@@ -1,17 +1,18 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Timestamp } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { filter, Subject, switchMap, takeUntil } from 'rxjs';
+import { firstCategories } from '../../assets/data/first-categories';
 import { environment } from '../../environments/environment';
 import { Category } from '../core/interfaces/category';
 import { CategoryService } from '../core/services/category.service';
 import { CategoryDialogComponent } from '../shared/components/category-dialog/category-dialog.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { CategoryCardComponent } from './category-card/category-card.component';
-import { firstCategories } from '../../assets/data/first-categories';
 
 @Component({
   selector: 'app-categories',
@@ -27,7 +28,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   toastr = inject(ToastrService);
   dialog = inject(MatDialog);
-  showRecommendButton = false;
 
   ngOnInit(): void {
     this.categoryService
@@ -36,30 +36,28 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (categories: Category[]) => {
           if (categories?.length >= 1) {
-            this.categories = categories.sort((a, b) => {
-              const dateA =
-                a.creationDate instanceof Date
-                  ? a.creationDate.getTime()
-                  : a.creationDate?.seconds * 1000 +
-                    Math.floor((a.creationDate?.nanoseconds || 0) / 1_000_000);
-
-              const dateB =
-                b.creationDate instanceof Date
-                  ? b.creationDate.getTime()
-                  : b.creationDate?.seconds * 1000 +
-                    Math.floor((b.creationDate?.nanoseconds || 0) / 1_000_000);
-
-              if (dateA !== dateB) {
-                return dateA - dateB;
-              }
-
-              return a.title.localeCompare(b.title);
-            });
-
-            this.showRecommendButton =
-              this.categories?.some((category) =>
-                category.articles?.some((article) => article.isRecommended)
-              ) ?? false;
+            this.categories = categories
+              .map((c) => ({
+                ...c,
+                creationDate:
+                  c.creationDate instanceof Timestamp
+                    ? c.creationDate.toDate()
+                    : new Date(c.creationDate),
+                articles: c.articles.map((a) => ({
+                  ...a,
+                  creationDate:
+                    a.creationDate instanceof Timestamp
+                      ? a.creationDate.toDate()
+                      : new Date(a.creationDate),
+                })),
+              }))
+              .sort((a, b) => {
+                const dateA = a.creationDate.getTime();
+                const dateB = b.creationDate.getTime();
+                return dateA !== dateB
+                  ? dateA - dateB
+                  : a.title.localeCompare(b.title);
+              });
 
             this.loading = false;
           } else {
@@ -84,8 +82,6 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   initFirstCategories(): void {
-    this.loading = true;
-
     this.categoryService
       .addCategories(firstCategories)
       .pipe(takeUntil(this.destroyed$))
@@ -113,22 +109,19 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       .pipe(
         filter((res) => !!res),
         switchMap((res: Category) => {
-          this.loading = true;
           res.creationDate = new Date();
           return this.categoryService.addCategory(res);
         }),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe({
         next: () => {
-          this.loading = false;
           this.toastr.info('Catégorie ajoutée', 'Catégories', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
-          this.loading = false;
           if (!error.message.includes('Missing or insufficient permissions.')) {
             this.toastr.error(error.message, 'Catégories', {
               positionClass: 'toast-bottom-center',
@@ -150,24 +143,21 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         .pipe(
           filter((res: boolean) => res),
           switchMap(() => {
-            this.loading = true;
             return this.categoryService.deleteCategory(categoryId);
           }),
-          takeUntil(this.destroyed$)
+          takeUntil(this.destroyed$),
         )
         .subscribe({
           next: () => {
             this.categories = this.categories.filter(
-              (category) => category.id !== categoryId
+              (category) => category.id !== categoryId,
             );
-            this.loading = false;
             this.toastr.info('Catégorie supprimée', 'Catégories', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom info',
             });
           },
           error: (error: HttpErrorResponse) => {
-            this.loading = false;
             if (
               !error.message.includes('Missing or insufficient permissions.')
             ) {
@@ -185,7 +175,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         {
           positionClass: 'toast-bottom-center',
           toastClass: 'ngx-toastr custom error',
-        }
+        },
       );
     }
   }
@@ -200,21 +190,18 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       .pipe(
         filter((res) => !!res),
         switchMap((res: Category) => {
-          this.loading = true;
           return this.categoryService.updateCategory(res);
         }),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe({
         next: () => {
-          this.loading = false;
           this.toastr.info('Catégorie modifiée', 'Catégories', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
-          this.loading = false;
           if (!error.message.includes('Missing or insufficient permissions.')) {
             this.toastr.error(error.message, 'Catégories', {
               positionClass: 'toast-bottom-center',

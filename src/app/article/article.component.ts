@@ -13,7 +13,6 @@ import { Category } from '../core/interfaces/category';
 import { CategoryService } from '../core/services/category.service';
 import { ArticleDialogComponent } from '../shared/components/article-dialog/article-dialog.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { RecoDialogComponent } from '../shared/components/reco-dialog/reco-dialog.component';
 
 @Component({
   selector: 'app-article',
@@ -33,7 +32,6 @@ export class ArticleComponent implements OnInit, OnDestroy {
   activatedRoute = inject(ActivatedRoute);
   dialog = inject(MatDialog);
   articleId?: number;
-  showRecommendButton = false;
 
   ngOnInit(): void {
     this.activatedRoute.params
@@ -44,24 +42,19 @@ export class ArticleComponent implements OnInit, OnDestroy {
           this.articleId = params['articleId'];
 
           return this.categoryService.getCategory(categoryId);
-        })
+        }),
       )
       .subscribe({
         next: (category: Category | null) => {
           if (category) {
             this.category = category;
             const index = this.category.articles.findIndex(
-              (a) => Number(a.id) === Number(this.articleId)
+              (a) => Number(a.id) === Number(this.articleId),
             );
 
             if (index !== -1) {
               this.article = this.category.articles[index];
             }
-
-            this.showRecommendButton =
-              this.category.articles?.some(
-                (article) => article.isRecommended
-              ) ?? false;
           }
           this.loading = false;
         },
@@ -107,30 +100,27 @@ export class ArticleComponent implements OnInit, OnDestroy {
       .pipe(
         filter((res: boolean) => res),
         switchMap(() => {
-          this.loading = true;
           const index = this.category.articles.findIndex(
-            (a) => a.id === this.article.id
+            (a) => a.id === this.article.id,
           );
           if (index !== -1) {
             this.category.articles.splice(index, 1);
           }
           return this.categoryService.updateCategory(this.category);
         }),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe({
         next: () => {
           this.router.navigate([
             '/categories/' + this.category.id + '/articles',
           ]);
-          this.loading = false;
           this.toastr.info('Élément supprimé', 'Catégorie', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
-          this.loading = false;
           if (!error.message.includes('Missing or insufficient permissions.')) {
             this.toastr.error(error.message, 'Catégorie', {
               positionClass: 'toast-bottom-center',
@@ -154,76 +144,24 @@ export class ArticleComponent implements OnInit, OnDestroy {
       .pipe(
         filter((res) => !!res),
         switchMap((res: Article) => {
-          this.loading = true;
           const index = this.category.articles.findIndex(
-            (a) => a.id === res.id
+            (a) => a.id === res.id,
           );
           if (index !== -1) {
             this.category.articles[index] = res;
           }
           return this.categoryService.updateCategory(this.category);
         }),
-        takeUntil(this.destroyed$)
+        takeUntil(this.destroyed$),
       )
       .subscribe({
         next: () => {
-          this.loading = false;
           this.toastr.info('Élément modifié', 'Catégorie', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
-          this.loading = false;
-          if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégorie', {
-              positionClass: 'toast-bottom-center',
-              toastClass: 'ngx-toastr custom error',
-            });
-          }
-        },
-      });
-  }
-
-  recommendArticle(): void {
-    this.article.isRecommended = !this.article.isRecommended;
-
-    this.categoryService
-      .updateCategory(this.category)
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe();
-  }
-
-  cleanAll(): void {
-    const dialogRef = this.dialog.open(RecoDialogComponent, {
-      data: structuredClone(
-        this.category.articles.filter((article) => article.isRecommended)
-      ),
-    });
-
-    dialogRef
-      .afterClosed()
-      .pipe(
-        filter((res) => !!res),
-        switchMap(() => {
-          this.loading = true;
-          this.category.articles.forEach((article) => {
-            article.isRecommended = false;
-          });
-          return this.categoryService.updateCategory(this.category);
-        }),
-        takeUntil(this.destroyed$)
-      )
-      .subscribe({
-        next: () => {
-          this.loading = false;
-          this.toastr.info('Recommandations nettoyées', 'Catégorie', {
-            positionClass: 'toast-bottom-center',
-            toastClass: 'ngx-toastr custom info',
-          });
-        },
-        error: (error: HttpErrorResponse) => {
-          this.loading = false;
           if (!error.message.includes('Missing or insufficient permissions.')) {
             this.toastr.error(error.message, 'Catégorie', {
               positionClass: 'toast-bottom-center',

@@ -1,25 +1,28 @@
-<div class="article" [ngClass]="{ active: article().isRecommended }">
+<div class="article">
   <div class="title-container">
     <span class="title">{{ article().title }}</span>
     <mat-chip-set>
-      @for (genre of article().genres; track $index) { @if($index < 2) {
-      <mat-chip [title]="genre">{{ genre }}</mat-chip>
-      } } @if (article().genres.length >= 3) {
-      <mat-chip [title]="article().genres.slice(2).join(', ')">...</mat-chip>
+      @for (genre of article().genres; track $index) {
+        @if ($index < 2) {
+          <mat-chip [title]="genre">{{ genre }}</mat-chip>
+        }
+      }
+      @if (article().genres.length >= 3) {
+        <mat-chip [title]="article().genres.slice(2).join(', ')">...</mat-chip>
       }
     </mat-chip-set>
   </div>
   <div class="button-container">
     <div class="stars">
       @for (star of getStars(article().grade); track $index) {
-      <i
-        class="bx"
-        [ngClass]="{
-          'bxs-star': star === 'full',
-          'bxs-star-half': star === 'half',
-          'bx-star': star === 'empty'
-        }"
-      ></i>
+        <i
+          class="bx"
+          [ngClass]="{
+            'bxs-star': star === 'full',
+            'bxs-star-half': star === 'half',
+            'bx-star': star === 'empty',
+          }"
+        ></i>
       }
     </div>
     <div class="buttons">
@@ -38,27 +41,6 @@
     </div>
 
     <mat-menu #menu="matMenu">
-      @if (article().isRecommended) {
-      <button
-        mat-menu-item
-        (click)="recommend()"
-        class="reco"
-        title="S'abstenir"
-      >
-        <i class="bx bxs-user-x"></i>
-        <span class="description">S'abstenir</span>
-      </button>
-      } @else {
-      <button
-        mat-menu-item
-        (click)="recommend()"
-        class="reco"
-        title="Conseiller"
-      >
-        <i class="bx bxs-user-voice"></i>
-        <span class="description">Conseiller</span>
-      </button>
-      }
       <button mat-menu-item (click)="update()" class="update" title="Modifier">
         <i class="bx bxs-edit-alt"></i>
         <span class="description">Modifier</span>

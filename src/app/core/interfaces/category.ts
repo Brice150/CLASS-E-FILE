@@ -4,7 +4,7 @@ export interface Category {
   id?: string;
   image: string | null;
   title: string;
-  creationDate: Date | { seconds: number; nanoseconds: number };
+  creationDate: Date;
   articles: Article[];
   userId?: string;
 }

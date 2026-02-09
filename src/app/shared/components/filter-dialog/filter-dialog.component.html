@@ -6,12 +6,12 @@
 
       <mat-chip-grid #chipGrid>
         @for (genre of genres(); track $index) {
-        <mat-chip-row (removed)="remove(genre)">
-          {{ genre }}
-          <button matChipRemove>
-            <mat-icon>cancel</mat-icon>
-          </button>
-        </mat-chip-row>
+          <mat-chip-row (removed)="remove(genre)">
+            {{ genre }}
+            <button matChipRemove>
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
         }
       </mat-chip-grid>
       <input
@@ -29,9 +29,9 @@
         (optionSelected)="selected($event); genreInput.value = ''"
       >
         @for (genre of filteredGenres(); track genre) {
-        <mat-option [value]="genre">
-          {{ genre }}
-        </mat-option>
+          <mat-option [value]="genre">
+            {{ genre }}
+          </mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
@@ -56,13 +56,6 @@
         name="isWishlisted"
       >
         Sur liste d'attente
-      </mat-slide-toggle>
-      <mat-slide-toggle
-        [(ngModel)]="article.isRecommended"
-        [ngModelOptions]="{ standalone: true }"
-        name="isRecommended"
-      >
-        En recommandation
       </mat-slide-toggle>
     </div>
     <div class="button-container">

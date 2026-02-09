@@ -1,171 +1,130 @@
 <section>
-  <div class="title" [ngClass]="{ active: article.isRecommended }">
+  <div class="title">
     <h1>{{ article.title }}</h1>
   </div>
   @if (!loading) {
-  <div class="content">
-    <div class="article">
-      <div class="flex">
-        <div class="image">
-          @if (article.image) {
-          <img [src]="article.image" [alt]="article.title" />
-          } @else {
-          <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
-          }
+    <div class="content">
+      <div class="article">
+        <div class="flex">
+          <div class="image">
+            @if (article.image) {
+              <img [src]="article.image" [alt]="article.title" />
+            } @else {
+              <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
+            }
+          </div>
+          <div class="elements">
+            <div class="container">
+              <div class="label-container">
+                <i class="bx bxs-folder-open"></i>
+                <span class="label">Catégorie :</span>
+              </div>
+              <span class="value ellipsis">{{ category.title }}</span>
+            </div>
+            <div class="container">
+              <div class="label-container">
+                <i class="bx bxs-category"></i>
+                <span class="label">Genres :</span>
+              </div>
+              <mat-chip-set>
+                @for (genre of article.genres; track $index) {
+                  <mat-chip [title]="genre">{{ genre }}</mat-chip>
+                }
+              </mat-chip-set>
+            </div>
+            <div class="container">
+              <div class="label-container">
+                <i class="bx bxs-bookmark-star"></i>
+                <span class="label">Note :</span>
+              </div>
+              <div class="stars">
+                @for (star of getStars(article.grade); track $index) {
+                  <i
+                    class="bx"
+                    [ngClass]="{
+                      'bxs-star': star === 'full',
+                      'bxs-star-half': star === 'half',
+                      'bx-star': star === 'empty',
+                    }"
+                  ></i>
+                }
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="elements">
-          <div class="container">
-            <div class="label-container">
-              <i class="bx bxs-folder-open"></i>
-              <span class="label">Catégorie :</span>
-            </div>
-            <span class="value ellipsis">{{ category.title }}</span>
+        <div class="description-container">
+          <div class="label-container">
+            <i class="bx bxs-spreadsheet"></i>
+            <span class="label">Description :</span>
           </div>
-          <div class="container">
+          <span class="value">{{ article.description }}</span>
+        </div>
+        @if (article.link) {
+          <a class="button" title="Voir" [href]="article.link" target="_blank">
+            <i class="bx bx-link"></i>
+            <span class="text">Voir</span>
+          </a>
+        }
+        <div class="elements top">
+          <div class="container boolean">
             <div class="label-container">
-              <i class="bx bxs-category"></i>
-              <span class="label">Genres :</span>
+              <i class="bx bxs-briefcase-alt-2"></i>
+              <span class="label">Vous appartient :</span>
             </div>
-            <mat-chip-set>
-              @for (genre of article.genres; track $index) {
-              <mat-chip [title]="genre">{{ genre }}</mat-chip>
+            <div class="i-value">
+              @if (article.isOwned) {
+                <i class="bx bx-check"></i>
+              } @else {
+                <i class="bx bx-x"></i>
               }
-            </mat-chip-set>
-          </div>
-          <div class="container">
-            <div class="label-container">
-              <i class="bx bxs-bookmark-star"></i>
-              <span class="label">Note :</span>
             </div>
-            <div class="stars">
-              @for (star of getStars(article.grade); track $index) {
-              <i
-                class="bx"
-                [ngClass]="{
-                  'bxs-star': star === 'full',
-                  'bxs-star-half': star === 'half',
-                  'bx-star': star === 'empty'
-                }"
-              ></i>
+          </div>
+          <div class="container boolean">
+            <div class="label-container">
+              <i class="bx bxs-heart"></i>
+              <span class="label">Parmi vos préférés :</span>
+            </div>
+            <div class="i-value">
+              @if (article.isPreferred) {
+                <i class="bx bx-check"></i>
+              } @else {
+                <i class="bx bx-x"></i>
+              }
+            </div>
+          </div>
+          <div class="container boolean">
+            <div class="label-container">
+              <i class="bx bxs-cool"></i>
+              <span class="label">Sur liste d'attente :</span>
+            </div>
+            <div class="i-value">
+              @if (article.isWishlisted) {
+                <i class="bx bx-check"></i>
+              } @else {
+                <i class="bx bx-x"></i>
               }
             </div>
           </div>
         </div>
       </div>
-      <div class="description-container">
-        <div class="label-container">
-          <i class="bx bxs-spreadsheet"></i>
-          <span class="label">Description :</span>
-        </div>
-        <span class="value">{{ article.description }}</span>
-      </div>
-      @if (article.link) {
-      <a class="button" title="Voir" [href]="article.link" target="_blank">
-        <i class="bx bx-link"></i>
-        <span class="text">Voir</span>
-      </a>
-      }
-      <div class="elements top">
-        <div class="container boolean">
-          <div class="label-container">
-            <i class="bx bxs-briefcase-alt-2"></i>
-            <span class="label">Vous appartient :</span>
-          </div>
-          <div class="i-value">
-            @if (article.isOwned) {
-            <i class="bx bx-check"></i>
-            } @else {
-            <i class="bx bx-x"></i>
-            }
-          </div>
-        </div>
-        <div class="container boolean">
-          <div class="label-container">
-            <i class="bx bxs-heart"></i>
-            <span class="label">Parmi vos préférés :</span>
-          </div>
-          <div class="i-value">
-            @if (article.isPreferred) {
-            <i class="bx bx-check"></i>
-            } @else {
-            <i class="bx bx-x"></i>
-            }
-          </div>
-        </div>
-        <div class="container boolean">
-          <div class="label-container">
-            <i class="bx bxs-cool"></i>
-            <span class="label">Sur liste d'attente :</span>
-          </div>
-          <div class="i-value">
-            @if (article.isWishlisted) {
-            <i class="bx bx-check"></i>
-            } @else {
-            <i class="bx bx-x"></i>
-            }
-          </div>
-        </div>
-        <div class="container boolean">
-          <div class="label-container">
-            <i class="bx bxs-user-voice"></i>
-            <span class="label">En recommandation :</span>
-          </div>
-          <div class="i-value gold">
-            @if (article.isRecommended) {
-            <i class="bx bx-check"></i>
-            } @else {
-            <i class="bx bx-x"></i>
-            }
-          </div>
-        </div>
+      <div class="button-container">
+        <button type="button" (click)="updateArticle()" title="Modifier">
+          <i class="bx bxs-edit-alt"></i>
+          <span class="text">Modifier</span>
+        </button>
+        <button
+          type="button"
+          (click)="deleteArticle()"
+          class="delete"
+          title="Supprimer"
+        >
+          <i class="bx bxs-trash"></i>
+          <span class="text">Supprimer</span>
+        </button>
       </div>
     </div>
-    <div class="button-container">
-      @if (article.isRecommended) {
-      <button
-        type="button"
-        (click)="recommendArticle()"
-        title="S'abstenir"
-        class="reco"
-      >
-        <i class="bx bxs-user-x"></i>
-        <span class="text">S'abstenir</span>
-      </button>
-      }@else {
-      <button
-        type="button"
-        (click)="recommendArticle()"
-        title="Conseiller"
-        class="reco"
-      >
-        <i class="bx bxs-user-voice"></i>
-        <span class="text">Conseiller</span>
-      </button>
-      }
-      <button type="button" (click)="updateArticle()" title="Modifier">
-        <i class="bx bxs-edit-alt"></i>
-        <span class="text">Modifier</span>
-      </button>
-      <button
-        type="button"
-        (click)="deleteArticle()"
-        class="delete"
-        title="Supprimer"
-      >
-        <i class="bx bxs-trash"></i>
-        <span class="text">Supprimer</span>
-      </button>
-    </div>
-  </div>
   }
 </section>
-@if (!loading && showRecommendButton) {
-<div class="reco-container">
-  <button type="button" class="reco" title="Recommander" (click)="cleanAll()">
-    <i class="bx bxs-user-voice"></i>
-    <span class="text">Recommander</span>
-  </button>
-</div>
-} @if (loading) {
-<mat-spinner></mat-spinner>
+@if (loading) {
+  <mat-spinner></mat-spinner>
 }

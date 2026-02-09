@@ -5,55 +5,58 @@
   </div>
   <div class="content">
     @if (!loading) {
-    <mat-form-field>
-      <mat-select [(ngModel)]="categoryTitle" (selectionChange)="updateGraph()">
-        <mat-option [value]="'all'">Toutes</mat-option>
-        @for (category of categories; track $index) {
-        <mat-option [value]="category.title">
-          {{ category.title }}
-        </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <div class="stats">
-      <div class="container">
-        <div class="label-container">
-          <i class="bx bxs-layer"></i>
-          <span class="label">Total éléments :</span>
+      <mat-form-field>
+        <mat-select
+          [(ngModel)]="categoryTitle"
+          (selectionChange)="updateGraph()"
+        >
+          <mat-option [value]="'all'">Toutes</mat-option>
+          @for (category of categories; track $index) {
+            <mat-option [value]="category.title">
+              {{ category.title }}
+            </mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <div class="stats">
+        <div class="container">
+          <div class="label-container">
+            <i class="bx bxs-layer"></i>
+            <span class="label">Total éléments :</span>
+          </div>
+          <span class="value">{{ stats.totalArticles }}</span>
         </div>
-        <span class="value">{{ stats.totalArticles }}</span>
-      </div>
-      <div class="container">
-        <div class="label-container">
-          <i class="bx bxs-briefcase-alt-2"></i>
-          <span class="label">Total possédés :</span>
+        <div class="container">
+          <div class="label-container">
+            <i class="bx bxs-briefcase-alt-2"></i>
+            <span class="label">Total possédés :</span>
+          </div>
+          <span class="value owned">{{ stats.totalOwnedArticles }}</span>
         </div>
-        <span class="value owned">{{ stats.totalOwnedArticles }}</span>
-      </div>
-      <div class="container">
-        <div class="label-container">
-          <i class="bx bxs-cool"></i>
-          <span class="label">Total en attente :</span>
+        <div class="container">
+          <div class="label-container">
+            <i class="bx bxs-cool"></i>
+            <span class="label">Total en attente :</span>
+          </div>
+          <span class="value wish">{{ stats.totalArticlesToWatch }}</span>
         </div>
-        <span class="value wish">{{ stats.totalArticlesToWatch }}</span>
-      </div>
-      <div class="container">
-        <div class="label-container">
-          <i class="bx bxs-calendar-event"></i>
-          <span class="label">Ajoutés récemment :</span>
+        <div class="container">
+          <div class="label-container">
+            <i class="bx bxs-calendar-event"></i>
+            <span class="label">Ajoutés récemment :</span>
+          </div>
+          <span class="added"
+            ><span style="margin-right: 5px">+</span
+            >{{ stats.totalAddedArticlesMonth }}
+          </span>
         </div>
-        <span class="added"
-          ><span style="margin-right: 5px">+</span
-          >{{ stats.totalAddedArticlesMonth }}
-        </span>
       </div>
-    </div>
     }
     <div class="graph" [ngClass]="{ visible: categories.length > 0 }">
       <canvas id="graph"></canvas>
     </div>
   </div>
 </section>
-@if(loading) {
-<mat-spinner></mat-spinner>
+@if (loading) {
+  <mat-spinner></mat-spinner>
 }

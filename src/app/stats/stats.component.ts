@@ -1,6 +1,7 @@
 import { CommonModule, DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Timestamp } from '@angular/fire/firestore';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -10,10 +11,10 @@ import { MatSelectModule } from '@angular/material/select';
 import Chart from 'chart.js/auto';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-import { Category } from '../core/interfaces/category';
-import { CategoryService } from '../core/services/category.service';
-import { Stats } from '../core/interfaces/stats';
 import { Article } from '../core/interfaces/article';
+import { Category } from '../core/interfaces/category';
+import { Stats } from '../core/interfaces/stats';
+import { CategoryService } from '../core/services/category.service';
 
 @Component({
   selector: 'app-stats',
@@ -47,25 +48,28 @@ export class StatsComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (categories: Category[]) => {
           if (categories?.length >= 1) {
-            this.categories = categories.sort((a, b) => {
-              const dateA =
-                a.creationDate instanceof Date
-                  ? a.creationDate.getTime()
-                  : a.creationDate?.seconds * 1000 +
-                    Math.floor((a.creationDate?.nanoseconds || 0) / 1_000_000);
-
-              const dateB =
-                b.creationDate instanceof Date
-                  ? b.creationDate.getTime()
-                  : b.creationDate?.seconds * 1000 +
-                    Math.floor((b.creationDate?.nanoseconds || 0) / 1_000_000);
-
-              if (dateA !== dateB) {
-                return dateA - dateB;
-              }
-
-              return a.title.localeCompare(b.title);
-            });
+            this.categories = categories
+              .map((c) => ({
+                ...c,
+                creationDate:
+                  c.creationDate instanceof Timestamp
+                    ? c.creationDate.toDate()
+                    : new Date(c.creationDate),
+                articles: c.articles.map((a) => ({
+                  ...a,
+                  creationDate:
+                    a.creationDate instanceof Timestamp
+                      ? a.creationDate.toDate()
+                      : new Date(a.creationDate),
+                })),
+              }))
+              .sort((a, b) => {
+                const dateA = a.creationDate.getTime();
+                const dateB = b.creationDate.getTime();
+                return dateA !== dateB
+                  ? dateA - dateB
+                  : a.title.localeCompare(b.title);
+              });
           }
 
           this.calculateStats();
@@ -100,24 +104,9 @@ export class StatsComponent implements OnInit, OnDestroy {
               .filter((c) => c.title === this.categoryTitle)
               .flatMap((c) => c.articles);
 
-      const buildKey = (d: Date): string =>
-        `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
-          2,
-          '0'
-        )}-${String(d.getDate()).padStart(2, '0')}`;
-
-      const labels = [
-        ...new Set(
-          articles
-            .map((a) => this.normalizeDay(this.toDate(a.creationDate)))
-            .map((d) => buildKey(d))
-        ),
-      ]
-        .sort()
-        .map((key) => {
-          const [y, m, day] = key.split('-');
-          return this.datePipe.transform(`${y}-${m}-${day}`, 'dd/MM/yyyy')!;
-        });
+      const labels = articles.map(
+        (a) => this.datePipe.transform(a.creationDate, 'dd/MM/yyyy')!,
+      );
 
       this.graph = new Chart(graph, {
         type: 'line',
@@ -221,43 +210,14 @@ export class StatsComponent implements OnInit, OnDestroy {
               .filter((c) => c.title === this.categoryTitle)
               .flatMap((c) => c.articles);
 
-      const buildKey = (d: Date): string =>
-        `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(
-          2,
-          '0'
-        )}-${String(d.getDate()).padStart(2, '0')}`;
-
-      const labels = [
-        ...new Set(
-          articles
-            .map((a) => this.normalizeDay(this.toDate(a.creationDate)))
-            .map((d) => buildKey(d))
-        ),
-      ]
-        .sort()
-        .map((key) => {
-          const [y, m, day] = key.split('-');
-          return this.datePipe.transform(`${y}-${m}-${day}`, 'dd/MM/yyyy')!;
-        });
-
-      this.graph.data.labels = labels;
+      this.graph.data.labels = articles.map(
+        (a) => this.datePipe.transform(a.creationDate, 'dd/MM/yyyy')!,
+      );
       this.graph.data.datasets[0].data = this.stats.totalArticlesByDate;
       this.graph.data.datasets[1].data = this.stats.totalOwnedArticlesByDate;
       this.graph.data.datasets[2].data = this.stats.totalArticlesToWatchByDate;
       this.graph.update();
     }
-  }
-
-  toDate(d: any): Date {
-    if (!d) return new Date(0);
-    if (d instanceof Date) return d;
-    return new Date(
-      d.seconds * 1000 + Math.floor((d.nanoseconds || 0) / 1_000_000)
-    );
-  }
-
-  normalizeDay(date: Date): Date {
-    return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
 
   calculateStats(): void {
@@ -268,20 +228,15 @@ export class StatsComponent implements OnInit, OnDestroy {
             .filter((c) => c.title === this.categoryTitle)
             .flatMap((c) => c.articles);
 
-    allArticles = allArticles.map((a) => ({
-      ...a,
-      creationDate: this.normalizeDay(this.toDate(a.creationDate)),
-    }));
-
     allArticles.sort(
-      (a, b) => a.creationDate.getTime() - b.creationDate.getTime()
+      (a, b) => a.creationDate.getTime() - b.creationDate.getTime(),
     );
 
     const grouped = new Map<string, Article[]>();
 
     const buildKey = (d: Date): string =>
       `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(
-        d.getDate()
+        d.getDate(),
       ).padStart(2, '0')}`;
 
     for (const article of allArticles) {

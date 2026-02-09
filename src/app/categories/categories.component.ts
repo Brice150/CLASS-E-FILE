@@ -1,3 +1,4 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
@@ -28,6 +29,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   toastr = inject(ToastrService);
   dialog = inject(MatDialog);
+  overlay = inject(Overlay);
 
   ngOnInit(): void {
     this.categoryService
@@ -102,7 +104,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   }
 
   addCategory(): void {
-    const dialogRef = this.dialog.open(CategoryDialogComponent);
+    const dialogRef = this.dialog.open(CategoryDialogComponent, {
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
+    });
 
     dialogRef
       .afterClosed()
@@ -136,6 +141,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
     if (this.categories.length !== 1) {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
         data: 'supprimer cette catégorie',
+        autoFocus: false,
+        scrollStrategy: this.overlay.scrollStrategies.block(),
       });
 
       dialogRef
@@ -183,6 +190,8 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   updateCategory(category: Category): void {
     const dialogRef = this.dialog.open(CategoryDialogComponent, {
       data: structuredClone(category),
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
     });
 
     dialogRef

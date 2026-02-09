@@ -1,3 +1,4 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
@@ -32,6 +33,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
   activatedRoute = inject(ActivatedRoute);
   dialog = inject(MatDialog);
   articleId?: number;
+  overlay = inject(Overlay);
 
   ngOnInit(): void {
     this.activatedRoute.params
@@ -93,6 +95,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
   deleteArticle(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: 'supprimer cet élément',
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
     });
 
     dialogRef
@@ -137,6 +141,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
         categoryTitle: this.category.title,
         article: structuredClone(this.article),
       },
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
     });
 
     dialogRef

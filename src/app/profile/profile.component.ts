@@ -1,3 +1,4 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy } from '@angular/core';
@@ -34,6 +35,7 @@ export class ProfileComponent implements OnDestroy {
   router = inject(Router);
   destroyed$ = new Subject<void>();
   loading: boolean = false;
+  overlay = inject(Overlay);
 
   ngOnDestroy(): void {
     this.destroyed$.next();
@@ -41,7 +43,10 @@ export class ProfileComponent implements OnDestroy {
   }
 
   openUpdateDialog(): void {
-    const dialogRef = this.dialog.open(SecurityDialogComponent);
+    const dialogRef = this.dialog.open(SecurityDialogComponent, {
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
+    });
 
     dialogRef
       .afterClosed()
@@ -83,6 +88,8 @@ export class ProfileComponent implements OnDestroy {
   openDialog(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: 'supprimer votre profil',
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
     });
 
     dialogRef

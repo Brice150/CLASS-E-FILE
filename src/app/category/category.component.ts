@@ -1,3 +1,4 @@
+import { Overlay } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
@@ -52,6 +53,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   isSortedDesc = false;
   isTouched = false;
   articleFilter: Article = {} as Article;
+  overlay = inject(Overlay);
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -144,6 +146,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
       data: {
         categoryTitle: this.category.title,
       },
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
     });
 
     dialogRef
@@ -197,6 +201,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
   deleteArticle(articleId: number): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
       data: 'supprimer cet élément',
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
     });
 
     dialogRef
@@ -240,6 +246,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         genres: this.category.articles.flatMap((article) => article.genres),
       },
       autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
     });
 
     dialogRef
@@ -280,6 +287,8 @@ export class CategoryComponent implements OnInit, OnDestroy {
         categoryTitle: this.category.title,
         article: structuredClone(article),
       },
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
     });
 
     dialogRef

@@ -11,20 +11,17 @@
   --light-radius: 10px;
 }
 
-html,
-body {
-  height: 100vh;
-  height: 100dvh;
-  overflow-y: auto;
-  background-color: var(--background);
+html {
+  height: 100%;
+  min-height: 100vh;
+  min-height: 100dvh;
 }
 
 body {
   margin: 0;
-  padding: 0;
   box-sizing: border-box;
   font-family: Roboto, "Helvetica Neue", sans-serif;
-  background: var(--background);
+  background-color: var(--background);
 }
 
 ::-webkit-scrollbar {
@@ -44,7 +41,6 @@ body {
   background-color: var(--accent);
 }
 
-.cdk-global-scrollblock {
-  position: fixed !important;
-  top: 0 !important;
+body.cdk-global-scrollblock {
+  overscroll-behavior: none;
 }

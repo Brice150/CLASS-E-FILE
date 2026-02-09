@@ -1,4 +1,8 @@
-<button class="hamburger" (click)="toggleMenu()" aria-label="Menu">
+<button
+  class="hamburger"
+  (click)="toggleMenu()"
+  [title]="!menuOpen ? 'Menu' : 'Fermer'"
+>
   @if (!menuOpen) {
     <i class="bx bx-menu"></i>
   } @else {

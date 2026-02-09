@@ -1,5 +1,5 @@
 <section mat-dialog-content class="dialog">
-  @if (article && article.title) {
+  @if (isUpdateMode) {
     <h1>Modifier Élément</h1>
   } @else {
     <h1>Ajouter Élément</h1>

@@ -22,6 +22,7 @@ import { Category } from '../../../core/interfaces/category';
 })
 export class CategoryDialogComponent implements OnInit {
   category: Category = {} as Category;
+  isUpdateMode = false;
   toastr = inject(ToastrService);
   imagePreview: string | null = null;
 
@@ -33,6 +34,7 @@ export class CategoryDialogComponent implements OnInit {
   ngOnInit(): void {
     if (this.data) {
       this.category = this.data;
+      this.isUpdateMode = this.category && !!this.category.title;
       this.imagePreview = this.category?.image;
     }
   }

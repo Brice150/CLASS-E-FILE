@@ -63,6 +63,7 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
     const all = this.getAvailableGenres();
     return value ? all.filter((g) => g.toLowerCase().includes(value)) : all;
   });
+  isUpdateMode = false;
   @ViewChild('autosize') autosize!: CdkTextareaAutosize;
 
   constructor(
@@ -76,6 +77,7 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
       this.categoryTitle = this.data.categoryTitle;
       if (this.data.article) {
         this.article = this.data.article;
+        this.isUpdateMode = this.article && !!this.article.title;
         this.imagePreview = this.article?.image;
         this.article.grade = this.article.grade ?? 0;
         this.genres.set(this.article.genres ? [...this.article.genres] : []);

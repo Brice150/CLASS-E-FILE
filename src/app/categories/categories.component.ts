@@ -43,7 +43,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
                   c.creationDate instanceof Timestamp
                     ? c.creationDate.toDate()
                     : new Date(c.creationDate),
-                articles: c.articles.map((a) => ({
+                articles: (c.articles ?? []).map((a) => ({
                   ...a,
                   creationDate:
                     a.creationDate instanceof Timestamp

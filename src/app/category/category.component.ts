@@ -167,6 +167,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
             grade: res.grade ?? 0,
             isPreferred: res.isPreferred ?? false,
             isWishlisted: res.isWishlisted ?? false,
+            link: res.link,
           };
 
           this.category.articles.push(article);

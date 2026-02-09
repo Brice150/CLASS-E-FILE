@@ -16,7 +16,19 @@
         minlength="2"
         maxlength="50"
         required
+        [matAutocomplete]="autoTitle"
+        (ngModelChange)="filterTitles($event)"
       />
+      <mat-autocomplete
+        #autoTitle="matAutocomplete"
+        (optionSelected)="selectTitle($event)"
+      >
+        @for (title of filteredTitles(); track title) {
+          <mat-option [value]="title">
+            {{ title }}
+          </mat-option>
+        }
+      </mat-autocomplete>
     </mat-form-field>
     <div class="image-container">
       <label for="image" class="add" title="Image">

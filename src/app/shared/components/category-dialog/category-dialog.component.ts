@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { ToastrService } from 'ngx-toastr';
+import { DefaultCategories } from '../../../core/enums/default-categories';
 import { Category } from '../../../core/interfaces/category';
 
 @Component({
@@ -16,6 +18,7 @@ import { Category } from '../../../core/interfaces/category';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatAutocompleteModule,
   ],
   templateUrl: './category-dialog.component.html',
   styleUrl: './category-dialog.component.css',
@@ -25,6 +28,9 @@ export class CategoryDialogComponent implements OnInit {
   isUpdateMode = false;
   toastr = inject(ToastrService);
   imagePreview: string | null = null;
+  allTitles = signal<string[]>(Object.values(DefaultCategories));
+
+  filteredTitles = signal<string[]>([]);
 
   constructor(
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
@@ -37,6 +43,25 @@ export class CategoryDialogComponent implements OnInit {
       this.isUpdateMode = this.category && !!this.category.title;
       this.imagePreview = this.category?.image;
     }
+  }
+
+  filterTitles(value: string) {
+    if (!value) {
+      this.filteredTitles.set([]);
+      return;
+    }
+
+    const filterValue = value.toLowerCase();
+
+    this.filteredTitles.set(
+      this.allTitles().filter((title) =>
+        title.toLowerCase().includes(filterValue),
+      ),
+    );
+  }
+
+  selectTitle(event: any) {
+    this.category.title = event.option.value;
   }
 
   addPicture(files: File[]): void {

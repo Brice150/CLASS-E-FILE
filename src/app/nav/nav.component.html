@@ -30,6 +30,20 @@
     <span class="text">Stats</span>
   </button>
   <button
+    type="button"
+    routerLink="/notifications"
+    routerLinkActive="active"
+    title="Notifications"
+  >
+    <span class="icon-with-badge">
+      <i class="bx bxs-bell"></i>
+      @if (notificationNumber) {
+        <span class="badge">{{ notificationNumber }}</span>
+      }
+    </span>
+    <span class="text">Notifications</span>
+  </button>
+  <button
     routerLink="/parameters"
     routerLinkActive="active"
     title="Paramètres"

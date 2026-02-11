@@ -8,7 +8,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { firstCategories } from '../../assets/data/first-categories';
-import { environment } from '../../environments/environment';
 import { Category } from '../core/interfaces/category';
 import { CategoryService } from '../core/services/category.service';
 import { CategoryDialogComponent } from '../shared/components/category-dialog/category-dialog.component';
@@ -22,7 +21,6 @@ import { CategoryCardComponent } from './category-card/category-card.component';
   styleUrl: './categories.component.css',
 })
 export class CategoriesComponent implements OnInit, OnDestroy {
-  imagePath: string = environment.imagePath;
   categoryService = inject(CategoryService);
   destroyed$ = new Subject<void>();
   loading: boolean = true;

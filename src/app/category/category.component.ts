@@ -12,7 +12,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { filter, Subject, switchMap, takeUntil } from 'rxjs';
-import { environment } from '../../environments/environment';
 import { Article } from '../core/interfaces/article';
 import { Category } from '../core/interfaces/category';
 import { CategoryService } from '../core/services/category.service';
@@ -39,7 +38,6 @@ import { ArticleCardComponent } from './article-card/article-card.component';
 export class CategoryComponent implements OnInit, OnDestroy {
   searchForm!: FormGroup;
   fb = inject(FormBuilder);
-  imagePath: string = environment.imagePath;
   categoryService = inject(CategoryService);
   destroyed$ = new Subject<void>();
   loading: boolean = true;

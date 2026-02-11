@@ -38,18 +38,14 @@ export const routes: Routes = [
 
       {
         path: ':categoryId',
+        component: CategoryComponent,
         data: {
           breadcrumb: (route: ActivatedRouteSnapshot) =>
             route.paramMap.get('categoryId'),
         },
         children: [
           {
-            path: 'articles',
-            component: CategoryComponent,
-            data: { breadcrumb: 'Articles' },
-          },
-          {
-            path: 'articles/:articleId',
+            path: ':articleId',
             component: ArticleComponent,
             data: {
               breadcrumb: (route: ActivatedRouteSnapshot) =>

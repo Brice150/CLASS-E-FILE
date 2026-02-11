@@ -1,5 +1,5 @@
-<section>
-  @if (!loading) {
+@if (!loading) {
+  <section>
     <div class="content">
       <form [formGroup]="searchForm">
         <mat-form-field>
@@ -72,8 +72,7 @@
         <i class="bx bx-plus"></i>
       </button>
     </div>
-  }
-</section>
-@if (loading) {
+  </section>
+} @else {
   <mat-spinner></mat-spinner>
 }

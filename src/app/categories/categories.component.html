@@ -1,5 +1,5 @@
-<section>
-  @if (!loading) {
+@if (!loading) {
+  <section>
     <div class="content">
       <div class="categories">
         @for (category of categories; track $index) {
@@ -19,8 +19,7 @@
         <i class="bx bx-plus"></i>
       </button>
     </div>
-  }
-</section>
-@if (loading) {
+  </section>
+} @else {
   <mat-spinner></mat-spinner>
 }

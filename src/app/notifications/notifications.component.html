@@ -10,7 +10,6 @@
       <app-empty-card [text]="'Aucune notification'"></app-empty-card>
     }
   </section>
-}
-@if (loading) {
+} @else {
   <mat-spinner></mat-spinner>
 }

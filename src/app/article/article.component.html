@@ -1,5 +1,5 @@
-<section>
-  @if (!loading) {
+@if (!loading) {
+  <section>
     <div class="content">
       <div class="article">
         <div class="flex">
@@ -120,8 +120,7 @@
         </button>
       </div>
     </div>
-  }
-</section>
-@if (loading) {
+  </section>
+} @else {
   <mat-spinner></mat-spinner>
 }

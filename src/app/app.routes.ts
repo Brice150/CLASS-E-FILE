@@ -35,7 +35,6 @@ export const routes: Routes = [
         path: '',
         component: CategoriesComponent,
       },
-
       {
         path: ':categoryId',
         component: CategoryComponent,
@@ -43,18 +42,19 @@ export const routes: Routes = [
           breadcrumb: (route: ActivatedRouteSnapshot) =>
             route.paramMap.get('categoryId'),
         },
-        children: [
-          {
-            path: ':articleId',
-            component: ArticleComponent,
-            data: {
-              breadcrumb: (route: ActivatedRouteSnapshot) =>
-                route.paramMap.get('articleId'),
-            },
-          },
-        ],
       },
     ],
+  },
+
+  // ARTICLE
+  {
+    path: 'categories/:categoryId/:articleId',
+    component: ArticleComponent,
+    canActivate: [userGuard],
+    data: {
+      breadcrumb: (route: ActivatedRouteSnapshot) =>
+        route.paramMap.get('articleId'),
+    },
   },
 
   // STATS

@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -12,11 +19,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-import { UserService } from '../../core/services/user.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +35,7 @@ import { UserService } from '../../core/services/user.service';
     MatButtonModule,
     MatIconModule,
     RouterModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinner,
   ],
   templateUrl: './register.component.html',
   styleUrl: './register.component.css',
@@ -37,12 +44,14 @@ export class RegisterComponent implements OnInit, OnDestroy {
   registerForm!: FormGroup;
   toastr = inject(ToastrService);
   fb = inject(FormBuilder);
-  userService = inject(UserService);
+  authenticationService = inject(AuthenticationService);
   router = inject(Router);
   hide: boolean = true;
   hideDuplicate: boolean = true;
   destroyed$ = new Subject<void>();
-  loading: boolean = false;
+  email?: string;
+  loading = false;
+  @Output() goToLoginEvent = new EventEmitter<void>();
 
   ngOnInit(): void {
     this.registerForm = this.fb.group(
@@ -65,7 +74,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
           ],
         ],
       },
-      { validators: this.passwordMatchValidator }
+      { validators: this.passwordMatchValidator },
     );
   }
 
@@ -95,27 +104,42 @@ export class RegisterComponent implements OnInit, OnDestroy {
   register(): void {
     if (this.registerForm.valid) {
       this.loading = true;
-      this.userService
+      this.authenticationService
         .register(this.registerForm.value)
         .pipe(takeUntil(this.destroyed$))
         .subscribe({
           next: () => {
+            this.email = this.registerForm.value.email;
             this.loading = false;
-            this.router.navigate(['/']);
-            this.toastr.info('Bienvenue', 'Class E-File', {
-              positionClass: 'toast-bottom-center',
-              toastClass: 'ngx-toastr custom info',
-            });
+            this.toastr.info(
+              'Un email de vérification a été envoyé à ' + this.email,
+              'Bienvenue',
+              {
+                positionClass: 'toast-bottom-center',
+                toastClass: 'ngx-toastr custom info',
+              },
+            );
           },
           error: (error: HttpErrorResponse) => {
-            this.loading = false;
             if (
               !error.message.includes('Missing or insufficient permissions.')
             ) {
-              this.toastr.error(error.message, 'Class E-File', {
-                positionClass: 'toast-bottom-center',
-                toastClass: 'ngx-toastr custom error',
-              });
+              this.loading = false;
+              if (error.message.includes('auth/email-already-in-use')) {
+                this.toastr.error(
+                  "L'email est déjà connu dans Life Control",
+                  'Life Control',
+                  {
+                    positionClass: 'toast-bottom-center',
+                    toastClass: 'ngx-toastr custom error',
+                  },
+                );
+              } else {
+                this.toastr.error(error.message, 'Erreur', {
+                  positionClass: 'toast-bottom-center',
+                  toastClass: 'ngx-toastr custom error',
+                });
+              }
             }
           },
         });
@@ -125,28 +149,29 @@ export class RegisterComponent implements OnInit, OnDestroy {
   }
 
   registerWithGoogle(): void {
-    this.userService
+    this.loading = true;
+    this.authenticationService
       .signInWithGoogle()
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: () => {
-          this.router.navigate(['/']);
-          this.toastr.info('Bienvenue', 'Class E-File', {
-            positionClass: 'toast-bottom-center',
-            toastClass: 'ngx-toastr custom info',
-          });
+          this.router.navigate(['/categories']);
         },
         error: (error: HttpErrorResponse) => {
-          if (
-            !error.message.includes('Missing or insufficient permissions.') &&
-            !error.message.includes('auth/popup-closed-by-user')
-          ) {
-            this.toastr.error(error.message, 'Class E-File', {
-              positionClass: 'toast-bottom-center',
-              toastClass: 'ngx-toastr custom error',
-            });
+          if (!error.message.includes('Missing or insufficient permissions.')) {
+            this.loading = false;
+            if (!error.message.includes('auth/popup-closed-by-user')) {
+              this.toastr.error(error.message, 'Erreur', {
+                positionClass: 'toast-bottom-center',
+                toastClass: 'ngx-toastr custom error',
+              });
+            }
           }
         },
       });
+  }
+
+  goToLogin(): void {
+    this.goToLoginEvent.emit();
   }
 }

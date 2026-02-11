@@ -1,11 +1,10 @@
 :root {
   --primary: white;
   --secondary: black;
-  --tertiary: gold;
-  --accent: #d12123;
-  --background: #6d2a2a;
-  --box-shadow-color: rgba(0, 0, 0, 0.15);
-  --box-shadow: 0 1rem 3rem var(--box-shadow-color);
+  --accent: #0088ff;
+  --background: #e4e9f7;
+  --box-shadow-color: rgba(40, 40, 40, 0.126);
+  --box-shadow: 0 2px 6px var(--box-shadow-color);
 
   --strong-radius: 20px;
   --light-radius: 10px;

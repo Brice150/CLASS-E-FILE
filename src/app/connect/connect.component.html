@@ -1,47 +1,41 @@
 <section>
   <div class="title">
+    <img [src]="imagePath + 'Logo.webp'" alt="Class E-File" />
     <h1>Class E-File</h1>
   </div>
-  @if (isRegistering || isLogin) {
   <div class="back-container">
-    <button
-      type="button"
-      (click)="toggleLoginOrRegister('welcome')"
-      title="Retour"
-      class="unactive"
-    >
+    <button type="button" (click)="back()" title="Retour" class="unactive">
       <i class="bx bxs-left-arrow-circle"></i>
       <span class="text">Retour</span>
     </button>
   </div>
-  }
   <div class="button-container">
     <button
       type="button"
-      (click)="toggleLoginOrRegister('register')"
+      (click)="toggleRegister()"
       title="S'inscrire"
-      [ngClass]="isRegistering ? 'active' : 'unactive'"
+      [ngClass]="type === 'register' ? 'active' : 'unactive'"
     >
       <i class="bx bx-pencil"></i>
       <span class="text">S'inscrire</span>
     </button>
     <button
       type="button"
-      (click)="toggleLoginOrRegister('login')"
+      (click)="toggleLogin()"
       title="Se connecter"
-      [ngClass]="isLogin ? 'active' : 'unactive'"
+      [ngClass]="type === 'login' ? 'active' : 'unactive'"
     >
       <i class="bx bx-user-circle"></i>
       <span class="text">Se connecter</span>
     </button>
   </div>
   <div class="content">
-    @if(!isRegistering && !isLogin) {
-    <app-welcome></app-welcome>
-    } @else if (isRegistering) {
-    <app-register></app-register>
-    } @else if(isLogin) {
-    <app-login></app-login>
+    @if (type === "register") {
+      <app-register (goToLoginEvent)="toggleLogin()"></app-register>
+    } @else if (type === "login") {
+      <app-login (passwordForgottenEvent)="toggleForgotPassword()"></app-login>
+    } @else if (type === "forgot") {
+      <app-forgot (goToLoginEvent)="toggleLogin()"></app-forgot>
     }
   </div>
 </section>

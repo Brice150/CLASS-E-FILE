@@ -1,0 +1,105 @@
+<section mat-dialog-content>
+  <h1>Envoyer {{ type }}</h1>
+  <form class="content" [formGroup]="sendForm" (ngSubmit)="confirm()">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="receiverEmail" />
+      @if (sendForm.get("receiverEmail")!.invalid) {
+        <mat-error>
+          @if (sendForm.get("receiverEmail")!.hasError("required")) {
+            <span>Ce champ est requis</span>
+          }
+          @if (sendForm.get("receiverEmail")!.hasError("email")) {
+            <span>Ce champ est invalide</span>
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Message</mat-label>
+      <textarea matInput formControlName="message"></textarea>
+      @if (sendForm.get("message")!.invalid) {
+        <mat-error>
+          @if (sendForm.get("message")!.hasError("required")) {
+            <span>Ce champ est requis</span>
+          }
+          @if (sendForm.get("message")!.hasError("minlength")) {
+            <span>Ce champ est trop court</span>
+          }
+          @if (sendForm.get("message")!.hasError("maxlength")) {
+            <span>Ce champ est trop long</span>
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+    @if (recipes.length) {
+      <mat-form-field>
+        <mat-label>Recettes</mat-label>
+        <mat-select formControlName="recipes" multiple>
+          <mat-select-trigger>
+            {{ recipesCtrl?.value[0]?.name || "" }}
+            @if ((recipesCtrl?.value?.length || 0) > 1) {
+              <span class="example-additional-selection">
+                (+{{ (recipesCtrl?.value?.length || 0) - 1 }}
+                {{ recipesCtrl?.value?.length === 2 ? "autre" : "autres" }})
+              </span>
+            }
+          </mat-select-trigger>
+          @for (group of recipeGroups; track group) {
+            <mat-optgroup [label]="group.name">
+              @for (recipe of group.recipes; track recipe) {
+                <mat-option [value]="recipe">{{ recipe.name }}</mat-option>
+              }
+            </mat-optgroup>
+          }
+        </mat-select>
+        @if (sendForm.get("recipes")!.invalid) {
+          <mat-error>
+            @if (sendForm.get("recipes")!.hasError("required")) {
+              <span>Ce champ est requis</span>
+            }
+          </mat-error>
+        }
+      </mat-form-field>
+    } @else if (sessions.length) {
+      <mat-form-field>
+        <mat-label>Sessions</mat-label>
+        <mat-select formControlName="sessions" multiple>
+          <mat-select-trigger>
+            {{ sessionsCtrl?.value[0]?.name || "" }}
+            @if ((sessionsCtrl?.value?.length || 0) > 1) {
+              <span class="example-additional-selection">
+                (+{{ (sessionsCtrl?.value?.length || 0) - 1 }}
+                {{ sessionsCtrl?.value?.length === 2 ? "autre" : "autres" }})
+              </span>
+            }
+          </mat-select-trigger>
+          @for (group of sessionGroups; track group) {
+            <mat-optgroup [label]="group.name">
+              @for (session of group.sessions; track session) {
+                <mat-option [value]="session">{{ session.name }}</mat-option>
+              }
+            </mat-optgroup>
+          }
+        </mat-select>
+        @if (sendForm.get("sessions")!.invalid) {
+          <mat-error>
+            @if (sendForm.get("sessions")!.hasError("required")) {
+              <span>Ce champ est requis</span>
+            }
+          </mat-error>
+        }
+      </mat-form-field>
+    }
+    <div class="button-container">
+      <button type="button" title="Annuler" (click)="cancel()" class="delete">
+        <i class="bx bx-x"></i>
+        <span class="text">Annuler</span>
+      </button>
+      <button type="submit" title="Valider">
+        <i class="bx bx-check"></i>
+        <span class="text">Valider</span>
+      </button>
+    </div>
+  </form>
+</section>

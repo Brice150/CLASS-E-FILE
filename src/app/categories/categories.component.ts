@@ -140,7 +140,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
   deleteCategory(categoryId: string): void {
     if (this.categories.length !== 1) {
       const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        data: 'supprimer cette catégorie',
+        data: ['supprimer cette catégorie', ''],
         autoFocus: false,
         scrollStrategy: this.overlay.scrollStrategies.block(),
       });

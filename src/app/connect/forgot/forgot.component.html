@@ -1,0 +1,47 @@
+@if (!email && !loading) {
+  <div class="title">
+    <h2>
+      Entrez votre adresse e-mail pour recevoir un lien de réinitialisation de
+      votre mot de passe.
+    </h2>
+  </div>
+  <form [formGroup]="forgotForm" (ngSubmit)="passwordForgotten()">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      @if (forgotForm.get("email")!.invalid) {
+        <mat-error>
+          @if (forgotForm.get("email")!.hasError("required")) {
+            <span>Ce champ est requis</span>
+          }
+          @if (forgotForm.get("email")!.hasError("email")) {
+            <span>Ce champ est invalide</span>
+          }
+        </mat-error>
+      }
+    </mat-form-field>
+    <div class="button-container">
+      <button title="Envoyer mail" type="submit">
+        <i class="bx bxs-send"></i>
+        <span class="text">Envoyer mail</span>
+      </button>
+    </div>
+  </form>
+} @else if (loading) {
+  <mat-spinner></mat-spinner>
+} @else {
+  <div class="title">
+    <h2>
+      Un email de réinitialisation de mot de passe a été envoyé à
+      <span>{{ email }}</span
+      >. <br /><br />
+      Pensez à vérifier votre dossier spam.
+    </h2>
+  </div>
+  <div class="button-container login">
+    <button title="C'est fait" type="button" (click)="goToLogin()">
+      <i class="bx bx-check"></i>
+      <span class="text">C'est fait</span>
+    </button>
+  </div>
+}

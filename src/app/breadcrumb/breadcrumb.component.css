@@ -1,0 +1,73 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  flex-direction: column;
+  position: relative;
+}
+
+.infos {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  height: 40px;
+  width: 40px;
+  color: var(--accent);
+  background-color: var(--background-nav);
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: none;
+  transition: all 0.5s ease;
+}
+
+.infos i {
+  font-size: 40px;
+}
+
+.infos:hover {
+  color: var(--background-nav);
+  background-color: var(--accent);
+}
+
+nav {
+  margin: 10px 10px 20px 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 15px;
+  background-color: var(--background-nav);
+  transition: all 0.5s ease;
+  min-height: 25px;
+  border-radius: var(--light-radius);
+  box-shadow: var(--box-shadow);
+  flex-wrap: wrap;
+}
+
+nav i {
+  font-size: 25px;
+  color: var(--secondary);
+  transition: all 0.5s ease;
+}
+
+nav a {
+  text-decoration: underline;
+  text-decoration-color: var(--accent);
+  cursor: pointer;
+  text-underline-offset: 2px;
+}
+
+nav h1,
+span {
+  text-transform: uppercase;
+  padding: 0;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--accent);
+  text-align: center;
+}

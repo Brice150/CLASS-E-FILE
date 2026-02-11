@@ -1,9 +1,12 @@
 <div class="container">
+  <div class="title">
+    <span class="label">Compte</span>
+  </div>
   <div class="element">
     <span class="label">Email :</span>
-    <span class="value">{{ user().email }}</span>
+    <span class="value">{{ auth().email }}</span>
   </div>
-  <div class="element second">
+  <div class="element">
     <span class="label">Mot de passe :</span>
     <span class="value">****************</span>
   </div>
@@ -11,6 +14,10 @@
     <button type="button" (click)="update()" title="Modifier">
       <i class="bx bxs-edit-alt"></i>
       <span class="text">Modifier</span>
+    </button>
+    <button type="button" (click)="delete()" title="Supprimer" class="delete">
+      <i class="bx bxs-trash"></i>
+      <span class="text">Supprimer</span>
     </button>
   </div>
 </div>

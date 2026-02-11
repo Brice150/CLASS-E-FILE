@@ -1,6 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -11,11 +18,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-import { UserService } from '../../core/services/user.service';
+import { AuthenticationService } from '../../core/services/authentication.service';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +34,7 @@ import { UserService } from '../../core/services/user.service';
     MatButtonModule,
     MatIconModule,
     RouterModule,
-    MatProgressSpinnerModule,
+    MatProgressSpinner,
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
@@ -36,12 +43,13 @@ export class LoginComponent implements OnInit, OnDestroy {
   loginForm!: FormGroup;
   toastr = inject(ToastrService);
   fb = inject(FormBuilder);
-  userService = inject(UserService);
+  authenticationService = inject(AuthenticationService);
   router = inject(Router);
   hide: boolean = true;
   invalidLogin: boolean = false;
   destroyed$ = new Subject<void>();
-  loading: boolean = false;
+  loading = false;
+  @Output() passwordForgottenEvent = new EventEmitter<void>();
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -65,34 +73,42 @@ export class LoginComponent implements OnInit, OnDestroy {
   login(): void {
     if (this.loginForm.valid) {
       this.loading = true;
-      this.userService
+      this.authenticationService
         .login(this.loginForm.value)
         .pipe(takeUntil(this.destroyed$))
         .subscribe({
           next: () => {
-            this.loading = false;
-            this.router.navigate(['/']);
-            this.toastr.info('Bienvenue', 'Class E-File', {
-              positionClass: 'toast-bottom-center',
-              toastClass: 'ngx-toastr custom info',
-            });
+            this.router.navigate(['/categories']);
           },
           error: (error: HttpErrorResponse) => {
-            this.loading = false;
-            if (error.message.includes('auth/invalid-credential')) {
-              this.invalidLogin = true;
-              this.toastr.error('Wrong email or password', 'Login', {
-                positionClass: 'toast-bottom-center',
-                toastClass: 'ngx-toastr custom error',
-              });
-              setTimeout(() => {
-                this.invalidLogin = false;
-              }, 2000);
-            } else {
-              if (
-                !error.message.includes('Missing or insufficient permissions.')
-              ) {
-                this.toastr.error(error.message, 'Login', {
+            if (
+              !error.message.includes('Missing or insufficient permissions.')
+            ) {
+              this.loading = false;
+              if (error.message.includes('auth/invalid-credential')) {
+                this.invalidLogin = true;
+                this.toastr.error(
+                  'Mauvais email ou mot de passe',
+                  'Life Control',
+                  {
+                    positionClass: 'toast-bottom-center',
+                    toastClass: 'ngx-toastr custom error',
+                  },
+                );
+                setTimeout(() => {
+                  this.invalidLogin = false;
+                }, 2000);
+              } else if (error.message.includes('Email non vérifié')) {
+                this.invalidLogin = true;
+                this.toastr.error('Email non vérifié', 'Life Control', {
+                  positionClass: 'toast-bottom-center',
+                  toastClass: 'ngx-toastr custom error',
+                });
+                setTimeout(() => {
+                  this.invalidLogin = false;
+                }, 2000);
+              } else {
+                this.toastr.error(error.message, 'Erreur', {
                   positionClass: 'toast-bottom-center',
                   toastClass: 'ngx-toastr custom error',
                 });
@@ -106,63 +122,29 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   loginWithGoogle(): void {
-    this.userService
+    this.loading = true;
+    this.authenticationService
       .signInWithGoogle()
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: () => {
-          this.router.navigate(['/']);
-          this.toastr.info('Bienvenue', 'Class E-File', {
-            positionClass: 'toast-bottom-center',
-            toastClass: 'ngx-toastr custom info',
-          });
+          this.router.navigate(['/categories']);
         },
         error: (error: HttpErrorResponse) => {
-          if (
-            !error.message.includes('Missing or insufficient permissions.') &&
-            !error.message.includes('auth/popup-closed-by-user')
-          ) {
-            this.toastr.error(error.message, 'Login', {
-              positionClass: 'toast-bottom-center',
-              toastClass: 'ngx-toastr custom error',
-            });
+          if (!error.message.includes('Missing or insufficient permissions.')) {
+            this.loading = false;
+            if (!error.message.includes('auth/popup-closed-by-user')) {
+              this.toastr.error(error.message, 'Erreur', {
+                positionClass: 'toast-bottom-center',
+                toastClass: 'ngx-toastr custom error',
+              });
+            }
           }
         },
       });
   }
 
   passwordForgotten(): void {
-    if (this.loginForm.get('email')?.valid) {
-      this.loading = true;
-      this.userService
-        .passwordReset(this.loginForm.value?.email)
-        .pipe(takeUntil(this.destroyed$))
-        .subscribe({
-          next: () => {
-            this.loading = false;
-            this.toastr.info(
-              'A reset password email has been sent',
-              'Class E-File',
-              {
-                positionClass: 'toast-bottom-center',
-                toastClass: 'ngx-toastr custom info',
-              }
-            );
-          },
-          error: (error: HttpErrorResponse) => {
-            this.loading = false;
-            if (
-              !error.message.includes('Missing or insufficient permissions.')
-            ) {
-              this.toastr.error(error.message, 'Login', {
-                positionClass: 'toast-bottom-center',
-                toastClass: 'ngx-toastr custom error',
-              });
-            }
-          },
-        });
-    } else {
-      this.loginForm.get('email')?.markAsTouched();
-    }
+    this.passwordForgottenEvent.emit();
   }
 }

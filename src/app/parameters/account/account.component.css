@@ -1,0 +1,241 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 80%;
+  max-width: 450px;
+  padding: 10px 20px;
+  background-color: var(--background-nav);
+  border-radius: var(--light-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.container .title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.container .element {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 56px;
+}
+
+.container .label {
+  color: var(--accent);
+  font-size: 20px;
+  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  white-space: nowrap;
+}
+
+.container .title .label {
+  font-weight: 700;
+}
+
+.container .element .value {
+  width: 300px;
+  text-align: right;
+  color: var(--secondary);
+  font-size: 17px;
+  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.container .button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 20px;
+}
+
+.container .button-container button {
+  cursor: pointer;
+  color: var(--accent);
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: var(--light-radius);
+  transition: 0.5s ease;
+  width: 160px;
+  border: none;
+  background-color: var(--background-nav);
+  box-shadow: var(--box-shadow);
+}
+
+.container .button-container .delete {
+  color: red;
+  transition: 0.5s ease;
+}
+
+.container .button-container button:hover {
+  background-color: var(--accent);
+  color: var(--primary);
+}
+
+.container .button-container .delete:hover {
+  background-color: red;
+}
+
+.container .button-container button i {
+  font-size: 30px;
+}
+
+.container .button-container button .text {
+  font-size: 20px;
+  font-weight: 500;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+::ng-deep
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+  .mdc-text-field__input {
+  color: var(--secondary) !important;
+}
+
+::ng-deep
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+  .mdc-line-ripple::before {
+  border-bottom-color: var(--accent) !important;
+}
+
+::ng-deep
+  .mdc-text-field--filled:not(.mdc-text-field--disabled)
+  .mdc-line-ripple::after {
+  border-bottom-color: var(--accent) !important;
+}
+
+::ng-deep .mdc-text-field {
+  border-radius: var(--light-radius) !important;
+}
+
+::ng-deep .mdc-text-field--filled {
+  background-color: var(--background-nav) !important;
+  box-shadow: var(--box-shadow) !important;
+}
+
+::ng-deep .mat-mdc-select {
+  color: var(--secondary) !important;
+}
+
+::ng-deep .mat-mdc-select-arrow svg {
+  fill: var(--accent) !important;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: var(--background-nav) !important;
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: var(--secondary) !important;
+}
+
+::ng-deep .mdc-list-item--selected {
+  color: var(--primary) !important;
+}
+
+::ng-deep .mdc-list-item__primary-text span {
+  color: var(--secondary) !important;
+}
+
+::ng-deep .mdc-list-item__primary-text i {
+  color: var(--secondary) !important;
+  font-size: 25px;
+}
+
+::ng-deep .mdc-list-item--selected span {
+  color: var(--primary) !important;
+}
+
+::ng-deep .mdc-list-item--selected i {
+  color: var(--primary) !important;
+}
+
+::ng-deep
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  ) {
+  background-color: var(--accent) !important;
+}
+
+::ng-deep
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  )
+  .mdc-list-item__primary-text {
+  color: var(--primary) !important;
+}
+
+::ng-deep
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  )
+  .mdc-list-item__primary-text
+  .flex
+  i {
+  color: var(--primary) !important;
+}
+
+::ng-deep
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  )
+  .mdc-list-item__primary-text
+  .flex
+  .game {
+  color: var(--primary) !important;
+}
+
+::ng-deep .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after,
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after {
+  color: var(--primary) !important;
+}
+
+::ng-deep .select .mat-mdc-form-field-subscript-wrapper {
+  display: none !important;
+}
+
+@media screen and (max-width: 600px) {
+  .container .element {
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+
+  .container .element .value {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .container .element .value {
+    width: 250px;
+  }
+}

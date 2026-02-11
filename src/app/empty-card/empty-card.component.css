@@ -1,0 +1,19 @@
+.container {
+  background-color: var(--background-nav);
+  box-shadow: var(--box-shadow);
+  color: var(--accent);
+  padding: 13px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: var(--light-radius);
+}
+
+.container .title {
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--secondary);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  text-align: center;
+}

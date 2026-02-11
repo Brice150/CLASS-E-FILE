@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="infos">
+    <span class="title">{{ notification().title }}</span>
+    <span class="date">{{ notification().date | customDate }}</span>
+  </div>
+  <div class="button-container">
+    <button type="button" (click)="view()" title="Consulter">
+      @if (notification().read) {
+        <i class="bx bxs-envelope-open"></i>
+      } @else {
+        <i class="bx bxs-envelope"></i>
+      }
+    </button>
+    <button type="button" (click)="delete()" title="Supprimer" class="delete">
+      <i class="bx bxs-trash"></i>
+    </button>
+  </div>
+</div>

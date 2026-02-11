@@ -4,12 +4,12 @@ import { NavigationEnd, Router, RouterModule } from '@angular/router';
 import { filter } from 'rxjs';
 
 @Component({
-  selector: 'app-header',
+  selector: 'app-nav',
   imports: [CommonModule, RouterModule],
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.css'],
 })
-export class HeaderComponent implements OnInit {
+export class NavComponent implements OnInit {
   @Output() logoutEvent = new EventEmitter<void>();
   menuOpen = false;
   router = inject(Router);

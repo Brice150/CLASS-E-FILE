@@ -41,11 +41,6 @@
   margin-left: 5px;
 }
 
-.article.active {
-  background-color: var(--secondary);
-  color: var(--tertiary);
-}
-
 .article .button-container {
   display: flex;
   justify-content: center;
@@ -162,10 +157,6 @@ mat-chip-set {
   background-color: var(--secondary) !important;
 }
 
-::ng-deep .mat-mdc-menu-panel .reco:hover {
-  background-color: var(--tertiary) !important;
-}
-
 ::ng-deep .mat-mdc-menu-panel button .mat-mdc-menu-item-text {
   display: flex;
   justify-content: space-between;
@@ -196,20 +187,6 @@ mat-chip-set {
   .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
   .mdc-evolution-chip__action--primary::before {
   border-color: var(--secondary) !important;
-}
-
-::ng-deep
-  .article.active
-  .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
-  .mdc-evolution-chip__text-label {
-  color: var(--primary) !important;
-}
-
-::ng-deep
-  .article.active
-  .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
-  .mdc-evolution-chip__action--primary::before {
-  border-color: var(--primary) !important;
 }
 
 @media screen and (max-width: 860px) {

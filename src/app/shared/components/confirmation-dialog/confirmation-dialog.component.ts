@@ -9,16 +9,16 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
   styleUrl: './confirmation-dialog.component.css',
 })
 export class ConfirmationDialogComponent implements OnInit {
-  action: string = 'delete';
+  infos: string[] = ['supprimer', ''];
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: string,
+    @Inject(MAT_DIALOG_DATA) public data: string[],
   ) {}
 
   ngOnInit(): void {
-    if (this.data) {
-      this.action = this.data;
+    if (this.data && this.data.length) {
+      this.infos = this.data;
     }
   }
 

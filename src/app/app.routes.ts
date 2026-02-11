@@ -1,31 +1,89 @@
-import { Routes } from '@angular/router';
+import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { ArticleComponent } from './article/article.component';
 import { CategoriesComponent } from './categories/categories.component';
 import { CategoryComponent } from './category/category.component';
 import { ConnectComponent } from './connect/connect.component';
 import { noUserGuard } from './core/guards/no-user.guard';
 import { userGuard } from './core/guards/user.guard';
-import { ProfileComponent } from './profile/profile.component';
+import { NotificationsComponent } from './notifications/notifications.component';
+import { ParametersComponent } from './parameters/parameters.component';
 import { StatsComponent } from './stats/stats.component';
-import { ArticleComponent } from './article/article.component';
+import { WelcomeComponent } from './welcome/welcome.component';
 
 export const routes: Routes = [
-  { path: 'connect', component: ConnectComponent, canActivate: [noUserGuard] },
+  // WELCOME
+  {
+    path: '',
+    component: WelcomeComponent,
+    canActivate: [noUserGuard],
+  },
+
+  // CONNECT
+  {
+    path: 'connect/:type',
+    component: ConnectComponent,
+    canActivate: [noUserGuard],
+  },
+
+  // CATEGORIES
   {
     path: 'categories',
-    component: CategoriesComponent,
     canActivate: [userGuard],
+    data: { breadcrumb: 'Catégories' },
+    children: [
+      {
+        path: '',
+        component: CategoriesComponent,
+      },
+
+      {
+        path: ':categoryId',
+        data: {
+          breadcrumb: (route: ActivatedRouteSnapshot) =>
+            route.paramMap.get('categoryId'),
+        },
+        children: [
+          {
+            path: 'articles',
+            component: CategoryComponent,
+            data: { breadcrumb: 'Articles' },
+          },
+          {
+            path: 'articles/:articleId',
+            component: ArticleComponent,
+            data: {
+              breadcrumb: (route: ActivatedRouteSnapshot) =>
+                route.paramMap.get('articleId'),
+            },
+          },
+        ],
+      },
+    ],
   },
+
+  // STATS
   {
-    path: 'categories/:categoryId/articles',
-    component: CategoryComponent,
+    path: 'stats',
+    component: StatsComponent,
     canActivate: [userGuard],
+    data: { breadcrumb: 'Stats' },
   },
+
+  // NOTIFICATIONS
   {
-    path: 'categories/:categoryId/articles/:articleId',
-    component: ArticleComponent,
+    path: 'notifications',
+    component: NotificationsComponent,
     canActivate: [userGuard],
+    data: { breadcrumb: 'Notifications' },
   },
-  { path: 'stats', component: StatsComponent, canActivate: [userGuard] },
-  { path: 'profile', component: ProfileComponent, canActivate: [userGuard] },
+
+  // PARAMETERS
+  {
+    path: 'parameters',
+    component: ParametersComponent,
+    canActivate: [userGuard],
+    data: { breadcrumb: 'Paramètres' },
+  },
+
   { path: '**', redirectTo: 'categories', pathMatch: 'full' },
 ];

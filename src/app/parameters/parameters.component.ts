@@ -1,49 +1,52 @@
 import { Overlay } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnDestroy } from '@angular/core';
+import { Component, inject, OnDestroy, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { catchError, filter, of, Subject, switchMap, takeUntil } from 'rxjs';
-import { User } from '../core/interfaces/user';
+import { Authentication } from '../core/interfaces/authentication';
+import { AuthenticationService } from '../core/services/authentication.service';
 import { CategoryService } from '../core/services/category.service';
-import { ProfileService } from '../core/services/profile.service';
-import { UserService } from '../core/services/user.service';
+import { NotificationService } from '../core/services/notification.service';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
-import { SecurityDialogComponent } from '../shared/components/security-dialog/security-dialog.component';
-import { SecurityComponent } from './security/security.component';
+import { PasswordDialogComponent } from '../shared/components/password-dialog/password-dialog.component';
+import { AccountComponent } from './account/account.component';
 
 @Component({
-  selector: 'app-profile',
+  selector: 'app-parameters',
   imports: [
     CommonModule,
     RouterModule,
     MatProgressSpinnerModule,
-    SecurityComponent,
+    AccountComponent,
   ],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css',
+  templateUrl: './parameters.component.html',
+  styleUrl: './parameters.component.css',
 })
-export class ProfileComponent implements OnDestroy {
+export class ParametersComponent implements OnDestroy {
   toastr = inject(ToastrService);
-  profileService = inject(ProfileService);
-  userService = inject(UserService);
+  authenticationService = inject(AuthenticationService);
   categoryService = inject(CategoryService);
+  notificationService = inject(NotificationService);
   dialog = inject(MatDialog);
   router = inject(Router);
   destroyed$ = new Subject<void>();
   loading: boolean = false;
   overlay = inject(Overlay);
 
+  @ViewChild(AccountComponent)
+  accountComponent!: AccountComponent;
+
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
   }
 
-  openUpdateDialog(): void {
-    const dialogRef = this.dialog.open(SecurityDialogComponent, {
+  updatePassword(): void {
+    const dialogRef = this.dialog.open(PasswordDialogComponent, {
       autoFocus: false,
       scrollStrategy: this.overlay.scrollStrategies.block(),
     });
@@ -52,31 +55,32 @@ export class ProfileComponent implements OnDestroy {
       .afterClosed()
       .pipe(
         filter((res) => !!res),
-        switchMap((user: User) => {
-          user.email = this.userService.currentUserSig()?.email!;
-          return this.profileService.updateProfile(user);
+        switchMap((auth: Authentication) => {
+          auth.email =
+            this.authenticationService.currentAuthenticationSig()?.email!;
+          return this.authenticationService.updatePassword(auth);
         }),
         takeUntil(this.destroyed$),
       )
       .subscribe({
         next: () => {
-          this.toastr.info('Profil modifié', 'Profil', {
+          this.toastr.info('Le compte a été mis à jour', 'Compte', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (error.message.includes('auth/requires-recent-login')) {
-            this.toastr.info(
+            this.toastr.error(
               'Merci de vous déconnecter et de vous reconnecter pour effectuer cette action',
-              'Profil',
+              'Compte',
               {
                 positionClass: 'toast-bottom-center',
                 toastClass: 'ngx-toastr custom error',
               },
             );
           } else {
-            this.toastr.info(error.message, 'Profil', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });
@@ -85,9 +89,12 @@ export class ProfileComponent implements OnDestroy {
       });
   }
 
-  openDialog(): void {
+  openDeleteDialog(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'supprimer votre profil',
+      data: [
+        'supprimer votre compte',
+        'Cette action supprimera toutes les données de tous les utilisateurs de votre compte !',
+      ],
       autoFocus: false,
       scrollStrategy: this.overlay.scrollStrategies.block(),
     });
@@ -98,17 +105,18 @@ export class ProfileComponent implements OnDestroy {
         filter((res: boolean) => res),
         switchMap(() => {
           this.loading = true;
-          return this.categoryService.deleteUserCategories();
+          return this.categoryService.deleteAllCategories();
         }),
+        switchMap(() => this.notificationService.deleteAllNotifications()),
         switchMap(() =>
-          this.profileService.deleteProfile().pipe(
+          this.authenticationService.deleteAccount().pipe(
             catchError(() => {
               return of(undefined);
             }),
           ),
         ),
         switchMap(() =>
-          this.userService.logout().pipe(
+          this.authenticationService.logout().pipe(
             catchError(() => {
               return of(undefined);
             }),
@@ -118,9 +126,8 @@ export class ProfileComponent implements OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.loading = false;
-          this.router.navigate(['/connect']);
-          this.toastr.info('Profil supprimé', 'Profil', {
+          this.router.navigate(['/']);
+          this.toastr.info('Le compte a été supprimé', 'Compte', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
@@ -128,16 +135,16 @@ export class ProfileComponent implements OnDestroy {
         error: (error: HttpErrorResponse) => {
           this.loading = false;
           if (error.message.includes('auth/requires-recent-login')) {
-            this.toastr.info(
+            this.toastr.error(
               'Merci de vous déconnecter et de vous reconnecter pour effectuer cette action',
-              'Profil',
+              'Compte',
               {
                 positionClass: 'toast-bottom-center',
                 toastClass: 'ngx-toastr custom error',
               },
             );
           } else {
-            this.toastr.info(error.message, 'Profil', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });

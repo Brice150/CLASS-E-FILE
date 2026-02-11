@@ -1,0 +1,16 @@
+@if (!loading) {
+  <section>
+    @for (notification of notifications; track $index) {
+      <app-notification-card
+        [notification]="notification"
+        (viewEvent)="viewNotification(notification)"
+        (deleteEvent)="openDialog(notification.id!)"
+      ></app-notification-card>
+    } @empty {
+      <app-empty-card [text]="'Aucune notification'"></app-empty-card>
+    }
+  </section>
+}
+@if (loading) {
+  <mat-spinner></mat-spinner>
+}

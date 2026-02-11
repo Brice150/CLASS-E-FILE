@@ -20,19 +20,19 @@ import {
   take,
 } from 'rxjs';
 import { Category } from '../interfaces/category';
-import { UserService } from './user.service';
+import { AuthenticationService } from './authentication.service';
 
 @Injectable({ providedIn: 'root' })
 export class CategoryService {
   firestore = inject(Firestore);
-  userService = inject(UserService);
+  authenticationService = inject(AuthenticationService);
   categoriesCollection = collection(this.firestore, 'categories');
 
   getCategories(): Observable<Category[]> {
-    const userId = this.userService.auth.currentUser?.uid;
+    const userId = this.authenticationService.auth.currentUser?.uid;
     const categoriesCollection = query(
       collection(this.firestore, 'categories'),
-      where('userId', '==', userId)
+      where('userId', '==', userId),
     );
     return collectionData(categoriesCollection, {
       idField: 'id',
@@ -40,27 +40,27 @@ export class CategoryService {
   }
 
   getCategory(categoryId: string): Observable<Category | null> {
-    const userId = this.userService.auth.currentUser?.uid;
+    const userId = this.authenticationService.auth.currentUser?.uid;
     if (!userId) return of(null);
 
     const categoriesQuery = query(
       this.categoriesCollection,
       where('userId', '==', userId),
-      where('id', '==', categoryId)
+      where('id', '==', categoryId),
     );
 
     return collectionData(categoriesQuery, { idField: 'id' }).pipe(
-      map((categories) => (categories.length > 0 ? categories[0] : null))
+      map((categories) => (categories.length > 0 ? categories[0] : null)),
     ) as Observable<Category | null>;
   }
 
   addCategory(category: Category): Observable<string> {
     const categoriesDoc = doc(this.categoriesCollection);
     category.id = categoriesDoc.id;
-    category.userId = this.userService.auth.currentUser?.uid;
+    category.userId = this.authenticationService.auth.currentUser?.uid;
 
     return from(setDoc(categoriesDoc, { ...category })).pipe(
-      map(() => category.id!)
+      map(() => category.id!),
     );
   }
 
@@ -68,7 +68,7 @@ export class CategoryService {
     const writeOperations = categories.map((category) => {
       const categoryDoc = doc(this.categoriesCollection);
       category.id = categoryDoc.id;
-      category.userId = this.userService.auth.currentUser?.uid;
+      category.userId = this.authenticationService.auth.currentUser?.uid;
       return setDoc(categoryDoc, { ...category });
     });
 
@@ -88,10 +88,10 @@ export class CategoryService {
     return from(deleteDoc(categoriesDoc));
   }
 
-  deleteUserCategories(): Observable<void> {
+  deleteAllCategories(): Observable<void> {
     const categoriesQuery = query(
       this.categoriesCollection,
-      where('userId', '==', this.userService.auth.currentUser?.uid)
+      where('userId', '==', this.authenticationService.auth.currentUser?.uid),
     );
 
     return collectionData(categoriesQuery, { idField: 'id' }).pipe(
@@ -104,14 +104,14 @@ export class CategoryService {
         const deleteRequests = category.map((category: Category) => {
           const categoriesDoc = doc(
             this.firestore,
-            `categories/${category.id}`
+            `categories/${category.id}`,
           );
           return deleteDoc(categoriesDoc);
         });
 
         return combineLatest(deleteRequests);
       }),
-      map(() => undefined)
+      map(() => undefined),
     );
   }
 }

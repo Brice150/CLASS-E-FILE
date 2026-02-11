@@ -94,7 +94,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
 
   deleteArticle(): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: 'supprimer cet élément',
+      data: ['supprimer cet élément', ''],
       autoFocus: false,
       scrollStrategy: this.overlay.scrollStrategies.block(),
     });

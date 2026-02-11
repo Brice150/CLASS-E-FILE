@@ -4,41 +4,44 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { Subject, takeUntil } from 'rxjs';
-import { UserService } from './core/services/user.service';
-import { HeaderComponent } from './header/header.component';
+import { BreadcrumbComponent } from './breadcrumb/breadcrumb.component';
+import { NavComponent } from './nav/nav.component';
+import { AuthenticationService } from './core/services/authentication.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, HeaderComponent],
+  imports: [RouterOutlet, CommonModule, NavComponent, BreadcrumbComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy {
-  userService = inject(UserService);
+  authenticationService = inject(AuthenticationService);
   router = inject(Router);
   toastr = inject(ToastrService);
   destroyed$ = new Subject<void>();
 
   ngOnInit(): void {
-    this.userService.user$.pipe(takeUntil(this.destroyed$)).subscribe({
-      next: (user) => {
-        if (user) {
-          this.userService.currentUserSig.set({
-            email: user.email!,
-          });
-        } else {
-          this.userService.currentUserSig.set(null);
-        }
-      },
-      error: (error: HttpErrorResponse) => {
-        if (!error.message.includes('Missing or insufficient permissions.')) {
-          this.toastr.error(error.message, 'Class E-File', {
-            positionClass: 'toast-bottom-center',
-            toastClass: 'ngx-toastr custom error',
-          });
-        }
-      },
-    });
+    this.authenticationService.user$
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe({
+        next: (user) => {
+          if (user && user.emailVerified) {
+            this.authenticationService.currentAuthenticationSig.set({
+              email: user.email!,
+            });
+          } else {
+            this.authenticationService.currentAuthenticationSig.set(null);
+          }
+        },
+        error: (error: HttpErrorResponse) => {
+          if (!error.message.includes('Missing or insufficient permissions.')) {
+            this.toastr.error(error.message, 'Erreur', {
+              positionClass: 'toast-bottom-center',
+              toastClass: 'ngx-toastr custom error',
+            });
+          }
+        },
+      });
   }
 
   ngOnDestroy(): void {
@@ -47,20 +50,20 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.userService
+    this.authenticationService
       .logout()
       .pipe(takeUntil(this.destroyed$))
       .subscribe({
         next: () => {
-          this.router.navigate(['/connect']);
-          this.toastr.info('Déconnecté', 'Class E-File', {
+          this.router.navigate(['/']);
+          this.toastr.info('Déconnexion réussie', 'Déconnexion', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Class E-File', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });

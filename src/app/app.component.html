@@ -1,4 +1,7 @@
-@if (userService.currentUserSig()) {
-  <app-header (logoutEvent)="logout()"></app-header>
+@if (authenticationService.currentAuthenticationSig()) {
+  <app-nav (logoutEvent)="logout()"></app-nav>
 }
-<router-outlet />
+<div class="contents">
+  <app-breadcrumb></app-breadcrumb>
+  <router-outlet />
+</div>

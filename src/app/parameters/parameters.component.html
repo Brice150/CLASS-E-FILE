@@ -1,0 +1,12 @@
+@if (!loading) {
+  <section>
+    <app-account
+      [auth]="authenticationService.currentAuthenticationSig()!"
+      (updateEvent)="updatePassword()"
+      (deleteEvent)="openDeleteDialog()"
+    ></app-account>
+  </section>
+}
+@if (loading) {
+  <mat-spinner></mat-spinner>
+}

@@ -1,0 +1,106 @@
+<section>
+  <div class="title">
+    <img [src]="imagePath + 'Logo.webp'" alt="Class E-File" />
+    <h1>Class E-File</h1>
+  </div>
+  <div class="button-container">
+    <button
+      type="button"
+      routerLink="/connect/register"
+      title="S'inscrire"
+      class="unactive"
+    >
+      <i class="bx bx-pencil"></i>
+      <span class="text">S'inscrire</span>
+    </button>
+    <button
+      type="button"
+      routerLink="/connect/login"
+      title="Se connecter"
+      class="unactive"
+    >
+      <i class="bx bx-user-circle"></i>
+      <span class="text">Se connecter</span>
+    </button>
+  </div>
+  <div class="content">
+    <div class="title reveal" #section>
+      <h2 class="slogan">Organise et partage tes découvertes</h2>
+    </div>
+    <div class="features">
+      <div class="feature" #feature>
+        <img
+          [src]="imagePath + 'welcome/Categories.webp'"
+          alt="Categories.webp"
+        />
+        <div class="text">
+          <div class="text-title">
+            <div class="flex">
+              <i class="bx bxs-dashboard"></i>
+              <h3>Catégories</h3>
+            </div>
+            <h4>Votre répertoire, en un coup d’œil</h4>
+          </div>
+          <p>
+            Crée ton propre répertoire en ajoutant des catégories comme les
+            films, les séries, les musiques, les jeux ou tout autre centre
+            d’intérêt. Personnalise ton espace selon tes envies et organise tout
+            ce que tu aimes.
+          </p>
+        </div>
+      </div>
+      <div class="feature reverse" #feature>
+        <div class="text">
+          <div class="text-title">
+            <div class="flex">
+              <i class="bx bxs-bowl-hot"></i>
+              <h3>Nourriture</h3>
+            </div>
+            <h4>Mieux manger, ensemble et sans contrainte</h4>
+          </div>
+          <p>
+            Garde une trace de ce que tu as déjà vu, écouté ou joué, et découvre
+            ce qu’il te reste à explorer. Note chaque élément et classe-les
+            selon tes goûts pour mieux t’y retrouver et affiner tes
+            recommandations.
+          </p>
+        </div>
+        <img [src]="imagePath + 'welcome/Genre.webp'" alt="Genre.webp" />
+      </div>
+      <div class="feature" #feature>
+        <img [src]="imagePath + 'welcome/Stats.webp'" alt="Stats.webp" />
+        <div class="text">
+          <div class="text-title">
+            <div class="flex">
+              <i class="bx bx-dumbbell"></i>
+              <h3>Fitness</h3>
+            </div>
+            <h4>Suivez vos progrès et gardez la motivation</h4>
+          </div>
+          <p>
+            Visualise tes statistiques personnelles pour chaque catégorie et
+            suis ton évolution au fil du temps. Découvre tes préférences et tes
+            habitudes en un coup d’œil.
+          </p>
+        </div>
+      </div>
+      <div class="feature reverse" #feature>
+        <div class="text">
+          <div class="text-title">
+            <div class="flex">
+              <i class="bx bxs-credit-card-alt"></i>
+              <h3>Finance</h3>
+            </div>
+            <h4>Comprenez et maîtrisez vos finances</h4>
+          </div>
+          <p>
+            Partage facilement tes coups de cœur avec tes amis et
+            recommande-leur ce qu’ils ne doivent surtout pas manquer. Échange
+            autour de vos découvertes et inspire ta communauté.
+          </p>
+        </div>
+        <img [src]="imagePath + 'welcome/Sharing.webp'" alt="Sharing.webp" />
+      </div>
+    </div>
+  </div>
+</section>

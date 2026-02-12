@@ -96,7 +96,7 @@ export class CategoryDialogComponent implements OnInit {
 
           this.imagePreview = dataURL;
 
-          this.toastr.info('Image ajoutée', 'Catégorie', {
+          this.toastr.info('Image ajoutée', 'Image', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
@@ -114,7 +114,7 @@ export class CategoryDialogComponent implements OnInit {
       this.category.image = this.imagePreview;
       this.dialogRef.close(this.category);
     } else {
-      this.toastr.info('Titre Invalide', 'Catégorie', {
+      this.toastr.error('Titre Invalide', 'Erreur', {
         positionClass: 'toast-bottom-center',
         toastClass: 'ngx-toastr custom error',
       });

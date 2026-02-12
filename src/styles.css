@@ -1,8 +1,8 @@
 :root {
   --primary: white;
   --secondary: black;
-  --accent: #0088ff;
-  --background: #e4e9f7;
+  --accent: #940700;
+  --background: #f8faff;
   --box-shadow-color: rgba(40, 40, 40, 0.126);
   --box-shadow: 0 2px 6px var(--box-shadow-color);
 
@@ -33,11 +33,11 @@ body {
 }
 
 .toast-container .ngx-toastr.custom.info {
-  background-color: var(--secondary);
+  background-color: var(--accent);
 }
 
 .toast-container .ngx-toastr.custom.error {
-  background-color: var(--accent);
+  background-color: var(--secondary);
 }
 
 body.cdk-global-scrollblock {

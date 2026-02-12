@@ -67,7 +67,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         error: (error: HttpErrorResponse) => {
           this.loading = false;
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Categories', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });
@@ -92,7 +92,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
         error: (error: HttpErrorResponse) => {
           this.loading = false;
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégories', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });
@@ -119,14 +119,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.toastr.info('Catégorie ajoutée', 'Catégories', {
+          this.toastr.info('Catégorie ajoutée', 'Catégorie', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégories', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });
@@ -157,7 +157,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
             this.categories = this.categories.filter(
               (category) => category.id !== categoryId,
             );
-            this.toastr.info('Catégorie supprimée', 'Catégories', {
+            this.toastr.info('Catégorie supprimée', 'Catégorie', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom info',
             });
@@ -166,7 +166,7 @@ export class CategoriesComponent implements OnInit, OnDestroy {
             if (
               !error.message.includes('Missing or insufficient permissions.')
             ) {
-              this.toastr.error(error.message, 'Catégories', {
+              this.toastr.error(error.message, 'Erreur', {
                 positionClass: 'toast-bottom-center',
                 toastClass: 'ngx-toastr custom error',
               });
@@ -174,14 +174,10 @@ export class CategoriesComponent implements OnInit, OnDestroy {
           },
         });
     } else {
-      this.toastr.error(
-        'Vous devez avoir au moins une catégorie',
-        'Catégories',
-        {
-          positionClass: 'toast-bottom-center',
-          toastClass: 'ngx-toastr custom error',
-        },
-      );
+      this.toastr.error('Vous devez avoir au moins une catégorie', 'Erreur', {
+        positionClass: 'toast-bottom-center',
+        toastClass: 'ngx-toastr custom error',
+      });
     }
   }
 
@@ -203,14 +199,14 @@ export class CategoriesComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.toastr.info('Catégorie modifiée', 'Catégories', {
+          this.toastr.info('Catégorie modifiée', 'Catégorie', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégories', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });

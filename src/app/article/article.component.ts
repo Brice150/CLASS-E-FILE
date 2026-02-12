@@ -63,7 +63,7 @@ export class ArticleComponent implements OnInit, OnDestroy {
         error: (error: HttpErrorResponse) => {
           this.loading = false;
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégorie', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });
@@ -117,14 +117,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
       .subscribe({
         next: () => {
           this.router.navigate(['/categories/' + this.category.id]);
-          this.toastr.info('Élément supprimé', 'Catégorie', {
+          this.toastr.info('Élément supprimé', 'Élément', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégorie', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });
@@ -160,14 +160,14 @@ export class ArticleComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.toastr.info('Élément modifié', 'Catégorie', {
+          this.toastr.info('Élément modifié', 'Élément', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégorie', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });

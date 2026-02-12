@@ -76,12 +76,4 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
 
     return breadcrumbs;
   }
-
-  showInfo(): boolean {
-    return (
-      this.breadcrumbs[0].url.includes('/dashboard') ||
-      this.breadcrumbs[0].url.includes('/finance') ||
-      this.breadcrumbs[0].url.includes('/fitness')
-    );
-  }
 }

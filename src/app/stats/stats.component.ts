@@ -79,7 +79,7 @@ export class StatsComponent implements OnInit, OnDestroy {
         error: (error: HttpErrorResponse) => {
           this.loading = false;
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Progress', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });

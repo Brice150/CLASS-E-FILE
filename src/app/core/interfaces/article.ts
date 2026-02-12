@@ -9,5 +9,5 @@ export interface Article {
   grade: number;
   isPreferred: boolean;
   isWishlisted: boolean;
-  link?: string;
+  link: string | null;
 }

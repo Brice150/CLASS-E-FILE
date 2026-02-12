@@ -14,7 +14,7 @@
   width: 80%;
   max-width: 450px;
   padding: 10px 20px;
-  background-color: var(--background-nav);
+  background-color: var(--primary);
   border-radius: var(--light-radius);
   box-shadow: var(--box-shadow);
 }
@@ -81,7 +81,7 @@
   transition: 0.5s ease;
   width: 160px;
   border: none;
-  background-color: var(--background-nav);
+  background-color: var(--primary);
   box-shadow: var(--box-shadow);
 }
 

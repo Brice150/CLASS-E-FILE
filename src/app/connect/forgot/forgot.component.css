@@ -99,7 +99,7 @@ form mat-form-field mat-error span {
   transition: 0.5s ease;
   width: 180px;
   border: none;
-  background-color: var(--background-nav);
+  background-color: var(--primary);
   box-shadow: var(--box-shadow);
 }
 

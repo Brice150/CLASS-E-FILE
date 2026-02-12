@@ -3,43 +3,13 @@
     <div class="content">
       <form [formGroup]="searchForm">
         <mat-form-field>
-          <mat-label>RECHERCHER</mat-label>
-          <input matInput formControlName="search" />
+          <mat-label>Rechercher</mat-label>
+          <input matInput formControlName="search" #input />
           <button mat-icon-button matSuffix type="button">
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
         <div class="button-container">
-          @if (isTouched) {
-            <button
-              type="button"
-              class="dots cancel"
-              title="Annuler"
-              (click)="resetFilters()"
-            >
-              <i class="bx bx-x"></i>
-            </button>
-          }
-          @if (isSortedDesc) {
-            <button
-              type="button"
-              class="dots"
-              title="Trier par note"
-              (click)="sortArticles()"
-            >
-              <i class="bx bx-sort-down"></i>
-            </button>
-          } @else {
-            <button
-              type="button"
-              class="dots"
-              title="Trier par note"
-              (click)="sortArticles()"
-            >
-              <i class="bx bx-sort-up"></i>
-            </button>
-          }
-
           <button
             type="button"
             class="view"
@@ -51,18 +21,86 @@
           </button>
         </div>
       </form>
-      <div class="categories">
-        @for (article of filteredArticles; track $index) {
-          <app-article-card
-            [article]="article"
-            [categoryId]="category.id!"
-            (updateArticleEvent)="updateArticle(article)"
-            (deleteArticleEvent)="deleteArticle(article.id!)"
-          ></app-article-card>
-        } @empty {
-          <div class="empty">Aucun élément dans cette catégorie</div>
-        }
-      </div>
+      @if (dataSource.data.length) {
+        <table
+          mat-table
+          [dataSource]="dataSource"
+          matSort
+          (matSortChange)="sortChange($event)"
+        >
+          <ng-container matColumnDef="title">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by symbol"
+            >
+              Titre
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+          </ng-container>
+          <ng-container matColumnDef="genres">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by genres"
+            >
+              Genres
+            </th>
+
+            <td mat-cell *matCellDef="let element">
+              <mat-chip-set>
+                @for (
+                  genre of getSortedGenres(element.genres).slice(0, 2);
+                  track genre
+                ) {
+                  <mat-chip>
+                    {{ genre }}
+                  </mat-chip>
+                }
+
+                @if (element.genres?.length > 2) {
+                  <mat-chip
+                    class="more-genres"
+                    [title]="getHiddenGenresTitle(element.genres)"
+                  >
+                    +{{ element.genres.length - 2 }}
+                  </mat-chip>
+                }
+              </mat-chip-set>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="grade">
+            <th
+              mat-header-cell
+              *matHeaderCellDef
+              mat-sort-header
+              sortActionDescription="Sort by symbol"
+            >
+              Note
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element.grade }}</td>
+          </ng-container>
+
+          <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+          <tr class="mat-row" *matNoDataRow>
+            <td class="mat-cell" colspan="4">
+              Aucun élément correspondant à "{{ input.value }}"
+            </td>
+          </tr>
+        </table>
+      } @else {
+        <app-empty-card
+          [text]="'Aucun élément'"
+          style="margin-top: 10px"
+        ></app-empty-card>
+      }
       <button
         type="button"
         (click)="addArticle()"

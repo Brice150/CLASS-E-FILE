@@ -50,14 +50,14 @@ nav button i {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 44px;
+  font-size: 40px;
   color: var(--accent);
   transition: color 0.4s ease;
 }
 
 nav button .text {
   font-weight: 600;
-  font-size: 27px;
+  font-size: 25px;
   font-family: Roboto, "Helvetica Neue", sans-serif;
   color: var(--secondary);
   transition: color 0.4s ease;
@@ -80,7 +80,7 @@ nav button:hover::before {
 }
 
 nav button:hover i {
-  color: var(--secondary);
+  color: var(--primary);
 }
 
 nav button:hover .text {
@@ -97,7 +97,7 @@ nav button.active {
 }
 
 nav button.active i {
-  color: var(--secondary);
+  color: var(--primary);
 }
 
 nav button.active .text {
@@ -112,7 +112,7 @@ nav button.active .text {
   cursor: pointer;
   border: none;
   background-color: var(--primary);
-  color: var(--secondary);
+  color: var(--accent);
   border-radius: var(--light-radius);
   font-size: 40px;
   width: 50px;
@@ -132,7 +132,7 @@ nav button.active .text {
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: var(--secondary);
+  background-color: var(--accent);
   transition: width 0.4s ease;
   z-index: 0;
 }

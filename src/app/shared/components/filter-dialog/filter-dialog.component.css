@@ -125,7 +125,7 @@ form .image-container {
 
 form .image-container label {
   cursor: pointer;
-  background-color: var(--background-nav);
+  background-color: var(--primary);
   color: var(--accent);
   padding: 10px;
   display: flex;

@@ -9,8 +9,8 @@ section {
   margin: 20px;
   width: 100%;
   max-width: 1300px;
-  border-radius: var(--strong-radius);
-  background-color: var(--background-nav);
+  border-radius: var(--light-radius);
+  background-color: var(--primary);
   box-shadow: var(--box-shadow);
   position: relative;
   display: flex;
@@ -82,7 +82,7 @@ section button {
   border-radius: var(--light-radius);
   transition: 0.5s ease;
   width: 180px;
-  background-color: var(--background-nav);
+  background-color: var(--primary);
   box-shadow: var(--box-shadow);
   border: none;
   cursor: pointer;

@@ -7,7 +7,7 @@
 }
 
 .container {
-  background-color: var(--background-nav);
+  background-color: var(--primary);
   box-shadow: var(--box-shadow);
   padding: 5px 5px 5px 15px;
   display: flex;
@@ -60,7 +60,7 @@
   border-radius: var(--light-radius);
   transition: 0.5s ease;
   border: none;
-  background-color: var(--background-nav);
+  background-color: var(--primary);
 }
 
 .button-container .delete {

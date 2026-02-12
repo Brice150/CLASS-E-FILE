@@ -201,7 +201,7 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
 
           this.imagePreview = dataURL;
 
-          this.toastr.info('Image ajoutée', 'Élément', {
+          this.toastr.info('Image ajoutée', 'Image', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
@@ -220,7 +220,7 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
       this.article.genres = this.genres()?.length ? this.genres() : [];
       this.dialogRef.close(this.article);
     } else {
-      this.toastr.info('Titre invalide', 'Élément', {
+      this.toastr.error('Titre invalide', 'Erreur', {
         positionClass: 'toast-bottom-center',
         toastClass: 'ngx-toastr custom error',
       });

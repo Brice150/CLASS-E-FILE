@@ -2,195 +2,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 100%;
-  max-width: 320px;
+  flex-direction: column;
 }
 
-.category {
+button {
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 10px;
   padding: 10px;
   width: 100%;
   box-shadow: var(--box-shadow);
   border-radius: var(--light-radius);
   color: var(--accent);
   background-color: var(--primary);
-}
-
-.category .title {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  width: 100%;
-  margin-top: 20px;
-  gap: 10px;
-}
-
-.category .title img {
-  width: 100px;
-  height: 100px;
-  object-fit: cover;
-  border-radius: var(--light-radius);
-}
-
-.category .title span {
-  font-size: 22px;
-  font-weight: 800;
-  font-family: "Alice", serif;
-  text-transform: capitalize;
-  max-width: 160px;
+  border: none;
+  height: 220px;
   overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.view {
-  position: relative;
-  overflow: hidden;
-  margin-top: 20px;
   cursor: pointer;
-  background-color: var(--primary);
-  color: var(--secondary);
-  padding: 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  border-radius: var(--light-radius);
   transition: color 0.4s ease;
-  width: 150px;
-  border: none;
-  box-shadow: var(--box-shadow);
 }
 
-.view::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  background-color: var(--secondary);
-  transition: width 0.4s ease;
-  z-index: 0;
-}
-
-.view:hover::before {
-  width: 100%;
-}
-
-.view:hover {
-  color: var(--primary);
-}
-
-.view * {
-  position: relative;
-  z-index: 1;
-}
-
-.view i {
-  font-size: 30px;
-}
-
-.view .text {
-  font-size: 20px;
-  font-weight: 500;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
-}
-
-.category .update-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 5px;
-  left: 5px;
-}
-
-.category .update-container .update {
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
-  width: 40px;
-  height: 40px;
-  color: var(--secondary);
-  background-color: var(--primary);
-  border-radius: var(--light-radius);
-  cursor: pointer;
-  transition: width 0.4s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background-color: var(--primary);
-}
-
-.category .update-container .update i {
-  font-size: 30px;
-}
-
-.category .update-container .update::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  background-color: var(--secondary);
-  transition: width 0.4s ease;
-  z-index: 0;
-}
-
-.category .update-container .update:hover::before {
-  width: 100%;
-}
-
-.category .update-container .update:hover {
-  color: var(--primary);
-}
-
-.category .update-container .update * {
-  position: relative;
-  z-index: 1;
-}
-
-.category .delete-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  top: 5px;
-  right: 5px;
-}
-
-.category .delete-container .delete {
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
-  width: 40px;
-  height: 40px;
-  color: var(--accent);
-  background-color: var(--primary);
-  border-radius: var(--light-radius);
-  cursor: pointer;
-  transition: width 0.4s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background-color: var(--primary);
-}
-
-.category .delete-container .delete i {
-  font-size: 50px;
-}
-
-.category .delete-container .delete::before {
+button::before {
   content: "";
   position: absolute;
   top: 0;
@@ -202,15 +36,49 @@
   z-index: 0;
 }
 
-.category .delete-container .delete:hover::before {
+button:hover::before {
   width: 100%;
 }
 
-.category .delete-container .delete:hover {
+button:hover {
   color: var(--primary);
 }
 
-.category .delete-container .delete * {
+/* remet le contenu au-dessus */
+button * {
   position: relative;
   z-index: 1;
+}
+
+button .title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 250px;
+  gap: 10px;
+}
+
+button .title img {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: var(--light-radius);
+}
+
+button .title span {
+  font-size: 22px;
+  font-weight: 800;
+  font-family: "Alice", serif;
+  text-transform: capitalize;
+  max-width: 250px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 430px) {
+  :host {
+    width: 90%;
+  }
 }

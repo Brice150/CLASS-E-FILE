@@ -2,7 +2,7 @@
   <h1>Filtrer les {{ categoryTitle | lowercase }}</h1>
   <form class="content" (ngSubmit)="confirm()">
     <mat-form-field class="title">
-      <mat-label>GENRES</mat-label>
+      <mat-label>Genres</mat-label>
 
       <mat-chip-grid #chipGrid>
         @for (genre of genres(); track $index) {

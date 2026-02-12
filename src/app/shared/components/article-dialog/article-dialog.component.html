@@ -6,7 +6,7 @@
   }
   <form class="content" (ngSubmit)="confirm()">
     <mat-form-field class="title">
-      <mat-label>TITRE</mat-label>
+      <mat-label>Titre</mat-label>
       <input
         matInput
         [(ngModel)]="article.title"
@@ -19,7 +19,7 @@
       />
     </mat-form-field>
     <mat-form-field class="title">
-      <mat-label>GENRES</mat-label>
+      <mat-label>Genres</mat-label>
 
       <mat-chip-grid #chipGrid>
         @for (genre of genres(); track $index) {
@@ -53,7 +53,7 @@
       </mat-autocomplete>
     </mat-form-field>
     <mat-form-field>
-      <mat-label>DESCRIPTION</mat-label>
+      <mat-label>Description</mat-label>
       <textarea
         matInput
         [(ngModel)]="article.description"
@@ -66,7 +66,7 @@
       ></textarea>
     </mat-form-field>
     <mat-form-field class="title">
-      <mat-label>LIEN</mat-label>
+      <mat-label>Lien</mat-label>
       <input
         matInput
         [(ngModel)]="article.link"
@@ -76,7 +76,7 @@
       />
     </mat-form-field>
     <div class="star-picker">
-      <label>NOTE</label>
+      <label>Note</label>
       <div class="stars">
         @for (star of getStarsArray(); track $index) {
           <span

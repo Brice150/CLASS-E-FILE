@@ -1,41 +1,55 @@
+import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Overlay } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  inject,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { Article } from '../core/interfaces/article';
 import { Category } from '../core/interfaces/category';
 import { CategoryService } from '../core/services/category.service';
+import { EmptyCardComponent } from '../empty-card/empty-card.component';
 import { ArticleDialogComponent } from '../shared/components/article-dialog/article-dialog.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { FilterDialogComponent } from '../shared/components/filter-dialog/filter-dialog.component';
-import { ArticleCardComponent } from './article-card/article-card.component';
 
 @Component({
   selector: 'app-category',
   imports: [
     CommonModule,
     MatProgressSpinnerModule,
-    ArticleCardComponent,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,
+    MatTableModule,
+    MatSortModule,
+    MatChipsModule,
+    EmptyCardComponent,
   ],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css',
 })
-export class CategoryComponent implements OnInit, OnDestroy {
+export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   searchForm!: FormGroup;
   fb = inject(FormBuilder);
   categoryService = inject(CategoryService);
@@ -52,6 +66,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
   isTouched = false;
   articleFilter: Article = {} as Article;
   overlay = inject(Overlay);
+  displayedColumns: string[] = ['title', 'genres', 'grade'];
+  dataSource = new MatTableDataSource(this.filteredArticles);
+  _liveAnnouncer = inject(LiveAnnouncer);
+  @ViewChild(MatSort) sort!: MatSort;
+
+  getSortedGenres(genres?: string[]): string[] {
+    return [...(genres ?? [])].sort((a, b) => a.localeCompare(b));
+  }
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
@@ -85,7 +107,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
         error: (error: HttpErrorResponse) => {
           this.loading = false;
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégorie', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });
@@ -94,14 +116,57 @@ export class CategoryComponent implements OnInit, OnDestroy {
       });
   }
 
+  ngAfterViewInit() {
+    this.dataSource.sort = this.sort;
+
+    this.dataSource.sortingDataAccessor = (item, property) => {
+      switch (property) {
+        case 'genres':
+          return [...(item.genres ?? [])]
+            .sort((a, b) => a.localeCompare(b))
+            .join(', ')
+            .toLowerCase();
+
+        case 'title':
+          return item.title?.toLowerCase() ?? '';
+
+        case 'grade':
+          return item.grade ?? 0;
+
+        default:
+          return (item as any)[property];
+      }
+    };
+  }
+
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
   }
 
+  trackByGenre(_: number, genre: string): string {
+    return genre;
+  }
+
+  sortChange(sortState: Sort) {
+    if (sortState.direction) {
+      this._liveAnnouncer.announce(
+        `Sorted ${sortState.active} ${sortState.direction}ending`,
+      );
+    } else {
+      this._liveAnnouncer.announce('Sorting cleared');
+    }
+  }
+
+  getHiddenGenresTitle(genres?: string[]): string {
+    if (!genres || genres.length <= 2) return '';
+
+    return this.getSortedGenres(genres).slice(2).join(', ');
+  }
+
   applyAll(): void {
     if (!this.category?.articles) {
-      this.filteredArticles = [];
+      this.dataSource.data = [];
       return;
     }
 
@@ -128,15 +193,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
       );
     }
 
-    if (!this.isSortedActivated) {
-      articles.sort((a, b) => a.title.localeCompare(b.title));
-    } else {
-      articles.sort((a, b) =>
-        this.isSortedDesc ? b.grade - a.grade : a.grade - b.grade,
-      );
-    }
-
-    this.filteredArticles = articles;
+    this.dataSource.data = articles;
   }
 
   addArticle(): void {
@@ -169,7 +226,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
             grade: res.grade ?? 0,
             isPreferred: res.isPreferred ?? false,
             isWishlisted: res.isWishlisted ?? false,
-            link: res.link,
+            link: res.link ?? null,
           };
 
           this.category.articles.push(article);
@@ -180,14 +237,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.toastr.info('Élément ajoutée', 'Catégorie', {
+          this.toastr.info('Élément ajoutée', 'Élément', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégorie', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });
@@ -220,14 +277,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.toastr.info('Élément supprimé', 'Catégorie', {
+          this.toastr.info('Élément supprimé', 'Élément', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégorie', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });
@@ -261,24 +318,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
     this.applyAll();
   }
 
-  sortArticles(): void {
-    this.isSortedActivated = true;
-    this.isSortedDesc = !this.isSortedDesc;
-    this.isTouched = true;
-    this.applyAll();
-  }
-
-  resetFilters(): void {
-    this.isSortedActivated = false;
-    this.isSortedDesc = false;
-    this.isTouched = false;
-    this.articleFilter = {} as Article;
-
-    this.searchForm.get('search')?.setValue('');
-
-    this.applyAll();
-  }
-
   updateArticle(article: Article): void {
     const dialogRef = this.dialog.open(ArticleDialogComponent, {
       data: {
@@ -306,14 +345,14 @@ export class CategoryComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: () => {
-          this.toastr.info('Élément modifié', 'Catégorie', {
+          this.toastr.info('Élément modifié', 'Élément', {
             positionClass: 'toast-bottom-center',
             toastClass: 'ngx-toastr custom info',
           });
         },
         error: (error: HttpErrorResponse) => {
           if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Catégorie', {
+            this.toastr.error(error.message, 'Erreur', {
               positionClass: 'toast-bottom-center',
               toastClass: 'ngx-toastr custom error',
             });

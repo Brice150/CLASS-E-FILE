@@ -1,14 +1,4 @@
 @if (breadcrumbs.length) {
-  @if (showInfo()) {
-    <button
-      type="button"
-      class="infos"
-      routerLink="/parameters"
-      matTooltip="Les données présentées sont uniquement celles de l’utilisateur sélectionné. Cliquez ici pour changer d'utilisateur."
-    >
-      <i class="bx bxs-info-circle"></i>
-    </button>
-  }
   <nav aria-label="breadcrumb">
     @for (crumb of breadcrumbs; track $index; let last = $last) {
       @if (!last) {

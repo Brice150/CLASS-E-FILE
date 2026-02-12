@@ -9,6 +9,23 @@
             <mat-icon>search</mat-icon>
           </button>
         </mat-form-field>
+        <mat-form-field class="select">
+          <mat-label>Genres</mat-label>
+          <mat-select formControlName="genres" multiple>
+            <mat-select-trigger>
+              {{ genresCtrl?.value[0] || "" }}
+              @if ((genresCtrl?.value?.length || 0) > 1) {
+                <span class="example-additional-selection">
+                  (+{{ (genresCtrl?.value?.length || 0) - 1 }}
+                  {{ genresCtrl?.value?.length === 2 ? "autre" : "autres" }})
+                </span>
+              }
+            </mat-select-trigger>
+            @for (genre of genres; track $index) {
+              <mat-option [value]="genre">{{ genre }}</mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
         <div class="button-container">
           <button
             type="button"
@@ -17,7 +34,7 @@
             (click)="openFilter()"
           >
             <i class="bx bxs-filter-alt"></i>
-            <span class="text">Filtrer</span>
+            <span class="text">Autres</span>
           </button>
         </div>
       </form>

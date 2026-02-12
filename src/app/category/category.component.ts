@@ -18,6 +18,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSelectModule } from '@angular/material/select';
 import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -45,6 +46,7 @@ import { FilterDialogComponent } from '../shared/components/filter-dialog/filter
     MatSortModule,
     MatChipsModule,
     EmptyCardComponent,
+    MatSelectModule,
   ],
   templateUrl: './category.component.html',
   styleUrl: './category.component.css',
@@ -69,20 +71,21 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   displayedColumns: string[] = ['title', 'genres', 'grade'];
   dataSource = new MatTableDataSource(this.filteredArticles);
   _liveAnnouncer = inject(LiveAnnouncer);
+  genres: string[] = [];
   @ViewChild(MatSort) sort!: MatSort;
 
-  getSortedGenres(genres?: string[]): string[] {
-    return [...(genres ?? [])].sort((a, b) => a.localeCompare(b));
+  get genresCtrl() {
+    return this.searchForm.get('genres');
   }
 
   ngOnInit(): void {
     this.searchForm = this.fb.group({
       search: ['', []],
+      genres: [[], []],
     });
 
-    this.searchForm
-      .get('search')
-      ?.valueChanges.pipe(takeUntil(this.destroyed$))
+    this.searchForm.valueChanges
+      .pipe(takeUntil(this.destroyed$))
       .subscribe(() => {
         this.applyAll();
       });
@@ -100,6 +103,9 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           if (category) {
             this.category = category;
             this.category.articles ??= [];
+            this.genres = this.category.articles.flatMap(
+              (article) => article.genres,
+            );
             this.applyAll();
           }
           this.loading = false;
@@ -142,6 +148,10 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  getSortedGenres(genres?: string[]): string[] {
+    return [...(genres ?? [])].sort((a, b) => a.localeCompare(b));
   }
 
   trackByGenre(_: number, genre: string): string {
@@ -298,7 +308,6 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
       data: {
         categoryTitle: this.category.title,
         article: this.articleFilter,
-        genres: this.category.articles.flatMap((article) => article.genres),
       },
       autoFocus: false,
       scrollStrategy: this.overlay.scrollStrategies.block(),

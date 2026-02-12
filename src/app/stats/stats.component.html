@@ -2,6 +2,7 @@
   <div class="content">
     @if (!loading) {
       <mat-form-field>
+        <mat-label>Catégorie</mat-label>
         <mat-select
           [(ngModel)]="categoryTitle"
           (selectionChange)="updateGraph()"

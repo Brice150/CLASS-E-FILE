@@ -3,14 +3,14 @@ section {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  background: var(--background);
+  background: var(--primary);
   padding: 10px;
   border-radius: var(--light-radius);
   display: flex;
   align-items: center;
   justify-content: space-between;
   flex-direction: column;
-  max-width: 700px;
+  max-width: 800px;
   width: 90%;
 }
 

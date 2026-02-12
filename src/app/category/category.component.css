@@ -83,8 +83,6 @@ section .content .button-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  width: 270px;
 }
 
 .view {
@@ -92,7 +90,7 @@ section .content .button-container {
   overflow: hidden;
   cursor: pointer;
   background-color: var(--primary);
-  color: var(--secondary);
+  color: var(--accent);
   padding: 10px;
   display: flex;
   align-items: center;
@@ -112,7 +110,7 @@ section .content .button-container {
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: var(--secondary);
+  background-color: var(--accent);
   transition: width 0.4s ease;
   z-index: 0;
 }
@@ -224,6 +222,7 @@ form {
 
 mat-form-field {
   box-shadow: var(--box-shadow);
+  width: 240px;
 }
 
 ::ng-deep .mat-mdc-table {
@@ -311,6 +310,104 @@ mat-icon {
   color: var(--accent) !important;
 }
 
+::ng-deep .mat-mdc-select {
+  color: var(--secondary) !important;
+}
+
+::ng-deep .mat-mdc-select-arrow svg {
+  fill: var(--accent) !important;
+}
+
+::ng-deep .mat-mdc-select-panel {
+  background-color: var(--primary) !important;
+}
+
+::ng-deep .mdc-list-item__primary-text {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: var(--secondary) !important;
+}
+
+::ng-deep .mdc-list-item--selected {
+  color: var(--primary) !important;
+}
+
+::ng-deep .mdc-list-item__primary-text span {
+  color: var(--secondary) !important;
+}
+
+::ng-deep .mdc-list-item__primary-text i {
+  color: var(--secondary) !important;
+  font-size: 25px;
+}
+
+::ng-deep .mdc-list-item--selected span {
+  color: var(--primary) !important;
+}
+
+::ng-deep .mdc-list-item--selected i {
+  color: var(--primary) !important;
+}
+
+::ng-deep
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  ) {
+  background-color: var(--accent) !important;
+}
+
+::ng-deep
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  )
+  .mdc-list-item__primary-text {
+  color: var(--primary) !important;
+}
+
+::ng-deep
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  )
+  .mdc-list-item__primary-text
+  .flex
+  i {
+  color: var(--primary) !important;
+}
+
+::ng-deep
+  .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(
+    .mat-mdc-option-multiple
+  )
+  .mdc-list-item__primary-text
+  .flex
+  .game {
+  color: var(--primary) !important;
+}
+
+::ng-deep .mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-checked::after,
+.mat-pseudo-checkbox-minimal.mat-pseudo-checkbox-indeterminate::after {
+  color: var(--primary) !important;
+}
+
+::ng-deep .mdc-list-item--selected {
+  color: var(--accent) !important;
+}
+
+::ng-deep .mdc-list-item--selected span {
+  color: var(--accent) !important;
+}
+
+::ng-deep .mdc-list-item__primary-text span {
+  color: var(--secondary) !important;
+}
+
+::ng-deep .mat-pseudo-checkbox-full.mat-pseudo-checkbox-checked,
+.mat-pseudo-checkbox-full.mat-pseudo-checkbox-indeterminate {
+  background-color: var(--accent) !important;
+}
+
 @media screen and (max-width: 693px) {
   form {
     flex-direction: column;
@@ -321,6 +418,7 @@ mat-icon {
 @media screen and (max-width: 480px) {
   mat-form-field {
     width: 100%;
+    min-width: unset;
   }
 }
 

@@ -2,14 +2,7 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Overlay } from '@angular/cdk/overlay';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
-import {
-  AfterViewInit,
-  Component,
-  inject,
-  OnDestroy,
-  OnInit,
-  ViewChild,
-} from '@angular/core';
+import { Component, inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
@@ -51,7 +44,7 @@ import { FilterDialogComponent } from '../shared/components/filter-dialog/filter
   templateUrl: './category.component.html',
   styleUrl: './category.component.css',
 })
-export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CategoryComponent implements OnInit, OnDestroy {
   searchForm!: FormGroup;
   fb = inject(FormBuilder);
   categoryService = inject(CategoryService);
@@ -73,6 +66,13 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
   _liveAnnouncer = inject(LiveAnnouncer);
   genres: string[] = [];
   @ViewChild(MatSort) sort!: MatSort;
+
+  @ViewChild(MatSort)
+  set matSort(sort: MatSort) {
+    if (sort) {
+      this.dataSource.sort = sort;
+    }
+  }
 
   get genresCtrl() {
     return this.searchForm.get('genres');
@@ -120,29 +120,6 @@ export class CategoryComponent implements OnInit, AfterViewInit, OnDestroy {
           }
         },
       });
-  }
-
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'genres':
-          return [...(item.genres ?? [])]
-            .sort((a, b) => a.localeCompare(b))
-            .join(', ')
-            .toLowerCase();
-
-        case 'title':
-          return item.title?.toLowerCase() ?? '';
-
-        case 'grade':
-          return item.grade ?? 0;
-
-        default:
-          return (item as any)[property];
-      }
-    };
   }
 
   ngOnDestroy(): void {

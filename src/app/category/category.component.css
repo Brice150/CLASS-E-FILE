@@ -138,69 +138,6 @@ section .content .button-container {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-section .content .button-container .dots {
-  position: relative;
-  overflow: hidden;
-  box-shadow: var(--box-shadow);
-  width: 50px;
-  height: 50px;
-  color: var(--secondary);
-  background-color: var(--primary);
-  border-radius: var(--light-radius);
-  cursor: pointer;
-  transition: width 0.4s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: none;
-  background-color: var(--primary);
-}
-
-section .content .button-container .dots i {
-  font-size: 30px;
-}
-
-section .content .button-container .cancel i {
-  font-size: 40px;
-}
-
-section .content .button-container .dots::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0%;
-  height: 100%;
-  background-color: var(--secondary);
-  transition: width 0.4s ease;
-  z-index: 0;
-}
-
-section .content .button-container .dots:hover::before {
-  width: 100%;
-}
-
-section .content .button-container .dots:hover {
-  color: var(--primary);
-}
-
-section .content .button-container .dots * {
-  position: relative;
-  z-index: 1;
-}
-
-section .content .button-container .dots {
-  color: var(--secondary);
-}
-
-section .content .button-container .cancel {
-  color: var(--accent);
-}
-
-section .content .button-container .cancel::before {
-  background-color: var(--accent);
-}
-
 mat-spinner {
   position: absolute;
   top: 50%;
@@ -257,12 +194,45 @@ table .mat-mdc-cell {
 }
 
 .actions-cell .dots {
-  background: transparent;
-  box-shadow: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--light-radius);
+  cursor: pointer;
+  border: none;
+  background-color: var(--primary);
   color: var(--accent);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.4s ease;
+}
+
+.actions-cell .dots::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--accent);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.actions-cell .dots:hover::before {
+  width: 100%;
+}
+
+.actions-cell .dots:hover {
+  color: var(--primary);
 }
 
 .actions-cell .dots i {
+  position: relative;
+  z-index: 1;
   font-size: 22px;
 }
 

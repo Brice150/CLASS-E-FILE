@@ -251,6 +251,21 @@ table .mat-mdc-cell {
   color: var(--accent);
 }
 
+.actions-cell {
+  width: 60px;
+  text-align: center;
+}
+
+.actions-cell .dots {
+  background: transparent;
+  box-shadow: none;
+  color: var(--accent);
+}
+
+.actions-cell .dots i {
+  font-size: 22px;
+}
+
 ::ng-deep .mat-mdc-table {
   padding: 5px;
 }
@@ -439,6 +454,30 @@ mat-icon {
   .mdc-evolution-chip__text-label {
   color: var(--secondary) !important;
   font-weight: 500;
+}
+
+::ng-deep .mat-mdc-menu-panel {
+  background-color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-menu-item {
+  color: var(--secondary) !important;
+  font-weight: 500;
+}
+
+::ng-deep .mat-mdc-menu-item i {
+  margin-right: 10px;
+  font-size: 22px;
+  color: var(--accent);
+}
+
+::ng-deep .mat-mdc-menu-item:hover {
+  background-color: var(--accent) !important;
+  color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-menu-item:hover i {
+  color: var(--primary) !important;
 }
 
 @media screen and (max-width: 693px) {

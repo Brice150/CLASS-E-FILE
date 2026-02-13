@@ -225,8 +225,19 @@ mat-form-field {
   width: 240px;
 }
 
-.accent-table .mat-mdc-header-cell {
+table .mat-mdc-header-cell {
   border-bottom: 2px solid var(--accent);
+}
+
+table .mat-mdc-header-cell {
+  color: var(--accent);
+  font-weight: 500;
+  font-size: 16px;
+}
+
+table .mat-mdc-cell {
+  color: var(--secondary);
+  font-weight: 500;
 }
 
 ::ng-deep .mat-mdc-table {

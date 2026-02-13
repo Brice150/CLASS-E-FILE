@@ -488,6 +488,10 @@ mat-icon {
 }
 
 @media screen and (max-width: 480px) {
+  .mat-column-genres {
+    display: none;
+  }
+
   mat-form-field {
     width: 100%;
     min-width: unset;

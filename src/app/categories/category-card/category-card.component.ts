@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, input, Output } from '@angular/core';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 import { environment } from '../../../environments/environment';
 import { Category } from '../../core/interfaces/category';
 
 @Component({
   selector: 'app-category-card',
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule, MatMenuModule],
   templateUrl: './category-card.component.html',
   styleUrl: './category-card.component.css',
 })

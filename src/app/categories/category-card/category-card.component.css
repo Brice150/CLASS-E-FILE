@@ -5,7 +5,7 @@
   flex-direction: column;
 }
 
-button {
+.category {
   position: relative;
   display: flex;
   justify-content: center;
@@ -24,7 +24,7 @@ button {
   transition: color 0.4s ease;
 }
 
-button::before {
+.category::before {
   content: "";
   position: absolute;
   top: 0;
@@ -36,21 +36,21 @@ button::before {
   z-index: 0;
 }
 
-button:hover::before {
+.category:hover::before {
   width: 100%;
 }
 
-button:hover {
+.category:hover {
   color: var(--primary);
 }
 
 /* remet le contenu au-dessus */
-button * {
+.category * {
   position: relative;
   z-index: 1;
 }
 
-button .title {
+.category .title {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -59,14 +59,14 @@ button .title {
   gap: 10px;
 }
 
-button .title img {
+.category .title img {
   width: 120px;
   height: 120px;
   object-fit: cover;
   border-radius: var(--light-radius);
 }
 
-button .title span {
+.category .title span {
   font-size: 22px;
   font-weight: 800;
   font-family: "Alice", serif;
@@ -75,6 +75,70 @@ button .title span {
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
+}
+
+.category-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.category .category-menu-btn {
+  position: absolute;
+  border: none;
+  cursor: pointer;
+  top: 5px;
+  right: 5px;
+  width: 40px;
+  height: 40px;
+  z-index: 2;
+  background: var(--primary);
+  color: var(--accent);
+  box-shadow: var(--box-shadow);
+  border-radius: var(--light-radius);
+}
+
+.category .category-menu-btn i {
+  font-size: 22px;
+}
+
+.category .category-menu-btn:hover {
+  background: var(--accent);
+  color: var(--primary);
+}
+
+::ng-deep .mat-mdc-menu-panel {
+  background-color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-menu-item-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+::ng-deep .mat-mdc-menu-item-text span {
+  font-size: 20px;
+  color: var(--secondary);
+  font-weight: 500;
+}
+
+::ng-deep .mat-mdc-menu-item i {
+  font-size: 30px;
+  color: var(--accent);
+}
+
+::ng-deep .mat-mdc-menu-item:hover {
+  background-color: var(--accent) !important;
+  color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-menu-item:hover i {
+  color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-menu-item:hover span {
+  color: var(--primary) !important;
 }
 
 @media screen and (max-width: 430px) {

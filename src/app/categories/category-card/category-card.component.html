@@ -1,22 +1,46 @@
-<button
-  [routerLink]="'/categories/' + category().id"
-  [title]="category().title"
->
-  <div class="title">
-    @if (category().image) {
-      <img [src]="category().image" [alt]="category().title" />
-    } @else {
-      <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
-    }
-    @if (category().articles.length) {
-      <span
-        >{{ category().title }} (<span style="color: var(--secondary)">{{
-          category().articles.length
-        }}</span
-        >)</span
-      >
-    } @else {
-      <span>{{ category().title }}</span>
-    }
-  </div>
-</button>
+<div class="category-wrapper">
+  <button
+    [title]="category().title"
+    [routerLink]="'/categories/' + category().id"
+    class="category"
+  >
+    <div class="title">
+      @if (category().image) {
+        <img [src]="category().image" [alt]="category().title" />
+      } @else {
+        <img [src]="imagePath + 'Empty.webp'" alt="Empty.webp" />
+      }
+      @if (category().articles.length) {
+        <span>
+          {{ category().title }}
+          (<span style="color: var(--secondary)">
+            {{ category().articles.length }} </span
+          >)
+        </span>
+      } @else {
+        <span>{{ category().title }}</span>
+      }
+    </div>
+
+    <button
+      mat-icon-button
+      class="category-menu-btn"
+      [matMenuTriggerFor]="categoryMenu"
+      (click)="$event.stopPropagation()"
+    >
+      <i class="bx bx-dots-vertical-rounded"></i>
+    </button>
+  </button>
+
+  <mat-menu #categoryMenu="matMenu">
+    <button mat-menu-item (click)="update()">
+      <i class="bx bxs-edit-alt"></i>
+      <span>Modifier</span>
+    </button>
+
+    <button mat-menu-item (click)="delete()">
+      <i class="bx bxs-trash"></i>
+      <span>Supprimer</span>
+    </button>
+  </mat-menu>
+</div>

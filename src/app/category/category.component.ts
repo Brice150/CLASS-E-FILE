@@ -103,9 +103,13 @@ export class CategoryComponent implements OnInit, OnDestroy {
           if (category) {
             this.category = category;
             this.category.articles ??= [];
-            this.genres = this.category.articles.flatMap(
-              (article) => article.genres,
-            );
+            this.genres = [
+              ...new Set(
+                this.category.articles.flatMap(
+                  (article) => article.genres ?? [],
+                ),
+              ),
+            ].sort((a, b) => a.localeCompare(b));
             this.applyAll();
           }
           this.loading = false;
@@ -159,14 +163,22 @@ export class CategoryComponent implements OnInit, OnDestroy {
 
     const searchValue =
       this.searchForm.get('search')?.value?.toLowerCase() ?? '';
+
+    const selectedGenres: string[] = this.searchForm.get('genres')?.value ?? [];
+
     const filters = this.articleFilter;
 
     let articles = this.category.articles.filter((article) => {
       let ok = true;
 
+      if (selectedGenres.length) {
+        ok = ok && selectedGenres.every((g) => article.genres?.includes(g));
+      }
+
       if (filters.genres?.length) {
         ok = ok && filters.genres.every((g) => article.genres?.includes(g));
       }
+
       if (filters.isOwned) ok = ok && article.isOwned;
       if (filters.isPreferred) ok = ok && article.isPreferred;
       if (filters.isWishlisted) ok = ok && article.isWishlisted;

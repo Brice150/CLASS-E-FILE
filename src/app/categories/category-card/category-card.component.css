@@ -93,17 +93,39 @@
   z-index: 2;
   background: var(--primary);
   color: var(--accent);
-  box-shadow: var(--box-shadow);
   border-radius: var(--light-radius);
+  overflow: hidden;
+  transition: color 0.4s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: var(--box-shadow);
 }
 
-.category .category-menu-btn i {
-  font-size: 22px;
+.category .category-menu-btn::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--accent);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.category .category-menu-btn:hover::before {
+  width: 100%;
 }
 
 .category .category-menu-btn:hover {
-  background: var(--accent);
   color: var(--primary);
+}
+
+.category .category-menu-btn i {
+  position: relative;
+  z-index: 1;
+  font-size: 22px;
 }
 
 ::ng-deep .mat-mdc-menu-panel {

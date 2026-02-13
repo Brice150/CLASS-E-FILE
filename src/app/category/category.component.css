@@ -240,6 +240,17 @@ table .mat-mdc-cell {
   font-weight: 500;
 }
 
+.stars {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.stars i {
+  font-size: 22px;
+  color: var(--accent);
+}
+
 ::ng-deep .mat-mdc-table {
   padding: 5px;
 }

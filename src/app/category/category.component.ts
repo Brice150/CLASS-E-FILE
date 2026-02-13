@@ -358,4 +358,24 @@ export class CategoryComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  getStars(grade: number): ('full' | 'half' | 'empty')[] {
+    const stars: ('full' | 'half' | 'empty')[] = [];
+    const fullStars = Math.floor(grade);
+    const hasHalf = grade % 1 >= 0.5;
+
+    for (let i = 0; i < fullStars; i++) {
+      stars.push('full');
+    }
+
+    if (hasHalf) {
+      stars.push('half');
+    }
+
+    while (stars.length < 5) {
+      stars.push('empty');
+    }
+
+    return stars;
+  }
 }

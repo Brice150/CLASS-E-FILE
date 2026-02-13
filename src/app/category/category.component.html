@@ -97,7 +97,20 @@
             >
               Note
             </th>
-            <td mat-cell *matCellDef="let element">{{ element.grade }}</td>
+            <td mat-cell *matCellDef="let element">
+              <div class="stars">
+                @for (star of getStars(element.grade); track $index) {
+                  <i
+                    class="bx"
+                    [ngClass]="{
+                      'bxs-star': star === 'full',
+                      'bxs-star-half': star === 'half',
+                      'bx-star': star === 'empty',
+                    }"
+                  ></i>
+                }
+              </div>
+            </td>
           </ng-container>
 
           <tr

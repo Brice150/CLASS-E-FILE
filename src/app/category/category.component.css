@@ -225,6 +225,10 @@ mat-form-field {
   width: 240px;
 }
 
+.accent-table .mat-mdc-header-cell {
+  border-bottom: 2px solid var(--accent);
+}
+
 ::ng-deep .mat-mdc-table {
   padding: 5px;
 }

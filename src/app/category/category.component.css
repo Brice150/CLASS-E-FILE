@@ -460,14 +460,21 @@ mat-icon {
   background-color: var(--primary) !important;
 }
 
-::ng-deep .mat-mdc-menu-item {
-  color: var(--secondary) !important;
+::ng-deep .mat-mdc-menu-item-text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+::ng-deep .mat-mdc-menu-item-text span {
+  font-size: 20px;
+  color: var(--secondary);
   font-weight: 500;
 }
 
 ::ng-deep .mat-mdc-menu-item i {
-  margin-right: 10px;
-  font-size: 22px;
+  font-size: 30px;
   color: var(--accent);
 }
 
@@ -477,6 +484,10 @@ mat-icon {
 }
 
 ::ng-deep .mat-mdc-menu-item:hover i {
+  color: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-menu-item:hover span {
   color: var(--primary) !important;
 }
 

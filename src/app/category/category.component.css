@@ -423,6 +423,13 @@ mat-icon {
   background-color: var(--accent) !important;
 }
 
+::ng-deep
+  .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
+  .mdc-evolution-chip__text-label {
+  color: var(--secondary) !important;
+  font-weight: 500;
+}
+
 @media screen and (max-width: 693px) {
   form {
     flex-direction: column;

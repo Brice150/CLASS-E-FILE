@@ -18,17 +18,19 @@
               </div>
               <span class="value ellipsis">{{ category.title }}</span>
             </div>
-            <div class="container">
-              <div class="label-container center">
-                <i class="bx bxs-category"></i>
-                <span class="label">Genres :</span>
+            @if (article.genres && article.genres.length) {
+              <div class="container">
+                <div class="label-container center">
+                  <i class="bx bxs-category"></i>
+                  <span class="label">Genres :</span>
+                </div>
+                <mat-chip-set>
+                  @for (genre of article.genres; track $index) {
+                    <mat-chip [title]="genre">{{ genre }}</mat-chip>
+                  }
+                </mat-chip-set>
               </div>
-              <mat-chip-set>
-                @for (genre of article.genres; track $index) {
-                  <mat-chip [title]="genre">{{ genre }}</mat-chip>
-                }
-              </mat-chip-set>
-            </div>
+            }
           </div>
         </div>
         @if (article.link) {
@@ -37,31 +39,35 @@
             <span class="text">Voir</span>
           </a>
         }
-        <div class="notes">
-          <div class="label-container">
-            <i class="bx bxs-bookmark-star"></i>
-            <span class="label">Note :</span>
+        @if (article.grade) {
+          <div class="notes">
+            <div class="label-container">
+              <i class="bx bxs-bookmark-star"></i>
+              <span class="label">Note :</span>
+            </div>
+            <div class="stars">
+              @for (star of getStars(article.grade); track $index) {
+                <i
+                  class="bx"
+                  [ngClass]="{
+                    'bxs-star': star === 'full',
+                    'bxs-star-half': star === 'half',
+                    'bx-star': star === 'empty',
+                  }"
+                ></i>
+              }
+            </div>
           </div>
-          <div class="stars">
-            @for (star of getStars(article.grade); track $index) {
-              <i
-                class="bx"
-                [ngClass]="{
-                  'bxs-star': star === 'full',
-                  'bxs-star-half': star === 'half',
-                  'bx-star': star === 'empty',
-                }"
-              ></i>
-            }
+        }
+        @if (article.description) {
+          <div class="description-container">
+            <div class="label-container">
+              <i class="bx bxs-spreadsheet"></i>
+              <span class="label">Description :</span>
+            </div>
+            <span class="value">{{ article.description }}</span>
           </div>
-        </div>
-        <div class="description-container">
-          <div class="label-container">
-            <i class="bx bxs-spreadsheet"></i>
-            <span class="label">Description :</span>
-          </div>
-          <span class="value">{{ article.description }}</span>
-        </div>
+        }
         <div class="elements top">
           <div class="container boolean">
             <div class="label-container">

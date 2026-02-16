@@ -29,24 +29,24 @@
                 }
               </mat-chip-set>
             </div>
-            <div class="container">
-              <div class="label-container">
-                <i class="bx bxs-bookmark-star"></i>
-                <span class="label">Note :</span>
-              </div>
-              <div class="stars">
-                @for (star of getStars(article.grade); track $index) {
-                  <i
-                    class="bx"
-                    [ngClass]="{
-                      'bxs-star': star === 'full',
-                      'bxs-star-half': star === 'half',
-                      'bx-star': star === 'empty',
-                    }"
-                  ></i>
-                }
-              </div>
-            </div>
+          </div>
+        </div>
+        <div class="container">
+          <div class="label-container">
+            <i class="bx bxs-bookmark-star"></i>
+            <span class="label">Note :</span>
+          </div>
+          <div class="stars">
+            @for (star of getStars(article.grade); track $index) {
+              <i
+                class="bx"
+                [ngClass]="{
+                  'bxs-star': star === 'full',
+                  'bxs-star-half': star === 'half',
+                  'bx-star': star === 'empty',
+                }"
+              ></i>
+            }
           </div>
         </div>
         <div class="description-container">

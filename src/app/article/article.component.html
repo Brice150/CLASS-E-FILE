@@ -12,14 +12,14 @@
           </div>
           <div class="elements">
             <div class="container">
-              <div class="label-container">
+              <div class="label-container center">
                 <i class="bx bxs-folder-open"></i>
                 <span class="label">Catégorie :</span>
               </div>
               <span class="value ellipsis">{{ category.title }}</span>
             </div>
             <div class="container">
-              <div class="label-container">
+              <div class="label-container center">
                 <i class="bx bxs-category"></i>
                 <span class="label">Genres :</span>
               </div>
@@ -31,7 +31,13 @@
             </div>
           </div>
         </div>
-        <div class="container">
+        @if (article.link) {
+          <a class="button" title="Voir" [href]="article.link" target="_blank">
+            <i class="bx bx-link"></i>
+            <span class="text">Voir</span>
+          </a>
+        }
+        <div class="notes">
           <div class="label-container">
             <i class="bx bxs-bookmark-star"></i>
             <span class="label">Note :</span>
@@ -56,12 +62,6 @@
           </div>
           <span class="value">{{ article.description }}</span>
         </div>
-        @if (article.link) {
-          <a class="button" title="Voir" [href]="article.link" target="_blank">
-            <i class="bx bx-link"></i>
-            <span class="text">Voir</span>
-          </a>
-        }
         <div class="elements top">
           <div class="container boolean">
             <div class="label-container">

@@ -46,7 +46,7 @@ section .content .article .flex {
   justify-content: space-between;
   align-items: center;
   width: 90%;
-  gap: 10px;
+  gap: 20px;
 }
 
 section .content .article .flex .image {
@@ -79,6 +79,7 @@ section .content .article .elements .container {
 
 section .content .article .flex .elements {
   gap: 20px;
+  min-width: 200px;
 }
 
 section .content .article .elements {
@@ -90,12 +91,15 @@ section .content .article .flex .elements .container {
   gap: 4px;
 }
 
-section .content .article .elements .container .label-container {
+section .content .article .elements .label-container {
   display: flex;
   align-items: center;
   justify-content: left;
-  width: 100%;
   gap: 10px;
+}
+
+section .content .article .elements .label-container.center {
+  justify-content: center;
 }
 
 .container .label {
@@ -121,7 +125,8 @@ section .content .article .elements .container .label-container {
 
 .description-container {
   display: flex;
-  justify-content: left;
+  justify-content: center;
+  align-items: center;
   flex-direction: column;
   gap: 4px;
   width: 90%;
@@ -132,7 +137,7 @@ section .content .article .elements .container .label-container {
   display: flex;
   align-items: center;
   justify-content: left;
-  width: 100%;
+  width: 250px;
   gap: 10px;
 }
 
@@ -179,6 +184,10 @@ section .content .article .elements .container .label-container {
 .elements.top .container .i-value .bx-check {
   background-color: var(--accent);
   color: var(--primary);
+}
+
+.elements.top .container .i-value .bx-x {
+  background-color: var(--secondary);
 }
 
 .value.ellipsis {
@@ -323,6 +332,36 @@ mat-spinner {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+section .notes {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 250px;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+section .notes .label-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.notes .label {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.notes i {
+  font-size: 30px;
+  color: var(--accent);
+}
+
+section .container.boolean .label-container {
+  width: 240px;
+}
+
 ::ng-deep
   .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled)
   .mdc-evolution-chip__text-label {
@@ -344,16 +383,11 @@ mat-spinner {
   align-items: center;
 }
 
-@media screen and (max-width: 900px) {
-  section {
-    margin-bottom: 70px;
-  }
-}
-
 @media screen and (max-width: 670px) {
   section .content .article .flex {
     justify-content: center;
     flex-direction: column;
+    gap: 0;
   }
 
   section .content .article .flex .elements {
@@ -365,17 +399,13 @@ mat-spinner {
   }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 480px) {
+  section .content .article .flex .image {
+    width: 100%;
+  }
+
   section .content .article .flex .image img {
-    width: 260px;
-    height: 260px;
-  }
-
-  section .content .article .elements {
-    width: 260px;
-  }
-
-  .elements.top .container {
-    width: 260px;
+    width: 100%;
+    height: 230px;
   }
 }

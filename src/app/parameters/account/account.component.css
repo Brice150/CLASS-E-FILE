@@ -86,7 +86,7 @@
 }
 
 .container .button-container .delete {
-  color: red;
+  color: var(--secondary);
   transition: 0.5s ease;
 }
 
@@ -96,7 +96,7 @@
 }
 
 .container .button-container .delete:hover {
-  background-color: red;
+  background-color: var(--secondary);
 }
 
 .container .button-container button i {

@@ -49,6 +49,7 @@ export class StatsComponent implements OnInit, OnDestroy {
         next: (categories: Category[]) => {
           if (categories?.length >= 1) {
             this.categories = categories
+              .filter((category) => category.articles?.length)
               .map((c) => ({
                 ...c,
                 creationDate:
@@ -101,8 +102,6 @@ export class StatsComponent implements OnInit, OnDestroy {
 
   displayGraph(): void {
     const graph = document.getElementById('graph') as HTMLCanvasElement | null;
-
-    console.log(graph);
 
     if (!graph) return;
 

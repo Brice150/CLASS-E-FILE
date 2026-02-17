@@ -15,9 +15,11 @@
           }
         </mat-select>
       </mat-form-field>
-      <div class="graph" [ngClass]="{ visible: categories.length }">
-        <canvas id="graph"></canvas>
-      </div>
+    }
+    <div class="graph" [ngClass]="{ visible: categories.length }">
+      <canvas id="graph"></canvas>
+    </div>
+    @if (!loading) {
       <div class="stats">
         <div class="container">
           <div class="label-container">

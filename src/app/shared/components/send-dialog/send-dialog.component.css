@@ -176,7 +176,7 @@ form
 }
 
 ::ng-deep .mdc-text-field--filled {
-  background-color: var(--background-nav) !important;
+  background-color: var(--primary) !important;
 }
 
 ::ng-deep
@@ -251,7 +251,7 @@ form
 }
 
 ::ng-deep .mat-mdc-select-panel {
-  background-color: var(--background-nav) !important;
+  background-color: var(--primary) !important;
 }
 
 ::ng-deep .mdc-list-item__primary-text {

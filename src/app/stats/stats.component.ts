@@ -74,7 +74,12 @@ export class StatsComponent implements OnInit, OnDestroy {
 
           this.calculateStats();
           this.loading = false;
-          this.displayGraph();
+
+          if (!this.graph) {
+            this.displayGraph();
+          } else {
+            this.updateGraph();
+          }
         },
         error: (error: HttpErrorResponse) => {
           this.loading = false;
@@ -91,112 +96,119 @@ export class StatsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+    this.graph?.destroy();
   }
 
   displayGraph(): void {
     const graph = document.getElementById('graph') as HTMLCanvasElement | null;
 
-    if (graph) {
-      const articles =
-        this.categoryTitle === 'all'
-          ? this.categories.flatMap((c) => c.articles)
-          : this.categories
-              .filter((c) => c.title === this.categoryTitle)
-              .flatMap((c) => c.articles);
+    console.log(graph);
 
-      const labels = articles.map(
-        (a) => this.datePipe.transform(a.creationDate, 'dd/MM/yyyy')!,
-      );
+    if (!graph) return;
 
-      this.graph = new Chart(graph, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [
-            {
-              label: 'Total',
-              data: this.stats.totalArticlesByDate,
-              borderColor: '#d12123',
-              backgroundColor: '#d12123',
-            },
-            {
-              label: 'Possédés',
-              data: this.stats.totalOwnedArticlesByDate,
-              borderColor: '#ffd700',
-              backgroundColor: '#ffd700',
-            },
-            {
-              label: 'En attente',
-              data: this.stats.totalArticlesToWatchByDate,
-              borderColor: '#000000',
-              backgroundColor: '#000000',
-            },
-          ],
-        },
-        options: {
-          maintainAspectRatio: false,
-          plugins: {
-            legend: {
-              position: 'bottom',
-              labels: {
-                padding: 20,
-                font: {
-                  size: 16,
-                  weight: 800,
-                },
-              },
-            },
-            tooltip: {
-              callbacks: {
-                label: (tooltipItem: any) => {
-                  const value = tooltipItem.raw;
-                  return `${value} article${value > 1 ? 's' : ''}`;
-                },
-              },
-            },
-          },
-          scales: {
-            x: {
-              title: {
-                display: true,
-                text: 'Date',
-                font: { size: 18, weight: 700 },
-                color: '#d12123',
-              },
-              ticks: {
-                color: 'black',
-              },
-              grid: {
-                color: 'transparent',
-              },
-              border: {
-                color: 'black',
-              },
-            },
-            y: {
-              title: {
-                display: true,
-                text: 'Quantité',
-                font: { size: 18, weight: 700 },
-                color: '#d12123',
-              },
-              ticks: {
-                color: 'black',
-                callback: (value) => Math.round(Number(value)),
-                stepSize: 1,
-              },
-              beginAtZero: true,
-              grid: {
-                color: 'black',
-              },
-              border: {
-                color: 'black',
-              },
-            },
-          },
-        },
-      });
+    if (this.graph) {
+      this.graph.destroy();
     }
+
+    const articles =
+      this.categoryTitle === 'all'
+        ? this.categories.flatMap((c) => c.articles)
+        : this.categories
+            .filter((c) => c.title === this.categoryTitle)
+            .flatMap((c) => c.articles);
+
+    const labels = articles.map(
+      (a) => this.datePipe.transform(a.creationDate, 'dd/MM/yyyy')!,
+    );
+
+    this.graph = new Chart(graph, {
+      type: 'line',
+      data: {
+        labels,
+        datasets: [
+          {
+            label: 'Total',
+            data: this.stats.totalArticlesByDate,
+            borderColor: '#d12123',
+            backgroundColor: '#d12123',
+          },
+          {
+            label: 'Possédés',
+            data: this.stats.totalOwnedArticlesByDate,
+            borderColor: '#ffd700',
+            backgroundColor: '#ffd700',
+          },
+          {
+            label: 'En attente',
+            data: this.stats.totalArticlesToWatchByDate,
+            borderColor: '#000000',
+            backgroundColor: '#000000',
+          },
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'bottom',
+            labels: {
+              padding: 20,
+              font: {
+                size: 16,
+                weight: 800,
+              },
+            },
+          },
+          tooltip: {
+            callbacks: {
+              label: (tooltipItem: any) => {
+                const value = tooltipItem.raw;
+                return `${value} article${value > 1 ? 's' : ''}`;
+              },
+            },
+          },
+        },
+        scales: {
+          x: {
+            title: {
+              display: true,
+              text: 'Date',
+              font: { size: 18, weight: 700 },
+              color: '#d12123',
+            },
+            ticks: {
+              color: 'black',
+            },
+            grid: {
+              color: 'transparent',
+            },
+            border: {
+              color: 'black',
+            },
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Quantité',
+              font: { size: 18, weight: 700 },
+              color: '#d12123',
+            },
+            ticks: {
+              color: 'black',
+              callback: (value) => Math.round(Number(value)),
+              stepSize: 1,
+            },
+            beginAtZero: true,
+            grid: {
+              color: 'black',
+            },
+            border: {
+              color: 'black',
+            },
+          },
+        },
+      },
+    });
   }
 
   updateGraph(): void {

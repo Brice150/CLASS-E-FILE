@@ -41,9 +41,9 @@ export class NotificationService {
 
   addWelcomeNotification(): Observable<string> {
     const notification: Notification = {
-      title: 'Bienvenue sur Life Control !',
+      title: 'Bienvenue sur Class E-File !',
       message:
-        'Vous pouvez commencer par faire vos réglages dans la page paramètre.',
+        'Vous pouvez commencer par ajouter des catégories et des éléments.',
       date: new Date(),
       receiverEmail: this.authenticationService.auth.currentUser?.email!,
       read: false,

@@ -89,7 +89,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 this.invalidLogin = true;
                 this.toastr.error(
                   'Mauvais email ou mot de passe',
-                  'Life Control',
+                  'Class E-File',
                   {
                     positionClass: 'toast-bottom-center',
                     toastClass: 'ngx-toastr custom error',
@@ -100,7 +100,7 @@ export class LoginComponent implements OnInit, OnDestroy {
                 }, 2000);
               } else if (error.message.includes('Email non vérifié')) {
                 this.invalidLogin = true;
-                this.toastr.error('Email non vérifié', 'Life Control', {
+                this.toastr.error('Email non vérifié', 'Class E-File', {
                   positionClass: 'toast-bottom-center',
                   toastClass: 'ngx-toastr custom error',
                 });

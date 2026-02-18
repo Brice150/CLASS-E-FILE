@@ -127,8 +127,8 @@ export class RegisterComponent implements OnInit, OnDestroy {
               this.loading = false;
               if (error.message.includes('auth/email-already-in-use')) {
                 this.toastr.error(
-                  "L'email est déjà connu dans Life Control",
-                  'Life Control',
+                  "L'email est déjà connu dans Class E-File",
+                  'Class E-File',
                   {
                     positionClass: 'toast-bottom-center',
                     toastClass: 'ngx-toastr custom error',

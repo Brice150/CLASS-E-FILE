@@ -6,12 +6,13 @@ import { Timestamp } from '@angular/fire/firestore';
 import { MatDialog } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { filter, Subject, switchMap, takeUntil } from 'rxjs';
+import { filter, of, Subject, switchMap, takeUntil } from 'rxjs';
 import { Notification } from '../core/interfaces/notification';
 import { NotificationService } from '../core/services/notification.service';
 import { EmptyCardComponent } from '../empty-card/empty-card.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationCardComponent } from './notification-card/notification-card.component';
+import { NotificationDialogComponent } from '../shared/components/notification-dialog/notification-dialog.component';
 
 @Component({
   selector: 'app-notifications',
@@ -68,7 +69,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   viewNotification(notification: Notification): void {
-    /*
     if (!notification.read) {
       notification.read = true;
       this.notificationService
@@ -117,7 +117,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
           }
         },
       });
-      */
   }
 
   openDialog(notificationId: string): void {

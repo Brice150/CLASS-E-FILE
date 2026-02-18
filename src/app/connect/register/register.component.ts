@@ -22,8 +22,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { Router, RouterModule } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, switchMap, takeUntil } from 'rxjs';
 import { AuthenticationService } from '../../core/services/authentication.service';
+import { NotificationService } from '../../core/services/notification.service';
 
 @Component({
   selector: 'app-register',
@@ -45,6 +46,7 @@ export class RegisterComponent implements OnInit, OnDestroy {
   toastr = inject(ToastrService);
   fb = inject(FormBuilder);
   authenticationService = inject(AuthenticationService);
+  notificationService = inject(NotificationService);
   router = inject(Router);
   hide: boolean = true;
   hideDuplicate: boolean = true;
@@ -106,7 +108,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
       this.loading = true;
       this.authenticationService
         .register(this.registerForm.value)
-        .pipe(takeUntil(this.destroyed$))
+        .pipe(
+          takeUntil(this.destroyed$),
+          switchMap(() => this.notificationService.addWelcomeNotification()),
+        )
         .subscribe({
           next: () => {
             this.email = this.registerForm.value.email;
@@ -152,7 +157,10 @@ export class RegisterComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.authenticationService
       .signInWithGoogle()
-      .pipe(takeUntil(this.destroyed$))
+      .pipe(
+        takeUntil(this.destroyed$),
+        switchMap(() => this.notificationService.addWelcomeNotification()),
+      )
       .subscribe({
         next: () => {
           this.router.navigate(['/categories']);

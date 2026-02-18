@@ -1,0 +1,19 @@
+<section mat-dialog-content>
+  <div class="title">
+    <i class="bx bxs-info-circle"></i>
+    <h1>
+      {{ notification.title }}
+    </h1>
+  </div>
+  <span class="message">{{ notification.message }}</span>
+  <div class="button-container">
+    <button type="button" title="Fermer" (click)="close()" class="delete">
+      <i class="bx bx-x"></i>
+      <span class="text">Fermer</span>
+    </button>
+    <button type="button" title="Non lu" (click)="unread()">
+      <i class="bx bxs-hide"></i>
+      <span class="text">Non lu</span>
+    </button>
+  </div>
+</section>

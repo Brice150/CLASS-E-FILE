@@ -50,30 +50,51 @@
 }
 
 .button-container button {
+  position: relative;
+  overflow: hidden;
   cursor: pointer;
+  background-color: var(--primary);
   color: var(--accent);
-  padding: 5px;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 10px;
   border-radius: var(--light-radius);
-  transition: 0.5s ease;
   border: none;
-  background-color: var(--primary);
+  box-shadow: var(--box-shadow);
+  transition: color 0.4s ease;
+}
+
+.button-container button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 100%;
+  background-color: var(--accent);
+  transition: width 0.4s ease;
+  z-index: 0;
+}
+
+.button-container button:hover::before {
+  width: 100%;
+}
+
+.button-container button:hover {
+  color: var(--primary);
+}
+
+.button-container button * {
+  position: relative;
+  z-index: 1;
 }
 
 .button-container .delete {
   color: var(--secondary);
-  transition: 0.5s ease;
 }
 
-.button-container button:hover {
-  background-color: var(--accent);
-  color: var(--primary);
-}
-
-.button-container .delete:hover {
+.button-container .delete::before {
   background-color: var(--secondary);
 }
 

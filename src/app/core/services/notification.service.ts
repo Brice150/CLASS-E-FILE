@@ -39,20 +39,41 @@ export class NotificationService {
     }) as Observable<Notification[]>;
   }
 
-  addWelcomeNotification(): Observable<string> {
-    const notification: Notification = {
-      title: 'Bienvenue sur Class E-File !',
-      message:
-        'Vous pouvez commencer par ajouter des catégories et des éléments.',
-      date: new Date(),
-      receiverEmail: this.authenticationService.auth.currentUser?.email!,
-      read: false,
-    };
+  addWelcomeNotification(): Observable<string | null> {
+    const receiverEmail = this.authenticationService.auth.currentUser?.email;
 
-    const notificationDoc = doc(this.notificationsCollection);
-    notification.id = notificationDoc.id;
-    return from(setDoc(notificationDoc, { ...notification })).pipe(
-      map(() => notification.id!),
+    if (!receiverEmail) {
+      return of(null);
+    }
+
+    const notificationsQuery = query(
+      this.notificationsCollection,
+      where('receiverEmail', '==', receiverEmail),
+    );
+
+    return collectionData(notificationsQuery, { idField: 'id' }).pipe(
+      take(1),
+      switchMap((notifications: any[]) => {
+        if (notifications.length > 0) {
+          return of(null);
+        }
+
+        const notification: Notification = {
+          title: 'Bienvenue sur Class E-File !',
+          message:
+            'Vous pouvez commencer par ajouter des catégories et des éléments.',
+          date: new Date(),
+          receiverEmail,
+          read: false,
+        };
+
+        const notificationDoc = doc(this.notificationsCollection);
+        notification.id = notificationDoc.id;
+
+        return from(setDoc(notificationDoc, { ...notification })).pipe(
+          map(() => notification.id!),
+        );
+      }),
     );
   }
 

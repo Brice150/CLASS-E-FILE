@@ -4,6 +4,7 @@ import {
   createUserWithEmailAndPassword,
   deleteUser,
   GoogleAuthProvider,
+  sendEmailVerification,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signInWithPopup,
@@ -11,7 +12,7 @@ import {
   updatePassword,
   user,
 } from '@angular/fire/auth';
-import { from, Observable, throwError } from 'rxjs';
+import { from, Observable, switchMap, throwError } from 'rxjs';
 import { Authentication } from '../interfaces/authentication';
 
 @Injectable({ providedIn: 'root' })
@@ -23,17 +24,9 @@ export class AuthenticationService {
   );
 
   register(auth: Authentication): Observable<void> {
-    const promise = createUserWithEmailAndPassword(
-      this.auth,
-      auth.email,
-      auth.password!,
-    ).then((response) => {
-      this.currentAuthenticationSig.set({
-        email: response.user.email!,
-      });
-    });
-
-    return from(promise);
+    return from(
+      createUserWithEmailAndPassword(this.auth, auth.email, auth.password!),
+    ).pipe(switchMap(({ user }) => from(sendEmailVerification(user))));
   }
 
   login(auth: Authentication): Observable<void> {
@@ -42,6 +35,10 @@ export class AuthenticationService {
       auth.email,
       auth.password!,
     ).then((response) => {
+      if (!response.user.emailVerified) {
+        throw new Error('Email non vérifié');
+      }
+
       this.currentAuthenticationSig.set({
         email: response.user.email!,
       });

@@ -11,6 +11,7 @@ import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { Article } from '../core/interfaces/article';
 import { Category } from '../core/interfaces/category';
+import { BreadcrumbService } from '../core/services/breadcrumb.service';
 import { CategoryService } from '../core/services/category.service';
 import { ArticleDialogComponent } from '../shared/components/article-dialog/article-dialog.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
@@ -31,32 +32,66 @@ export class ArticleComponent implements OnInit, OnDestroy {
   toastr = inject(ToastrService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+  breadcrumbService = inject(BreadcrumbService);
   dialog = inject(MatDialog);
   articleId?: number;
   overlay = inject(Overlay);
 
   ngOnInit(): void {
-    this.activatedRoute.data.pipe(takeUntil(this.destroyed$)).subscribe({
-      next: ({ article, category }) => {
-        this.article = article;
-        this.category = category;
-        this.loading = false;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.loading = false;
-        if (!error.message.includes('Missing or insufficient permissions.')) {
-          this.toastr.error(error.message, 'Erreur', {
-            positionClass: 'toast-bottom-center',
-            toastClass: 'ngx-toastr custom error',
-          });
-        }
-      },
-    });
+    this.activatedRoute.params
+      .pipe(
+        takeUntil(this.destroyed$),
+        switchMap((params) => {
+          const categoryId = params['categoryId'];
+          this.articleId = params['articleId'];
+
+          return this.categoryService.getCategory(categoryId);
+        }),
+      )
+      .subscribe({
+        next: (category: Category | null) => {
+          if (category) {
+            this.category = category;
+            const index = this.category.articles.findIndex(
+              (a) => Number(a.id) === Number(this.articleId),
+            );
+
+            if (index !== -1) {
+              this.article = this.category.articles[index];
+              this.updateBreadcrumb();
+            }
+          }
+          this.loading = false;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.loading = false;
+          if (!error.message.includes('Missing or insufficient permissions.')) {
+            this.toastr.error(error.message, 'Erreur', {
+              positionClass: 'toast-bottom-center',
+              toastClass: 'ngx-toastr custom error',
+            });
+          }
+        },
+      });
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  updateBreadcrumb(): void {
+    this.breadcrumbService.setBreadcrumbs([
+      { label: 'Catégories', url: '/categories' },
+      {
+        label: this.category.title,
+        url: `/categories/${this.category.id}`,
+      },
+      {
+        label: this.article.title,
+        url: `/categories/${this.category.id}/${this.article.id}`,
+      },
+    ]);
   }
 
   getStars(rating: number): ('full' | 'half' | 'empty')[] {

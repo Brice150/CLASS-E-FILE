@@ -20,6 +20,7 @@ import { ToastrService } from 'ngx-toastr';
 import { filter, Subject, switchMap, takeUntil } from 'rxjs';
 import { Article } from '../core/interfaces/article';
 import { Category } from '../core/interfaces/category';
+import { BreadcrumbService } from '../core/services/breadcrumb.service';
 import { CategoryService } from '../core/services/category.service';
 import { EmptyCardComponent } from '../empty-card/empty-card.component';
 import { ArticleDialogComponent } from '../shared/components/article-dialog/article-dialog.component';
@@ -58,6 +59,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   toastr = inject(ToastrService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
+  breadcrumbService = inject(BreadcrumbService);
   dialog = inject(MatDialog);
   isSortedActivated = false;
   isSortedDesc = false;
@@ -93,38 +95,54 @@ export class CategoryComponent implements OnInit, OnDestroy {
         this.applyAll();
       });
 
-    this.activatedRoute.data.pipe(takeUntil(this.destroyed$)).subscribe({
-      next: ({ category }) => {
-        if (category) {
-          this.category = category;
-          this.category.articles ??= [];
+    this.activatedRoute.params
+      .pipe(
+        takeUntil(this.destroyed$),
+        switchMap((params) => {
+          const categoryId = params['categoryId'];
+          return this.categoryService.getCategory(categoryId);
+        }),
+      )
+      .subscribe({
+        next: (category: Category) => {
+          if (category) {
+            this.category = category;
+            this.category.articles ??= [];
+            this.genres = [
+              ...new Set(
+                this.category.articles.flatMap(
+                  (article) => article.genres ?? [],
+                ),
+              ),
+            ].sort((a, b) => a.localeCompare(b));
 
-          this.genres = [
-            ...new Set(
-              this.category.articles.flatMap((article) => article.genres ?? []),
-            ),
-          ].sort((a, b) => a.localeCompare(b));
-
-          this.applyAll();
-        }
-
-        this.loading = false;
-      },
-      error: (error: HttpErrorResponse) => {
-        this.loading = false;
-        if (!error.message.includes('Missing or insufficient permissions.')) {
-          this.toastr.error(error.message, 'Erreur', {
-            positionClass: 'toast-bottom-center',
-            toastClass: 'ngx-toastr custom error',
-          });
-        }
-      },
-    });
+            this.updateBreadcrumb();
+            this.applyAll();
+          }
+          this.loading = false;
+        },
+        error: (error: HttpErrorResponse) => {
+          this.loading = false;
+          if (!error.message.includes('Missing or insufficient permissions.')) {
+            this.toastr.error(error.message, 'Erreur', {
+              positionClass: 'toast-bottom-center',
+              toastClass: 'ngx-toastr custom error',
+            });
+          }
+        },
+      });
   }
 
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
+  }
+
+  updateBreadcrumb(): void {
+    this.breadcrumbService.setBreadcrumbs([
+      { label: 'Catégories', url: '/categories' },
+      { label: this.category.title, url: `/categories/${this.category.id}` },
+    ]);
   }
 
   getSortedGenres(genres?: string[]): string[] {

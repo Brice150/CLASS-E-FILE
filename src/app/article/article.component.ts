@@ -36,40 +36,22 @@ export class ArticleComponent implements OnInit, OnDestroy {
   overlay = inject(Overlay);
 
   ngOnInit(): void {
-    this.activatedRoute.params
-      .pipe(
-        takeUntil(this.destroyed$),
-        switchMap((params) => {
-          const categoryId = params['categoryId'];
-          this.articleId = params['articleId'];
-
-          return this.categoryService.getCategory(categoryId);
-        }),
-      )
-      .subscribe({
-        next: (category: Category | null) => {
-          if (category) {
-            this.category = category;
-            const index = this.category.articles.findIndex(
-              (a) => Number(a.id) === Number(this.articleId),
-            );
-
-            if (index !== -1) {
-              this.article = this.category.articles[index];
-            }
-          }
-          this.loading = false;
-        },
-        error: (error: HttpErrorResponse) => {
-          this.loading = false;
-          if (!error.message.includes('Missing or insufficient permissions.')) {
-            this.toastr.error(error.message, 'Erreur', {
-              positionClass: 'toast-bottom-center',
-              toastClass: 'ngx-toastr custom error',
-            });
-          }
-        },
-      });
+    this.activatedRoute.data.pipe(takeUntil(this.destroyed$)).subscribe({
+      next: ({ article, category }) => {
+        this.article = article;
+        this.category = category;
+        this.loading = false;
+      },
+      error: (error: HttpErrorResponse) => {
+        this.loading = false;
+        if (!error.message.includes('Missing or insufficient permissions.')) {
+          this.toastr.error(error.message, 'Erreur', {
+            positionClass: 'toast-bottom-center',
+            toastClass: 'ngx-toastr custom error',
+          });
+        }
+      },
+    });
   }
 
   ngOnDestroy(): void {

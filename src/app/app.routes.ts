@@ -5,11 +5,12 @@ import { CategoryComponent } from './category/category.component';
 import { ConnectComponent } from './connect/connect.component';
 import { noUserGuard } from './core/guards/no-user.guard';
 import { userGuard } from './core/guards/user.guard';
+import { ArticleResolver } from './core/resolvers/article.resolver';
+import { CategoryResolver } from './core/resolvers/category.resolver';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ParametersComponent } from './parameters/parameters.component';
 import { StatsComponent } from './stats/stats.component';
 import { WelcomeComponent } from './welcome/welcome.component';
-import { CategoryResolver } from './core/resolvers/category.resolver';
 
 export const routes: Routes = [
   // WELCOME
@@ -32,31 +33,20 @@ export const routes: Routes = [
     canActivate: [userGuard],
     data: { breadcrumb: 'Catégories' },
     children: [
-      {
-        path: '',
-        component: CategoriesComponent,
-      },
+      { path: '', component: CategoriesComponent },
       {
         path: ':categoryId',
-        component: CategoryComponent,
         resolve: { category: CategoryResolver },
-        data: {
-          breadcrumb: (route: ActivatedRouteSnapshot) =>
-            route.data['category']?.name || route.paramMap.get('categoryId'),
-        },
+        children: [
+          { path: '', component: CategoryComponent },
+          {
+            path: ':articleId',
+            component: ArticleComponent,
+            resolve: { article: ArticleResolver },
+          },
+        ],
       },
     ],
-  },
-
-  // ARTICLE
-  {
-    path: 'categories/:categoryId/:articleId',
-    component: ArticleComponent,
-    canActivate: [userGuard],
-    data: {
-      breadcrumb: (route: ActivatedRouteSnapshot) =>
-        route.paramMap.get('articleId'),
-    },
   },
 
   // STATS

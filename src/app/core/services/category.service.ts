@@ -4,6 +4,7 @@ import {
   collectionData,
   deleteDoc,
   doc,
+  docData,
   Firestore,
   query,
   setDoc,
@@ -39,19 +40,9 @@ export class CategoryService {
     }) as Observable<Category[]>;
   }
 
-  getCategory(categoryId: string): Observable<Category | null> {
-    const userId = this.authenticationService.auth.currentUser?.uid;
-    if (!userId) return of(null);
-
-    const categoriesQuery = query(
-      this.categoriesCollection,
-      where('userId', '==', userId),
-      where('id', '==', categoryId),
-    );
-
-    return collectionData(categoriesQuery, { idField: 'id' }).pipe(
-      map((categories) => (categories.length > 0 ? categories[0] : null)),
-    ) as Observable<Category | null>;
+  getCategory(categoryId: string): Observable<Category> {
+    const recipeDoc = doc(this.firestore, `categories/${categoryId}`);
+    return docData(recipeDoc, { idField: 'id' }) as Observable<Category>;
   }
 
   addCategory(category: Category): Observable<string> {

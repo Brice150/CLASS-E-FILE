@@ -9,6 +9,7 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { ParametersComponent } from './parameters/parameters.component';
 import { StatsComponent } from './stats/stats.component';
 import { WelcomeComponent } from './welcome/welcome.component';
+import { CategoryResolver } from './core/resolvers/category.resolver';
 
 export const routes: Routes = [
   // WELCOME
@@ -38,9 +39,10 @@ export const routes: Routes = [
       {
         path: ':categoryId',
         component: CategoryComponent,
+        resolve: { category: CategoryResolver },
         data: {
           breadcrumb: (route: ActivatedRouteSnapshot) =>
-            route.paramMap.get('categoryId'),
+            route.data['category']?.name || route.paramMap.get('categoryId'),
         },
       },
     ],

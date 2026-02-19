@@ -33,16 +33,27 @@ export const routes: Routes = [
     canActivate: [userGuard],
     data: { breadcrumb: 'Catégories' },
     children: [
-      { path: '', component: CategoriesComponent },
+      {
+        path: '',
+        component: CategoriesComponent,
+      },
       {
         path: ':categoryId',
+        component: CategoryComponent,
         resolve: { category: CategoryResolver },
+        data: {
+          breadcrumb: (route: ActivatedRouteSnapshot) =>
+            route.data['category']?.title || route.paramMap.get('categoryId'),
+        },
         children: [
-          { path: '', component: CategoryComponent },
           {
             path: ':articleId',
             component: ArticleComponent,
             resolve: { article: ArticleResolver },
+            data: {
+              breadcrumb: (route: ActivatedRouteSnapshot) =>
+                route.data['article']?.title || route.paramMap.get('articleId'),
+            },
           },
         ],
       },

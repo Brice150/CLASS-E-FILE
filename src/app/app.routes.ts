@@ -39,13 +39,16 @@ export const routes: Routes = [
       },
       {
         path: ':categoryId',
-        component: CategoryComponent,
         resolve: { category: CategoryResolver },
         data: {
           breadcrumb: (route: ActivatedRouteSnapshot) =>
             route.data['category']?.title || route.paramMap.get('categoryId'),
         },
         children: [
+          {
+            path: '',
+            component: CategoryComponent,
+          },
           {
             path: ':articleId',
             component: ArticleComponent,

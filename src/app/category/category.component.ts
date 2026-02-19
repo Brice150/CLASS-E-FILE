@@ -25,7 +25,6 @@ import { EmptyCardComponent } from '../empty-card/empty-card.component';
 import { ArticleDialogComponent } from '../shared/components/article-dialog/article-dialog.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { FilterDialogComponent } from '../shared/components/filter-dialog/filter-dialog.component';
-import { BreadcrumbService } from '../core/services/breadcrumb.service';
 
 @Component({
   selector: 'app-category',
@@ -59,7 +58,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
   toastr = inject(ToastrService);
   router = inject(Router);
   activatedRoute = inject(ActivatedRoute);
-  breadcrumbService = inject(BreadcrumbService);
   dialog = inject(MatDialog);
   isSortedActivated = false;
   isSortedDesc = false;
@@ -108,7 +106,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
           ].sort((a, b) => a.localeCompare(b));
 
           this.applyAll();
-          this.updateBreadcrumb();
         }
 
         this.loading = false;
@@ -128,16 +125,6 @@ export class CategoryComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroyed$.next();
     this.destroyed$.complete();
-  }
-
-  updateBreadcrumb(): void {
-    this.breadcrumbService.setBreadcrumbs([
-      { label: 'Catégories', url: '/categories' },
-      {
-        label: this.category.title,
-        url: `/categories/${this.category.id}`,
-      },
-    ]);
   }
 
   getSortedGenres(genres?: string[]): string[] {

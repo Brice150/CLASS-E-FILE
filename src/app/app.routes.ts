@@ -5,6 +5,7 @@ import { CategoryComponent } from './category/category.component';
 import { ConnectComponent } from './connect/connect.component';
 import { noUserGuard } from './core/guards/no-user.guard';
 import { userGuard } from './core/guards/user.guard';
+import { ArticleResolver } from './core/resolvers/article.resolver';
 import { CategoryResolver } from './core/resolvers/category.resolver';
 import { NotificationsComponent } from './notifications/notifications.component';
 import { ParametersComponent } from './parameters/parameters.component';
@@ -51,9 +52,10 @@ export const routes: Routes = [
           {
             path: ':articleId',
             component: ArticleComponent,
+            resolve: { article: ArticleResolver },
             data: {
               breadcrumb: (route: ActivatedRouteSnapshot) =>
-                route.data['article']?.title || route.paramMap.get('articleId'),
+                route.data['article']?.title,
             },
           },
         ],

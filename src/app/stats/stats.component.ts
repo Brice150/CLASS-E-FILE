@@ -135,8 +135,8 @@ export class StatsComponent implements OnInit, OnDestroy {
           {
             label: 'Total',
             data: this.stats.totalArticlesByDate,
-            borderColor: '#d12123',
-            backgroundColor: '#d12123',
+            borderColor: '#940700',
+            backgroundColor: '#940700',
           },
           {
             label: 'Possédés',
@@ -180,7 +180,7 @@ export class StatsComponent implements OnInit, OnDestroy {
               display: true,
               text: 'Date',
               font: { size: 18, weight: 700 },
-              color: '#d12123',
+              color: '#940700',
             },
             ticks: {
               color: 'black',
@@ -197,7 +197,7 @@ export class StatsComponent implements OnInit, OnDestroy {
               display: true,
               text: 'Quantité',
               font: { size: 18, weight: 700 },
-              color: '#d12123',
+              color: '#940700',
             },
             ticks: {
               color: 'black',

@@ -52,16 +52,10 @@ export class StatsComponent implements OnInit, OnDestroy {
               .filter((category) => category.articles?.length)
               .map((c) => ({
                 ...c,
-                creationDate:
-                  c.creationDate instanceof Timestamp
-                    ? c.creationDate.toDate()
-                    : new Date(c.creationDate),
+                creationDate: this.toDate(c.creationDate),
                 articles: (c.articles ?? []).map((a) => ({
                   ...a,
-                  creationDate:
-                    a.creationDate instanceof Timestamp
-                      ? a.creationDate.toDate()
-                      : new Date(a.creationDate),
+                  creationDate: this.toDate(a.creationDate),
                 })),
               }))
               .sort((a, b) => {
@@ -98,6 +92,20 @@ export class StatsComponent implements OnInit, OnDestroy {
     this.destroyed$.next();
     this.destroyed$.complete();
     this.graph?.destroy();
+  }
+
+  toDate(value: any): Date {
+    if (!value) return new Date();
+
+    if (value instanceof Timestamp) {
+      return value.toDate();
+    }
+
+    if (value.seconds !== undefined) {
+      return new Date(value.seconds * 1000);
+    }
+
+    return new Date(value);
   }
 
   displayGraph(): void {

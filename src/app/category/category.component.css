@@ -236,6 +236,11 @@ table .mat-mdc-cell {
   font-size: 22px;
 }
 
+a {
+  text-decoration: none;
+  color: var(--secondary);
+}
+
 ::ng-deep .mat-mdc-table {
   padding: 5px;
 }

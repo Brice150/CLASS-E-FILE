@@ -14,6 +14,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { Article } from '../core/interfaces/article';
 import { Category } from '../core/interfaces/category';
 import { Stats } from '../core/interfaces/stats';
+import { AuthenticationService } from '../core/services/authentication.service';
 import { CategoryService } from '../core/services/category.service';
 
 @Component({
@@ -31,6 +32,7 @@ import { CategoryService } from '../core/services/category.service';
 })
 export class StatsComponent implements OnInit, OnDestroy {
   categoryService = inject(CategoryService);
+  authenticationService = inject(AuthenticationService);
   destroyed$ = new Subject<void>();
   loading: boolean = true;
   toastr = inject(ToastrService);
@@ -117,13 +119,6 @@ export class StatsComponent implements OnInit, OnDestroy {
     if (this.graph) {
       this.graph.destroy();
     }
-
-    const articles =
-      this.categoryTitle === 'all'
-        ? this.categories.flatMap((c) => c.articles)
-        : this.categories
-            .filter((c) => c.title === this.categoryTitle)
-            .flatMap((c) => c.articles);
 
     const labels = this.dates;
 
@@ -220,14 +215,6 @@ export class StatsComponent implements OnInit, OnDestroy {
   updateGraph(): void {
     if (this.graph) {
       this.calculateStats();
-
-      const articles =
-        this.categoryTitle === 'all'
-          ? this.categories.flatMap((c) => c.articles)
-          : this.categories
-              .filter((c) => c.title === this.categoryTitle)
-              .flatMap((c) => c.articles);
-
       this.graph.data.labels = this.dates;
       this.graph.data.datasets[0].data = this.stats.totalArticlesByDate;
       this.graph.data.datasets[1].data = this.stats.totalOwnedArticlesByDate;
@@ -237,6 +224,13 @@ export class StatsComponent implements OnInit, OnDestroy {
   }
 
   calculateStats(): void {
+    const accountCreationTime =
+      this.authenticationService.auth.currentUser?.metadata.creationTime;
+
+    const accountCreationDate = accountCreationTime
+      ? new Date(accountCreationTime)
+      : null;
+
     let allArticles =
       this.categoryTitle === 'all'
         ? this.categories.flatMap((c) => c.articles)
@@ -271,13 +265,26 @@ export class StatsComponent implements OnInit, OnDestroy {
 
     const sortedKeys = [...grouped.keys()].sort();
 
+    if (accountCreationDate) {
+      const buildKey = (d: Date): string =>
+        `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(
+          d.getDate(),
+        ).padStart(2, '0')}`;
+
+      const accountKey = buildKey(accountCreationDate);
+
+      if (!sortedKeys.includes(accountKey)) {
+        sortedKeys.unshift(accountKey);
+      }
+    }
+
     this.dates = sortedKeys.map((key) => {
       const [year, month, day] = key.split('-');
       return `${day}/${month}/${year}`;
     });
 
     for (const key of sortedKeys) {
-      const articlesOfDay = grouped.get(key)!;
+      const articlesOfDay = grouped.get(key) ?? [];
 
       for (const article of articlesOfDay) {
         runningTotal++;

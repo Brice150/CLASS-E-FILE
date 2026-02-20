@@ -40,6 +40,7 @@ export class StatsComponent implements OnInit, OnDestroy {
   categories: Category[] = [];
   categoryTitle: string = 'all';
   stats: Stats = {} as Stats;
+  dates: string[] = [];
 
   ngOnInit(): void {
     this.categoryService
@@ -124,9 +125,7 @@ export class StatsComponent implements OnInit, OnDestroy {
             .filter((c) => c.title === this.categoryTitle)
             .flatMap((c) => c.articles);
 
-    const labels = articles.map(
-      (a) => this.datePipe.transform(a.creationDate, 'dd/MM/yyyy')!,
-    );
+    const labels = this.dates;
 
     this.graph = new Chart(graph, {
       type: 'line',
@@ -229,9 +228,7 @@ export class StatsComponent implements OnInit, OnDestroy {
               .filter((c) => c.title === this.categoryTitle)
               .flatMap((c) => c.articles);
 
-      this.graph.data.labels = articles.map(
-        (a) => this.datePipe.transform(a.creationDate, 'dd/MM/yyyy')!,
-      );
+      this.graph.data.labels = this.dates;
       this.graph.data.datasets[0].data = this.stats.totalArticlesByDate;
       this.graph.data.datasets[1].data = this.stats.totalOwnedArticlesByDate;
       this.graph.data.datasets[2].data = this.stats.totalArticlesToWatchByDate;
@@ -273,6 +270,11 @@ export class StatsComponent implements OnInit, OnDestroy {
     const totalArticlesToWatchByDate: number[] = [];
 
     const sortedKeys = [...grouped.keys()].sort();
+
+    this.dates = sortedKeys.map((key) => {
+      const [year, month, day] = key.split('-');
+      return `${day}/${month}/${year}`;
+    });
 
     for (const key of sortedKeys) {
       const articlesOfDay = grouped.get(key)!;

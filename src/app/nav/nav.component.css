@@ -185,14 +185,14 @@ nav button.active .icon-with-badge .badge {
   right: -2px;
   font-size: 20px;
   font-weight: 600;
-  color: var(--accent);
-  transition: color 0.4s ease;
-}
-
-.hamburger:hover .badge {
   color: var(--primary);
 }
 
 .icon-with-badge.ham {
   height: 40px;
+}
+
+.hamburger.active {
+  background-color: var(--accent);
+  color: var(--primary);
 }

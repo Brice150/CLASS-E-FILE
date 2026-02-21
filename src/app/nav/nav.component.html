@@ -2,6 +2,7 @@
   class="hamburger"
   (click)="toggleMenu()"
   [title]="!menuOpen ? 'Menu' : 'Fermer'"
+  [ngClass]="{ active: notificationNumber && !menuOpen }"
 >
   <span class="icon-with-badge ham">
     @if (!menuOpen) {

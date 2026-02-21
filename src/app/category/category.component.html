@@ -1,6 +1,26 @@
 @if (!loading) {
   <section>
     <div class="content">
+      <div class="button-container bottom">
+        <button
+          type="button"
+          (click)="openSendDialog()"
+          title="Envoyer"
+          class="view accent"
+        >
+          <i class="bx bxs-send"></i>
+          <span class="text">Envoyer</span>
+        </button>
+        <button
+          type="button"
+          (click)="addArticle()"
+          title="Ajouter"
+          class="view accent"
+        >
+          <i class="bx bx-plus"></i>
+          <span class="text">Ajouter</span>
+        </button>
+      </div>
       <form [formGroup]="searchForm">
         <mat-form-field>
           <mat-label>Rechercher</mat-label>
@@ -162,14 +182,6 @@
           style="margin-top: 10px"
         ></app-empty-card>
       }
-      <button
-        type="button"
-        (click)="addArticle()"
-        class="add"
-        title="Ajouter élément"
-      >
-        <i class="bx bx-plus"></i>
-      </button>
     </div>
   </section>
 } @else {

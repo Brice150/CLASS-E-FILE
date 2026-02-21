@@ -45,6 +45,13 @@ mat-form-field {
   max-width: 500px;
 }
 
+section .content mat-form-field textarea {
+  resize: vertical;
+  min-height: 25px;
+  height: 25px;
+  max-height: 100px;
+}
+
 .button-container {
   display: flex;
   justify-content: space-evenly;

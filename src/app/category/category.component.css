@@ -85,12 +85,18 @@ section .content .button-container {
   align-items: center;
 }
 
+section .content .button-container.bottom {
+  margin-bottom: 10px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
 .view {
   position: relative;
   overflow: hidden;
   cursor: pointer;
   background-color: var(--primary);
-  color: var(--accent);
+  color: var(--secondary);
   padding: 10px;
   display: flex;
   align-items: center;
@@ -103,6 +109,10 @@ section .content .button-container {
   box-shadow: var(--box-shadow);
 }
 
+.view.accent {
+  color: var(--accent);
+}
+
 .view::before {
   content: "";
   position: absolute;
@@ -110,9 +120,13 @@ section .content .button-container {
   left: 0;
   width: 0%;
   height: 100%;
-  background-color: var(--accent);
+  background-color: var(--secondary);
   transition: width 0.4s ease;
   z-index: 0;
+}
+
+.view.accent::before {
+  background-color: var(--accent);
 }
 
 .view:hover::before {

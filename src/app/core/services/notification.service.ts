@@ -77,6 +77,26 @@ export class NotificationService {
     );
   }
 
+  sendArticles(notification: Notification): Observable<string> {
+    const notificationToAdd: Notification = {
+      title:
+        this.authenticationService.auth.currentUser?.email! +
+        ' vous a envoyé des éléments !',
+      message: notification.message,
+      date: new Date(),
+      senderEmail: this.authenticationService.auth.currentUser?.email!,
+      receiverEmail: notification.receiverEmail,
+      read: false,
+      articles: notification.articles,
+    };
+
+    const notificationDoc = doc(this.notificationsCollection);
+    notificationToAdd.id = notificationDoc.id;
+    return from(setDoc(notificationDoc, { ...notificationToAdd })).pipe(
+      map(() => notificationToAdd.id!),
+    );
+  }
+
   addNotification(notification: Notification): Observable<string> {
     const notificationDoc = doc(this.notificationsCollection);
     notification.id = notificationDoc.id;

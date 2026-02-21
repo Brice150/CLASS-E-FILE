@@ -22,10 +22,12 @@ import { Article } from '../core/interfaces/article';
 import { Category } from '../core/interfaces/category';
 import { BreadcrumbService } from '../core/services/breadcrumb.service';
 import { CategoryService } from '../core/services/category.service';
+import { NotificationService } from '../core/services/notification.service';
 import { EmptyCardComponent } from '../empty-card/empty-card.component';
 import { ArticleDialogComponent } from '../shared/components/article-dialog/article-dialog.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { FilterDialogComponent } from '../shared/components/filter-dialog/filter-dialog.component';
+import { SendDialogComponent } from '../shared/components/send-dialog/send-dialog.component';
 
 @Component({
   selector: 'app-category',
@@ -52,6 +54,7 @@ export class CategoryComponent implements OnInit, OnDestroy {
   searchForm!: FormGroup;
   fb = inject(FormBuilder);
   categoryService = inject(CategoryService);
+  notificationService = inject(NotificationService);
   destroyed$ = new Subject<void>();
   loading: boolean = true;
   category: Category = {} as Category;
@@ -391,5 +394,37 @@ export class CategoryComponent implements OnInit, OnDestroy {
     }
 
     return stars;
+  }
+
+  openSendDialog(): void {
+    const choiceDialogRef = this.dialog.open(SendDialogComponent, {
+      data: this.category.articles,
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
+    });
+
+    choiceDialogRef
+      .afterClosed()
+      .pipe(
+        filter((res) => !!res),
+        switchMap((res) => this.notificationService.sendArticles(res)),
+        takeUntil(this.destroyed$),
+      )
+      .subscribe({
+        next: () => {
+          this.toastr.info('Les éléments ont été envoyés', 'Éléments', {
+            positionClass: 'toast-bottom-center',
+            toastClass: 'ngx-toastr custom info',
+          });
+        },
+        error: (error: HttpErrorResponse) => {
+          if (!error.message.includes('Missing or insufficient permissions.')) {
+            this.toastr.error(error.message, 'Erreur', {
+              positionClass: 'toast-bottom-center',
+              toastClass: 'ngx-toastr custom error',
+            });
+          }
+        },
+      });
   }
 }

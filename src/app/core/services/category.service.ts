@@ -1,5 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import {
+  arrayUnion,
   collection,
   collectionData,
   deleteDoc,
@@ -20,6 +21,7 @@ import {
   switchMap,
   take,
 } from 'rxjs';
+import { Article } from '../interfaces/article';
 import { Category } from '../interfaces/category';
 import { AuthenticationService } from './authentication.service';
 
@@ -64,6 +66,22 @@ export class CategoryService {
     });
 
     return combineLatest(writeOperations).pipe(map(() => undefined));
+  }
+
+  addElementsToCategory(
+    category: Category,
+    articles: Article[],
+  ): Observable<void> {
+    if (!category.id) {
+      return from(Promise.reject('ID de catégorie manquant'));
+    }
+    const categoryDoc = doc(this.firestore, `categories/${category.id}`);
+
+    return from(
+      updateDoc(categoryDoc, {
+        articles: arrayUnion(...articles),
+      }),
+    );
   }
 
   updateCategory(category: Category): Observable<void> {

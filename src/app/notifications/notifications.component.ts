@@ -13,6 +13,7 @@ import { EmptyCardComponent } from '../empty-card/empty-card.component';
 import { ConfirmationDialogComponent } from '../shared/components/confirmation-dialog/confirmation-dialog.component';
 import { NotificationCardComponent } from './notification-card/notification-card.component';
 import { NotificationDialogComponent } from '../shared/components/notification-dialog/notification-dialog.component';
+import { CategoryService } from '../core/services/category.service';
 
 @Component({
   selector: 'app-notifications',
@@ -28,6 +29,7 @@ import { NotificationDialogComponent } from '../shared/components/notification-d
 export class NotificationsComponent implements OnInit, OnDestroy {
   toastr = inject(ToastrService);
   notificationService = inject(NotificationService);
+  categoryService = inject(CategoryService);
   dialog = inject(MatDialog);
   destroyed$ = new Subject<void>();
   loading: boolean = true;
@@ -94,6 +96,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
             notification.read = false;
             isUpdated = true;
             return this.notificationService.updateNotification(notification);
+          } else if (notification.articles?.length) {
+            return this.categoryService.addElementsToCategory(
+              res['category'],
+              res['articles'],
+            );
           }
           return of(res);
         }),

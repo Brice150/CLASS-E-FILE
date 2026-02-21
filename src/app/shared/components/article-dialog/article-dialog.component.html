@@ -4,19 +4,23 @@
   } @else {
     <h1>Ajouter Élément</h1>
   }
-  <form class="content" (ngSubmit)="confirm()">
-    <mat-form-field class="title">
+  <form class="content" [formGroup]="articleForm" (ngSubmit)="confirm()">
+    <mat-form-field class="title show">
       <mat-label>Titre</mat-label>
-      <input
-        matInput
-        [(ngModel)]="article.title"
-        [ngModelOptions]="{ standalone: true }"
-        name="title"
-        type="text"
-        minlength="2"
-        maxlength="50"
-        required
-      />
+      <input matInput formControlName="title" type="text" />
+      @if (articleForm.get("title")!.invalid) {
+        <mat-error>
+          @if (articleForm.get("title")!.hasError("required")) {
+            <span>Ce champ est requis</span>
+          }
+          @if (articleForm.get("title")!.hasError("minlength")) {
+            <span>Ce champ est trop court</span>
+          }
+          @if (articleForm.get("title")!.hasError("maxlength")) {
+            <span>Ce champ est trop long</span>
+          }
+        </mat-error>
+      }
     </mat-form-field>
     <mat-form-field class="title">
       <mat-label>Genres</mat-label>
@@ -34,8 +38,7 @@
       <input
         placeholder="Ajouter un genre..."
         #genreInput
-        [(ngModel)]="currentGenre"
-        name="currentGenre"
+        formControlName="currentGenre"
         [matChipInputFor]="chipGrid"
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         (matChipInputTokenEnd)="add($event)"
@@ -54,22 +57,11 @@
     </mat-form-field>
     <mat-form-field>
       <mat-label>Description</mat-label>
-      <textarea
-        matInput
-        [(ngModel)]="article.description"
-        [ngModelOptions]="{ standalone: true }"
-        name="description"
-      ></textarea>
+      <textarea matInput formControlName="description"></textarea>
     </mat-form-field>
     <mat-form-field class="title">
       <mat-label>Lien</mat-label>
-      <input
-        matInput
-        [(ngModel)]="article.link"
-        [ngModelOptions]="{ standalone: true }"
-        name="link"
-        type="text"
-      />
+      <input matInput formControlName="link" type="text" />
     </mat-form-field>
     <div class="star-picker">
       <label>Note</label>
@@ -110,25 +102,13 @@
       }
     </div>
     <div class="toggle-container">
-      <mat-slide-toggle
-        [(ngModel)]="article.isOwned"
-        [ngModelOptions]="{ standalone: true }"
-        name="isOwned"
-      >
+      <mat-slide-toggle formControlName="isOwned">
         Vous appartient
       </mat-slide-toggle>
-      <mat-slide-toggle
-        [(ngModel)]="article.isPreferred"
-        [ngModelOptions]="{ standalone: true }"
-        name="isPreferred"
-      >
+      <mat-slide-toggle formControlName="isPreferred">
         Parmi vos préférés
       </mat-slide-toggle>
-      <mat-slide-toggle
-        [(ngModel)]="article.isWishlisted"
-        [ngModelOptions]="{ standalone: true }"
-        name="isWishlisted"
-      >
+      <mat-slide-toggle formControlName="isWishlisted">
         Sur liste d'attente
       </mat-slide-toggle>
     </div>

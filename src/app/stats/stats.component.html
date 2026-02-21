@@ -1,20 +1,19 @@
 <section>
   <div class="content">
     @if (!loading) {
-      <mat-form-field>
-        <mat-label>Catégorie</mat-label>
-        <mat-select
-          [(ngModel)]="categoryTitle"
-          (selectionChange)="updateGraph()"
-        >
-          <mat-option [value]="'all'">Toutes</mat-option>
-          @for (category of categories; track $index) {
-            <mat-option [value]="category.title">
-              {{ category.title }}
-            </mat-option>
-          }
-        </mat-select>
-      </mat-form-field>
+      <form [formGroup]="selectForm">
+        <mat-form-field>
+          <mat-label>Catégorie</mat-label>
+          <mat-select formControlName="categoryTitle">
+            <mat-option [value]="'all'">Toutes</mat-option>
+            @for (category of categories; track $index) {
+              <mat-option [value]="category.title">
+                {{ category.title }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+      </form>
     }
     <div class="graph" [ngClass]="{ visible: categories.length }">
       <canvas id="graph"></canvas>

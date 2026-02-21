@@ -2,7 +2,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Timestamp } from '@angular/fire/firestore';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -22,10 +22,10 @@ import { CategoryService } from '../core/services/category.service';
   imports: [
     CommonModule,
     MatProgressSpinnerModule,
-    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './stats.component.html',
   styleUrl: './stats.component.css',
@@ -43,6 +43,8 @@ export class StatsComponent implements OnInit, OnDestroy {
   categoryTitle: string = 'all';
   stats: Stats = {} as Stats;
   dates: string[] = [];
+  selectForm!: FormGroup;
+  fb = inject(FormBuilder);
 
   ngOnInit(): void {
     this.categoryService

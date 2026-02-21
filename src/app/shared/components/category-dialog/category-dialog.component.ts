@@ -1,6 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Inject, OnInit, signal } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -14,11 +19,11 @@ import { Category } from '../../../core/interfaces/category';
   selector: 'app-category-dialog',
   imports: [
     CommonModule,
-    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatAutocompleteModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './category-dialog.component.html',
   styleUrl: './category-dialog.component.css',
@@ -29,8 +34,9 @@ export class CategoryDialogComponent implements OnInit {
   toastr = inject(ToastrService);
   imagePreview: string | null = null;
   allTitles = signal<string[]>(Object.values(DefaultCategories));
-
   filteredTitles = signal<string[]>([]);
+  categoryForm!: FormGroup;
+  fb = inject(FormBuilder);
 
   constructor(
     public dialogRef: MatDialogRef<CategoryDialogComponent>,
@@ -44,6 +50,21 @@ export class CategoryDialogComponent implements OnInit {
       this.imagePreview = this.category?.image;
     }
     this.filteredTitles.set(this.allTitles());
+
+    this.categoryForm = this.fb.group({
+      categoryTitle: [
+        this.category.title,
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+        ],
+      ],
+    });
+
+    this.categoryForm.get('categoryTitle')!.valueChanges.subscribe((value) => {
+      this.filterTitles(value);
+    });
   }
 
   filterTitles(value: string | null) {
@@ -59,10 +80,6 @@ export class CategoryDialogComponent implements OnInit {
         title.toLowerCase().includes(filterValue),
       ),
     );
-  }
-
-  selectTitle(event: any) {
-    this.category.title = event.option.value;
   }
 
   addPicture(files: File[]): void {
@@ -110,7 +127,8 @@ export class CategoryDialogComponent implements OnInit {
   }
 
   confirm(): void {
-    if (this.category.title) {
+    if (this.categoryForm.valid) {
+      this.category.title = this.categoryForm.get('categoryTitle')!.value;
       this.category.image = this.imagePreview;
       this.dialogRef.close(this.category);
     } else {

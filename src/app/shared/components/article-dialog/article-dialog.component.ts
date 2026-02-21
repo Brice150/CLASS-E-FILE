@@ -12,7 +12,12 @@ import {
   signal,
   ViewChild,
 } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatAutocompleteSelectedEvent,
@@ -37,7 +42,6 @@ import { Article } from '../../../core/interfaces/article';
   selector: 'app-article-dialog',
   imports: [
     CommonModule,
-    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
@@ -45,6 +49,7 @@ import { Article } from '../../../core/interfaces/article';
     MatChipsModule,
     MatAutocompleteModule,
     MatIconModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './article-dialog.component.html',
   styleUrl: './article-dialog.component.css',
@@ -56,11 +61,15 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
   imagePreview: string | null = null;
   hoverGrade: number | null = null;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  currentGenre = model('');
   genres = signal<string[]>([]);
+  articleForm!: FormGroup;
+  fb = inject(FormBuilder);
   filteredGenres = computed(() => {
-    const value = this.currentGenre().toLowerCase();
+    const value =
+      this.articleForm?.get('currentGenre')?.value?.toLowerCase() ?? '';
+
     const all = this.getAvailableGenres();
+
     return value ? all.filter((g) => g.toLowerCase().includes(value)) : all;
   });
   isUpdateMode = false;
@@ -79,10 +88,29 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
         this.article = this.data.article;
         this.isUpdateMode = this.article && !!this.article.title;
         this.imagePreview = this.article?.image;
-        this.article.grade = this.article.grade ?? 0;
-        this.genres.set(this.article.genres ? [...this.article.genres] : []);
       }
     }
+
+    this.articleForm = this.fb.group({
+      title: [
+        this.article?.title,
+        [
+          Validators.required,
+          Validators.minLength(2),
+          Validators.maxLength(50),
+        ],
+      ],
+      description: [this.article?.description],
+      link: [this.article?.link],
+      currentGenre: [''],
+      genres: [this.article?.genres ?? []],
+      grade: [this.article?.grade ?? 0],
+      isOwned: [this.article?.isOwned ?? false],
+      isPreferred: [this.article?.isPreferred ?? false],
+      isWishlisted: [this.article?.isWishlisted ?? false],
+    });
+
+    this.genres.set(this.articleForm.value.genres ?? []);
   }
 
   ngAfterViewInit() {
@@ -91,22 +119,37 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
 
   add(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    if (value && !this.genres().includes(value)) {
-      this.genres.update((list) => [...list, value]);
+    if (!value) return;
+
+    const genres = this.articleForm.get('genres')!.value as string[];
+
+    if (!genres.includes(value)) {
+      this.articleForm.get('genres')!.setValue([...genres, value]);
+      this.genres.set([...genres, value]);
     }
-    this.currentGenre.set('');
+
+    this.articleForm.get('currentGenre')!.setValue('');
   }
 
   remove(genre: string): void {
-    this.genres.update((list) => list.filter((g) => g !== genre));
+    const genres = this.articleForm.get('genres')!.value as string[];
+    const updated = genres.filter((g) => g !== genre);
+
+    this.articleForm.get('genres')!.setValue(updated);
+    this.genres.set(updated);
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    const value = event.option.viewValue;
-    if (!this.genres().includes(value)) {
-      this.genres.update((list) => [...list, value]);
+    const value = event.option.value;
+
+    const genres = this.articleForm.get('genres')!.value as string[];
+
+    if (!genres.includes(value)) {
+      this.articleForm.get('genres')!.setValue([...genres, value]);
+      this.genres.set([...genres, value]);
     }
-    this.currentGenre.set('');
+
+    this.articleForm.get('currentGenre')!.setValue('');
   }
 
   getAvailableGenres(): string[] {
@@ -136,11 +179,9 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
     const x = event.clientX - rect.left;
     const width = rect.width;
 
-    if (x < width / 2) {
-      this.article.grade = starIndex + 0.5;
-    } else {
-      this.article.grade = starIndex + 1;
-    }
+    let grade = x < width / 2 ? starIndex + 0.5 : starIndex + 1;
+
+    this.articleForm.get('grade')!.setValue(grade);
   }
 
   setHoverFromMouse(event: MouseEvent, starIndex: number) {
@@ -161,12 +202,12 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
   }
 
   isFull(star: number): boolean {
-    const current = this.hoverGrade ?? this.article.grade ?? 0;
+    const current = this.hoverGrade ?? this.articleForm.value.grade ?? 0;
     return star <= Math.floor(current);
   }
 
   isHalf(star: number): boolean {
-    const current = this.hoverGrade ?? this.article.grade ?? 0;
+    const current = this.hoverGrade ?? this.articleForm.value.grade ?? 0;
     return star === Math.ceil(current) && current % 1 >= 0.5;
   }
 
@@ -215,15 +256,21 @@ export class ArticleDialogComponent implements OnInit, AfterViewInit {
   }
 
   confirm(): void {
-    if (this.article.title) {
-      this.article.image = this.imagePreview;
-      this.article.genres = this.genres()?.length ? this.genres() : [];
-      this.dialogRef.close(this.article);
-    } else {
+    if (!this.articleForm.valid) {
       this.toastr.error('Titre invalide', 'Erreur', {
         positionClass: 'toast-bottom-center',
         toastClass: 'ngx-toastr custom error',
       });
+      return;
     }
+
+    const article: Article = {
+      ...this.article,
+      ...this.articleForm.value,
+      genres: this.articleForm.value.genres ?? [],
+      image: this.imagePreview,
+    };
+
+    this.dialogRef.close(article);
   }
 }

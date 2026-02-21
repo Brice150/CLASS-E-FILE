@@ -95,6 +95,7 @@ export class CategoryService {
         const newArticles = articles.map((article, index) => ({
           ...article,
           id: lastId + index + 1,
+          creationDate: new Date(),
         }));
 
         return from(

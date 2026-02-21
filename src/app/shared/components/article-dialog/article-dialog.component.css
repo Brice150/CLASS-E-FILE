@@ -40,9 +40,18 @@ section .content mat-label {
   color: var(--accent);
 }
 
-mat-form-field {
+form mat-form-field {
   width: 100%;
   max-width: 500px;
+}
+
+form mat-form-field mat-error {
+  margin-top: 2px;
+}
+
+form mat-form-field mat-error span {
+  font-size: 16px;
+  color: red;
 }
 
 section .content mat-form-field textarea {
@@ -207,6 +216,11 @@ form .image-container img {
   display: none;
 }
 
+::ng-deep .show .mat-mdc-form-field-subscript-wrapper,
+.mat-mdc-form-field-bottom-align::before {
+  display: block;
+}
+
 ::ng-deep
   .mdc-text-field--filled:not(.mdc-text-field--disabled)
   .mdc-text-field__input {
@@ -320,6 +334,10 @@ mat-slide-toggle {
 
 ::ng-deep .mdc-switch--unselected .mdc-switch__icon {
   fill: var(--primary) !important;
+}
+
+::ng-deep .mat-mdc-autocomplete-panel {
+  background-color: var(--primary) !important;
 }
 
 @media screen and (max-width: 490px) {

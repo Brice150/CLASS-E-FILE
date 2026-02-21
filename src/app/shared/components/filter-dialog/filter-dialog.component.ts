@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Inject, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,12 +14,12 @@ import { Article } from '../../../core/interfaces/article';
   selector: 'app-filter-dialog',
   imports: [
     CommonModule,
-    FormsModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
     MatSlideToggleModule,
     MatIconModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './filter-dialog.component.html',
   styleUrl: './filter-dialog.component.css',
@@ -28,6 +28,8 @@ export class FilterDialogComponent implements OnInit {
   article: Article = {} as Article;
   categoryTitle?: string;
   toastr = inject(ToastrService);
+  filterForm!: FormGroup;
+  fb = inject(FormBuilder);
 
   constructor(
     public dialogRef: MatDialogRef<FilterDialogComponent>,
@@ -42,6 +44,12 @@ export class FilterDialogComponent implements OnInit {
         this.article = this.data.article;
       }
     }
+
+    this.filterForm = this.fb.group({
+      isOwned: [this.article.isOwned],
+      isPreferred: [this.article.isPreferred],
+      isWishlisted: [this.article.isWishlisted],
+    });
   }
 
   cancel(): void {
@@ -49,6 +57,9 @@ export class FilterDialogComponent implements OnInit {
   }
 
   confirm(): void {
+    this.article.isOwned = this.filterForm.get('isOwned')?.value;
+    this.article.isPreferred = this.filterForm.get('isPreferred')?.value;
+    this.article.isWishlisted = this.filterForm.get('isWishlisted')?.value;
     this.dialogRef.close(this.article);
   }
 }

@@ -1,26 +1,14 @@
 <section mat-dialog-content class="dialog">
   <h1>Filtrer les {{ categoryTitle | lowercase }}</h1>
-  <form class="content" (ngSubmit)="confirm()">
+  <form class="content" [formGroup]="filterForm" (ngSubmit)="confirm()">
     <div class="toggle-container">
-      <mat-slide-toggle
-        [(ngModel)]="article.isOwned"
-        [ngModelOptions]="{ standalone: true }"
-        name="isOwned"
-      >
+      <mat-slide-toggle formControlName="isOwned">
         Vous appartient
       </mat-slide-toggle>
-      <mat-slide-toggle
-        [(ngModel)]="article.isPreferred"
-        [ngModelOptions]="{ standalone: true }"
-        name="isPreferred"
-      >
+      <mat-slide-toggle formControlName="isPreferred">
         Parmi vos préférés
       </mat-slide-toggle>
-      <mat-slide-toggle
-        [(ngModel)]="article.isWishlisted"
-        [ngModelOptions]="{ standalone: true }"
-        name="isWishlisted"
-      >
+      <mat-slide-toggle formControlName="isWishlisted">
         Sur liste d'attente
       </mat-slide-toggle>
     </div>

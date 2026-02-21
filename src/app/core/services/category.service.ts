@@ -7,6 +7,7 @@ import {
   doc,
   docData,
   Firestore,
+  getDoc,
   query,
   setDoc,
   updateDoc,
@@ -75,11 +76,32 @@ export class CategoryService {
     if (!category.id) {
       return from(Promise.reject('ID de catégorie manquant'));
     }
+
     const categoryDoc = doc(this.firestore, `categories/${category.id}`);
 
-    return from(
-      updateDoc(categoryDoc, {
-        articles: arrayUnion(...articles),
+    return from(getDoc(categoryDoc)).pipe(
+      switchMap((snapshot) => {
+        if (!snapshot.exists()) {
+          return from(Promise.reject('Catégorie introuvable'));
+        }
+
+        const data = snapshot.data() as Category;
+        const existingArticles = data.articles || [];
+
+        const lastId = existingArticles.length
+          ? Math.max(...existingArticles.map((a) => a.id || 0))
+          : 0;
+
+        const newArticles = articles.map((article, index) => ({
+          ...article,
+          id: lastId + index + 1,
+        }));
+
+        return from(
+          updateDoc(categoryDoc, {
+            articles: arrayUnion(...newArticles),
+          }),
+        );
       }),
     );
   }

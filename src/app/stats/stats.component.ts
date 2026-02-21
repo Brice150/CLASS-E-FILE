@@ -40,13 +40,16 @@ export class StatsComponent implements OnInit, OnDestroy {
   graph?: Chart<'line', number[], string>;
   dialog = inject(MatDialog);
   categories: Category[] = [];
-  categoryTitle: string = 'all';
   stats: Stats = {} as Stats;
   dates: string[] = [];
   selectForm!: FormGroup;
   fb = inject(FormBuilder);
 
   ngOnInit(): void {
+    this.selectForm = this.fb.group({
+      categoryTitle: ['all'],
+    });
+
     this.categoryService
       .getCategories()
       .pipe(takeUntil(this.destroyed$))
@@ -90,6 +93,13 @@ export class StatsComponent implements OnInit, OnDestroy {
             });
           }
         },
+      });
+
+    this.selectForm
+      .get('categoryTitle')!
+      .valueChanges.pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        this.updateGraph();
       });
   }
 
@@ -233,11 +243,13 @@ export class StatsComponent implements OnInit, OnDestroy {
       ? new Date(accountCreationTime)
       : null;
 
+    const selectedCategory = this.selectForm.get('categoryTitle')!.value;
+
     let allArticles =
-      this.categoryTitle === 'all'
+      selectedCategory === 'all'
         ? this.categories.flatMap((c) => c.articles)
         : this.categories
-            .filter((c) => c.title === this.categoryTitle)
+            .filter((c) => c.title === selectedCategory)
             .flatMap((c) => c.articles);
 
     allArticles.sort(

@@ -6,7 +6,9 @@ import {
   MatDialog,
   MatDialogRef,
 } from '@angular/material/dialog';
+import { filter } from 'rxjs';
 import { Notification } from '../../../core/interfaces/notification';
+import { ReceiveDialogComponent } from '../receive-dialog/receive-dialog.component';
 
 @Component({
   selector: 'app-notification-dialog',
@@ -28,6 +30,21 @@ export class NotificationDialogComponent implements OnInit {
     if (this.data) {
       this.notification = this.data;
     }
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(ReceiveDialogComponent, {
+      data: this.notification.articles,
+      autoFocus: false,
+      scrollStrategy: this.overlay.scrollStrategies.block(),
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(filter((res) => !!res))
+      .subscribe((res) => {
+        this.dialogRef.close(res);
+      });
   }
 
   unread(): void {

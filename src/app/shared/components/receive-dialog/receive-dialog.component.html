@@ -1,100 +1,39 @@
 <section mat-dialog-content>
-  <h1>Recevoir {{ type }}</h1>
-  @if (!loading) {
-    <form class="content" [formGroup]="receiveForm" (ngSubmit)="confirm()">
-      @if (recipes.length) {
-        <mat-form-field>
-          <mat-label>Recettes</mat-label>
-          <mat-select formControlName="recipes" multiple>
-            <mat-select-trigger>
-              {{ recipesCtrl?.value[0]?.name || "" }}
-              @if ((recipesCtrl?.value?.length || 0) > 1) {
-                <span class="example-additional-selection">
-                  (+{{ (recipesCtrl?.value?.length || 0) - 1 }}
-                  {{ recipesCtrl?.value?.length === 2 ? "autre" : "autres" }})
-                </span>
-              }
-            </mat-select-trigger>
-            @for (group of recipeGroups; track group) {
-              <mat-optgroup [label]="group.name">
-                @for (recipe of group.recipes; track recipe) {
-                  <mat-option [value]="recipe">{{ recipe.name }}</mat-option>
-                }
-              </mat-optgroup>
-            }
-          </mat-select>
-          @if (receiveForm.get("recipes")!.invalid) {
-            <mat-error>
-              @if (receiveForm.get("recipes")!.hasError("required")) {
-                <span>Ce champ est requis</span>
-              }
-            </mat-error>
+  <h1>Recevoir Élément{{ articles.length > 1 ? "s" : "" }}</h1>
+  <form class="content" [formGroup]="receiveForm" (ngSubmit)="confirm()">
+    <mat-form-field>
+      <mat-label>Recettes</mat-label>
+      <mat-select formControlName="articles" multiple>
+        <mat-select-trigger>
+          {{ articlesCtrl?.value[0]?.title || "" }}
+          @if ((articlesCtrl?.value?.length || 0) > 1) {
+            <span class="example-additional-selection">
+              (+{{ (articlesCtrl?.value?.length || 0) - 1 }}
+              {{ articlesCtrl?.value?.length === 2 ? "autre" : "autres" }})
+            </span>
           }
-        </mat-form-field>
-      } @else if (sessions.length) {
-        <mat-form-field>
-          <mat-label>Sessions</mat-label>
-          <mat-select formControlName="sessions" multiple>
-            <mat-select-trigger>
-              {{ sessionsCtrl?.value[0]?.name || "" }}
-              @if ((sessionsCtrl?.value?.length || 0) > 1) {
-                <span class="example-additional-selection">
-                  (+{{ (sessionsCtrl?.value?.length || 0) - 1 }}
-                  {{ sessionsCtrl?.value?.length === 2 ? "autre" : "autres" }})
-                </span>
-              }
-            </mat-select-trigger>
-            @for (group of sessionGroups; track group) {
-              <mat-optgroup [label]="group.name">
-                @for (session of group.sessions; track session) {
-                  <mat-option [value]="session">{{ session.name }}</mat-option>
-                }
-              </mat-optgroup>
-            }
-          </mat-select>
-          @if (receiveForm.get("sessions")!.invalid) {
-            <mat-error>
-              @if (receiveForm.get("sessions")!.hasError("required")) {
-                <span>Ce champ est requis</span>
-              }
-            </mat-error>
+        </mat-select-trigger>
+        @for (article of articles; track article) {
+          <mat-option [value]="article">{{ article.title }}</mat-option>
+        }
+      </mat-select>
+      @if (receiveForm.get("articles")!.invalid) {
+        <mat-error>
+          @if (receiveForm.get("articles")!.hasError("required")) {
+            <span>Ce champ est requis</span>
           }
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>Utilisateurs</mat-label>
-          <mat-select formControlName="users" multiple>
-            <mat-select-trigger>
-              {{ usersCtrl?.value[0]?.name || "" }}
-              @if ((usersCtrl?.value?.length || 0) > 1) {
-                <span class="example-additional-selection">
-                  (+{{ (usersCtrl?.value?.length || 0) - 1 }}
-                  {{ usersCtrl?.value?.length === 2 ? "autre" : "autres" }})
-                </span>
-              }
-            </mat-select-trigger>
-            @for (user of users; track user) {
-              <mat-option [value]="user">{{ user.name }}</mat-option>
-            }
-          </mat-select>
-          @if (receiveForm.get("users")!.invalid) {
-            <mat-error>
-              @if (receiveForm.get("users")!.hasError("required")) {
-                <span>Ce champ est requis</span>
-              }
-            </mat-error>
-          }
-        </mat-form-field>
+        </mat-error>
       }
-      <div class="button-container">
-        <button type="button" title="Annuler" (click)="cancel()" class="delete">
-          <i class="bx bx-x"></i>
-          <span class="text">Annuler</span>
-        </button>
-        <button type="submit" title="Valider">
-          <i class="bx bx-check"></i>
-          <span class="text">Valider</span>
-        </button>
-      </div>
-    </form>
-  }
+    </mat-form-field>
+    <div class="button-container">
+      <button type="button" title="Annuler" (click)="cancel()" class="delete">
+        <i class="bx bx-x"></i>
+        <span class="text">Annuler</span>
+      </button>
+      <button type="submit" title="Valider">
+        <i class="bx bx-check"></i>
+        <span class="text">Valider</span>
+      </button>
+    </div>
+  </form>
 </section>

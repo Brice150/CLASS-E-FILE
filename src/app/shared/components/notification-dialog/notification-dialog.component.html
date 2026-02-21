@@ -6,6 +6,17 @@
     </h1>
   </div>
   <span class="message">{{ notification.message }}</span>
+  @if (notification.articles?.length) {
+    <button
+      type="button"
+      title="Recevoir"
+      (click)="openDialog()"
+      class="receive"
+    >
+      <i class="bx bxs-package"></i>
+      <span class="text">Recevoir</span>
+    </button>
+  }
   <div class="button-container">
     <button type="button" title="Fermer" (click)="close()" class="delete">
       <i class="bx bx-x"></i>

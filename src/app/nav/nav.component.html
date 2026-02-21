@@ -3,11 +3,17 @@
   (click)="toggleMenu()"
   [title]="!menuOpen ? 'Menu' : 'Fermer'"
 >
-  @if (!menuOpen) {
-    <i class="bx bx-menu"></i>
-  } @else {
-    <i class="bx bx-x"></i>
-  }
+  <span class="icon-with-badge ham">
+    @if (!menuOpen) {
+      <i class="bx bx-menu"></i>
+    } @else {
+      <i class="bx bx-x"></i>
+    }
+
+    @if (notificationNumber && !menuOpen) {
+      <span class="badge">{{ notificationNumber }}</span>
+    }
+  </span>
 </button>
 
 <nav aria-label="main navigation" [class.open]="menuOpen">

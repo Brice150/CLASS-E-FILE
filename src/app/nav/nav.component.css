@@ -178,3 +178,21 @@ nav button:hover .icon-with-badge .badge {
 nav button.active .icon-with-badge .badge {
   color: var(--primary);
 }
+
+.hamburger .badge {
+  position: absolute;
+  top: -5px;
+  right: -2px;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--accent);
+  transition: color 0.4s ease;
+}
+
+.hamburger:hover .badge {
+  color: var(--primary);
+}
+
+.icon-with-badge.ham {
+  height: 40px;
+}

@@ -10,6 +10,7 @@ import {
 import { filter, Subject, takeUntil } from 'rxjs';
 import { Breadcrumb } from '../core/interfaces/breadcrumb';
 import { BreadcrumbService } from '../core/services/breadcrumb.service';
+import { AuthenticationService } from '../core/services/authentication.service';
 
 @Component({
   selector: 'app-breadcrumb',
@@ -20,6 +21,7 @@ import { BreadcrumbService } from '../core/services/breadcrumb.service';
 export class BreadcrumbComponent implements OnInit, OnDestroy {
   breadcrumbs: Breadcrumb[] = [];
   breadcrumbService = inject(BreadcrumbService);
+  authenticationService = inject(AuthenticationService);
   router = inject(Router);
   destroyed$ = new Subject<void>();
 
